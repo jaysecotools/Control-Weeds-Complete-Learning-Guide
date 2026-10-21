@@ -142,12 +142,19 @@
     .accordion-header { padding: 1rem 1.2rem; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; background: white; transition: 0.2s; }
     .accordion-header:hover { background: var(--bg); }
     .accordion-content { padding: 0 1.2rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-    .accordion-content.open { padding: 1rem 1.2rem; max-height: 1000px; }
+    .accordion-content.open { padding: 1rem 1.2rem; max-height: 1200px; }
     .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 60px; font-size: 0.7rem; font-weight: 700; margin: 0.2rem; }
     .badge-primary { background: var(--primary); color: white; }
     .badge-accent { background: var(--accent); color: #1a2e3b; }
     .badge-success { background: #2c7840; color: white; }
     .badge-danger { background: #b34343; color: white; }
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 1.5rem 0; }
+    .video-card { background: var(--bg); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+    .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
+    .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+    .video-info { padding: 1rem; }
+    .video-info h4 { margin: 0 0 0.3rem; font-size: 1rem; }
+    .video-info p { font-size: 0.85rem; color: var(--text-light); margin: 0; }
     @media (max-width: 768px) { .tab-content { padding: 1.2rem; } .tab { padding: 0.3rem 0.5rem; font-size: 0.65rem; } .grid-2, .grid-3, .grid-4 { gap: 1rem; } }
     @media print { .tab-bar, .btn, .hero { display: none; } .tab-content { display: block !important; } }
   </style>
@@ -156,13 +163,13 @@
 <div class="master">
   <div class="hero">
     <h1><i class="fas fa-seedling"></i> Control Weeds</h1>
-    <p>The ultimate comprehensive guide — from IPM principles to field implementation. Master the strategies, legislation, and judgement required for effective weed control in Tasmania.</p>
+    <p>The ultimate comprehensive guide — from IPM principles to field implementation. Master the strategies, ecology, legislation, and practical judgement required for effective weed control in Tasmania.</p>
     <div class="hero-badges">
       <span><i class="fas fa-graduation-cap"></i> Certificate III Level</span>
-      <span><i class="fas fa-ruler-combined"></i> What, why & how</span>
-      <span><i class="fas fa-clipboard-check"></i> Supports learning for AHCPMG301</span>
-      <span><i class="fas fa-globe"></i> Tasmanian context & legislation</span>
-      <span><i class="fas fa-infinity"></i> Lifelong learning</span>
+      <span><i class="fas fa-ruler-combined"></i> Ecology & practice</span>
+      <span><i class="fas fa-clipboard-check"></i> Supports AHCPMG301</span>
+      <span><i class="fas fa-globe"></i> Tasmanian context</span>
+      <span><i class="fas fa-video"></i> Video resources</span>
     </div>
   </div>
 
@@ -173,9 +180,10 @@
     <button class="tab" onclick="switchTab(event,'tab3')"><i class="fas fa-clipboard-list"></i> 4. Planning</button>
     <button class="tab" onclick="switchTab(event,'tab4')"><i class="fas fa-gavel"></i> 5. Legislation</button>
     <button class="tab" onclick="switchTab(event,'tab5')"><i class="fas fa-chart-bar"></i> 6. Monitoring</button>
-    <button class="tab" onclick="switchTab(event,'tab6')"><i class="fas fa-puzzle-piece"></i> 7. Practice</button>
-    <button class="tab" onclick="switchTab(event,'tab7')"><i class="fas fa-book"></i> 8. Resources</button>
-    <button class="tab" onclick="switchTab(event,'tab8')"><i class="fas fa-calculator"></i> 9. Case Study</button>
+    <button class="tab" onclick="switchTab(event,'tab6')"><i class="fas fa-video"></i> 7. Videos</button>
+    <button class="tab" onclick="switchTab(event,'tab7')"><i class="fas fa-puzzle-piece"></i> 8. Practice</button>
+    <button class="tab" onclick="switchTab(event,'tab8')"><i class="fas fa-book"></i> 9. Resources</button>
+    <button class="tab" onclick="switchTab(event,'tab9')"><i class="fas fa-calculator"></i> 10. Case Study</button>
   </div>
 
   <!-- Search Bar -->
@@ -194,20 +202,51 @@
 
     <div class="grid-2">
       <div class="card"><i class="fas fa-chart-line"></i><div class="card-title">Economic impact</div>
-        <p>Weeds reduce pasture productivity, increase control costs, and can render land unusable. In Tasmania, gorse alone costs the agricultural sector millions annually in lost production and control expenses.</p>
-        <div class="tip"><i class="fas fa-lightbulb"></i> <strong>Example:</strong> A dense gorse infestation can reduce pasture carrying capacity by 50-70%, directly impacting farm profitability.</div>
+        <p>Weeds cost Australian agriculture billions annually in lost production and control expenses. In Tasmania, gorse, blackberry, and serrated tussock are among the most economically damaging species.</p>
+        <div class="tip"><i class="fas fa-lightbulb"></i> <strong>Example:</strong> A dense gorse infestation can reduce pasture carrying capacity by 50-70%, directly impacting farm profitability. Control costs for gorse across a single property can exceed $50,000 over a 10-year program.</div>
+        <p><strong>Beyond pasture:</strong> Weeds also impact forestry, tourism, and infrastructure maintenance (roadsides, fencelines, waterways).</p>
       </div>
       <div class="card"><i class="fas fa-biohazard"></i><div class="card-title">Environmental impact</div>
         <p>Invasive weeds displace native vegetation, alter fire regimes, reduce biodiversity, and can change entire ecosystem functions. They are a major threat to Tasmania's unique natural heritage.</p>
-        <div class="tip"><i class="fas fa-lightbulb"></i> <strong>Example:</strong> Boneseed and bridal creeper smother native understorey plants, reducing habitat for native fauna.</div>
+        <div class="tip"><i class="fas fa-lightbulb"></i> <strong>Example:</strong> Boneseed and bridal creeper smother native understorey plants, reducing habitat for native fauna. Willow infestations choke Tasmanian rivers, altering stream hydrology and displacing native riparian species.</div>
+        <p><strong>Ecosystem transformation:</strong> Some weeds don't just compete — they change soil chemistry, hydrology, and fire frequency, creating conditions that favour themselves and disadvantage natives.</p>
       </div>
       <div class="card"><i class="fas fa-fire"></i><div class="card-title">Fire hazard</div>
         <p>Many weeds (gorse, broom, blackberry) create dense, highly flammable biomass that increases fire intensity and frequency. In Tasmania's dry summers, this is a critical safety issue.</p>
-        <p><strong>Key concern:</strong> Gorse infested areas burn hotter and faster than native vegetation, threatening infrastructure and lives.</p>
+        <p><strong>Key concern:</strong> Gorse infested areas burn hotter and faster than native vegetation, threatening infrastructure and lives. Post-fire, gorse often regenerates more densely than before, creating a worsening cycle.</p>
+        <div class="warning"><i class="fas fa-exclamation-triangle"></i> Fire alone does not control gorse — it stimulates germination and resprouting. Fire must be followed by herbicide treatment within 6-12 months.</div>
       </div>
       <div class="card"><i class="fas fa-tint"></i><div class="card-title">Water and soil degradation</div>
         <p>Weeds like willows alter stream hydrology and bank stability. Blackberry and gorse can impede water flow and increase erosion. Their control is essential for catchment health.</p>
-        <p><strong>Waterway focus:</strong> Willows choke Tasmanian rivers, causing flooding and displacing native riparian vegetation.</p>
+        <p><strong>Waterway focus:</strong> Willows choke Tasmanian rivers, causing flooding and displacing native riparian vegetation. Their dense root mats can destabilise banks and alter channel morphology.</p>
+        <p><strong>Soil impacts:</strong> Some weeds (e.g., capeweed) can alter soil microbial communities and nutrient cycling, creating feedback loops that favour their persistence.</p>
+      </div>
+    </div>
+
+    <h3>Weed ecology: Why weeds win (and how to stop them)</h3>
+    <div class="card">
+      <p>Understanding <em>why</em> weeds are successful is essential for effective control. Weeds are not "stronger" than native plants — they are <strong>opportunists</strong> that exploit disturbance.</p>
+      <div class="grid-2" style="margin-top:1rem;">
+        <div>
+          <h4>Disturbance creates opportunity</h4>
+          <p>Weeds germinate first after disturbance (fire, grading, flood, overgrazing). They grow fast, reproduce quickly, and tolerate harsh conditions. Native species often need stable conditions and time to establish.</p>
+          <p><strong>Implication:</strong> Any activity that creates bare ground is a weed recruitment event. Plan for it.</p>
+        </div>
+        <div>
+          <h4>The seedbank is the real enemy</h4>
+          <p>Visible weeds are only the tip of the iceberg. A single gorse bush can produce 5,000-10,000 seeds annually, and seeds remain viable in Tasmanian soils for <strong>30-40+ years</strong>.</p>
+          <p><strong>Implication:</strong> Removing adult plants without follow-up guarantees reinfestation. Plan for 5-10 year programs.</p>
+        </div>
+        <div>
+          <h4>Competition prevents invasion</h4>
+          <p>The best defense against weeds is healthy, competitive vegetation. When native or pasture cover is dense, weed seedlings struggle to establish.</p>
+          <p><strong>Implication:</strong> Revegetation and maintaining ground cover are forms of weed control. Cultural methods matter.</p>
+        </div>
+        <div>
+          <h4>Timing is everything</h4>
+          <p>Control must occur before seed set. Once seeds are produced, you've lost that season's battle. Systemic herbicides also require actively growing plants — spraying dormant or stressed weeds wastes chemical.</p>
+          <p><strong>Implication:</strong> Monitor plant growth stages. Control when the plant is vulnerable, not when it's convenient.</p>
+        </div>
       </div>
     </div>
 
@@ -217,20 +256,21 @@
         <ul><li><strong>Island biogeography:</strong> Native species evolved without many mainland competitors, making them vulnerable to invaders.</li>
         <li><strong>Cool temperate climate:</strong> Many weeds thrive in Tasmania's mild, moist conditions with long growing seasons.</li>
         <li><strong>Agricultural landscape:</strong> Extensive pasture and cropping areas create disturbance that weeds exploit.</li>
-        <li><strong>World Heritage Areas:</strong> Pristine environments require minimal-impact control methods.</li>
-        <li><strong>Fire regimes:</strong> The interaction between weeds and bushfire is a critical management concern.</li></ul>
+        <li><strong>World Heritage Areas:</strong> Pristine environments require minimal-impact control methods. Chemical use near waterways and in reserves is tightly regulated.</li>
+        <li><strong>Fire regimes:</strong> The interaction between weeds and bushfire is a critical management concern. Gorse and broom increase fire risk and post-fire regeneration.</li>
+        <li><strong>Variable climate:</strong> Tasmania's rainfall gradient (from >3000mm on the West Coast to <500mm in the Midlands) means weed management strategies must be site-specific.</li></ul>
       </div>
       <div class="card"><i class="fas fa-balance-scale"></i><div class="card-title">Legal and social context</div>
         <p>Tasmania has strong legislation governing weed control:</p>
-        <ul><li><strong>Biosecurity Act 2019 (Tas)</strong> — establishes General Biosecurity Duty and controls declared pests.</li>
-        <li><strong>Weed Management Act 1999 (Tas)</strong> — authorizes statutory management plans for declared weeds.</li>
-        <li><strong>Land managers have a legal obligation</strong> to control declared weeds on their land.</li>
-        <li><strong>Community expectations</strong> — good weed management is part of being a responsible land manager.</li></ul>
-        <div class="tip"><i class="fas fa-info-circle"></i> <strong>Note:</strong> Non-declared environmental weeds still require management under general land management responsibilities, even if not legally mandated.</div>
+        <ul><li><strong>Biosecurity Act 2019 (Tas)</strong> — establishes General Biosecurity Duty and controls declared pests. Landholders must control declared weeds on their land.</li>
+        <li><strong>Weed Management Act 1999 (Tas)</strong> — authorizes statutory management plans for declared weeds. NRE Tas can develop and enforce plans for specific species[citation:4].</li>
+        <li><strong>Land managers have a legal obligation</strong> to control declared weeds. Failure can result in infringement notices and fines.</li>
+        <li><strong>Community expectations</strong> — good weed management is part of being a responsible land manager. Neighbour disputes over weed spread are common.</li></ul>
+        <div class="tip"><i class="fas fa-info-circle"></i> <strong>Note:</strong> Non-declared environmental weeds still require management under general land management responsibilities, even if not legally mandated. Funding bodies and certification schemes (e.g., Landcare, NRM grants) often require weed control.</div>
       </div>
     </div>
 
-    <div class="checklist-card"><i class="fas fa-check-circle"></i> <strong>Key takeaway:</strong> Weed control is not about eliminating all weeds everywhere. It's about strategic management to protect economic, environmental, and social values. The goal is "tolerable levels" defined by your context and obligations.</div>
+    <div class="checklist-card"><i class="fas fa-check-circle"></i> <strong>Key takeaway:</strong> Weed control is not about eliminating all weeds everywhere. It's about strategic management to protect economic, environmental, and social values. The goal is "tolerable levels" defined by your context and obligations. For declared weeds, the threshold is usually zero (eradication). For environmental weeds in sensitive areas, it may be containment. For agricultural weeds in pasture, it may be suppression below an economic threshold.</div>
 
     <h3>Your progress</h3>
     <div class="progress-container"><div class="progress-fill" style="width:15%;"></div></div>
@@ -249,15 +289,41 @@
 
     <h3>Key components of IPM</h3>
     <div class="grid-2">
-      <div class="card"><i class="fas fa-search"></i><div class="card-title">1. Understand the pest</div><p>Know your weed: its lifecycle, growth habits, seedbank persistence, and preferred conditions. You cannot control what you don't understand.</p></div>
-      <div class="card"><i class="fas fa-shield-alt"></i><div class="card-title">2. Prevent infestation</div><p>Hygiene, quarantine, early detection, and maintaining healthy vegetation are more cost-effective than control. Prevention is the foundation of IPM.</p></div>
-      <div class="card"><i class="fas fa-chart-line"></i><div class="card-title">3. Set thresholds</div><p>Determine tolerable levels. Not every weed requires immediate action. Control only when the infestation exceeds a defined threshold.</p></div>
-      <div class="card"><i class="fas fa-eye"></i><div class="card-title">4. Monitor extensively</div><p>Regular inspection is essential. You must know what's there, how much, and whether your control is working. Monitoring informs every decision.</p></div>
-      <div class="card"><i class="fas fa-tools"></i><div class="card-title">5. Use a range of methods</div><p>Combine cultural, mechanical, biological, and chemical controls. No single method works for all situations. Diversity reduces resistance and improves outcomes.</p></div>
-      <div class="card"><i class="fas fa-flask"></i><div class="card-title">6. Chemicals as last resort</div><p>Herbicides are valuable tools, but should be used strategically and minimally. Always consider non-chemical options first, and use chemicals only when justified.</p></div>
+      <div class="card"><i class="fas fa-search"></i><div class="card-title">1. Understand the pest</div><p>Know your weed: its lifecycle, growth habits, seedbank persistence, and preferred conditions. You cannot control what you don't understand.</p>
+        <p><strong>Practical application:</strong> Before treating, confirm species identification. Know whether it's a perennial (resprouts from roots) or annual (relies on seed). Know its flowering and seeding times so you can target the vulnerable stage.</p>
+      </div>
+      <div class="card"><i class="fas fa-shield-alt"></i><div class="card-title">2. Prevent infestation</div><p>Hygiene, quarantine, early detection, and maintaining healthy vegetation are more cost-effective than control. Prevention is the foundation of IPM.</p>
+        <p><strong>Practical application:</strong> Clean machinery and footwear between sites. Source clean gravel, soil, and mulch. Don't move seed-bearing material. Maintain ground cover. Monitor fencelines and entry points for new infestations.</p>
+      </div>
+      <div class="card"><i class="fas fa-chart-line"></i><div class="card-title">3. Set thresholds</div><p>Determine tolerable levels. Not every weed requires immediate action. Control only when the infestation exceeds a defined threshold.</p>
+        <p><strong>Practical application:</strong> For declared weeds, the threshold is zero — you must control them. For pasture weeds, the threshold may be when infestation reduces carrying capacity below an economic level. For environmental weeds, it may be preventing spread into high-value areas.</p>
+      </div>
+      <div class="card"><i class="fas fa-eye"></i><div class="card-title">4. Monitor extensively</div><p>Regular inspection is essential. You must know what's there, how much, and whether your control is working. Monitoring informs every decision.</p>
+        <p><strong>Practical application:</strong> Establish photo points. Use quadrats for density estimates. Record observations (growth stage, weather, treatment applied). Monitor immediately after treatment (application check), at 3 months (kill assessment), and at 12 months (regrowth).</p>
+      </div>
+      <div class="card"><i class="fas fa-tools"></i><div class="card-title">5. Use a range of methods</div><p>Combine cultural, mechanical, biological, and chemical controls. No single method works for all situations. Diversity reduces resistance and improves outcomes.</p>
+        <p><strong>Practical application:</strong> Use grazing or slashing to reduce biomass, followed by herbicide on regrowth. Use manual removal for isolated plants and herbicide for dense infestations. Rotate herbicide modes of action.</p>
+      </div>
+      <div class="card"><i class="fas fa-flask"></i><div class="card-title">6. Chemicals as last resort</div><p>Herbicides are valuable tools, but should be used strategically and minimally. Always consider non-chemical options first, and use chemicals only when justified.</p>
+        <p><strong>Practical application:</strong> In sensitive areas (near water, native vegetation), use non-chemical methods. If chemical is necessary, use the least toxic effective product, spot-spray rather than broadcast, and respect buffer zones.</p>
+      </div>
     </div>
 
-    <div class="checklist-card"><i class="fas fa-check-circle"></i> <strong>IPM in practice:</strong> The best weed control programs are long-term, multi-method, and monitoring-driven. They accept that success is measured over years, not weeks.</div>
+    <h3>The IPM decision cycle</h3>
+    <div class="card">
+      <p>IPM is a continuous cycle, not a one-off action:</p>
+      <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin:1rem 0;">
+        <div style="flex:1; min-width:120px; background:var(--bg); padding:0.75rem; border-radius:0.8rem; text-align:center; border-top:4px solid var(--primary);"><strong>👁️ Monitor</strong><br><small>Assess infestation</small></div>
+        <div style="flex:1; min-width:120px; background:var(--bg); padding:0.75rem; border-radius:0.8rem; text-align:center; border-top:4px solid var(--primary);"><strong>📋 Decide</strong><br><small>Is action needed?</small></div>
+        <div style="flex:1; min-width:120px; background:var(--bg); padding:0.75rem; border-radius:0.8rem; text-align:center; border-top:4px solid var(--primary);"><strong>🗺️ Plan</strong><br><small>Method, timing, risks</small></div>
+        <div style="flex:1; min-width:120px; background:var(--bg); padding:0.75rem; border-radius:0.8rem; text-align:center; border-top:4px solid var(--primary);"><strong>⚡ Act</strong><br><small>Implement control</small></div>
+        <div style="flex:1; min-width:120px; background:var(--bg); padding:0.75rem; border-radius:0.8rem; text-align:center; border-top:4px solid var(--primary);"><strong>📊 Evaluate</strong><br><small>Did it work?</small></div>
+        <div style="flex:1; min-width:120px; background:var(--bg); padding:0.75rem; border-radius:0.8rem; text-align:center; border-top:4px solid var(--primary);"><strong>🔄 Adapt</strong><br><small>Change approach</small></div>
+      </div>
+      <div class="warning"><i class="fas fa-exclamation-triangle"></i> <strong>Most weed control programs fail at the EVALUATE → ADAPT stage.</strong> They treat, walk away, and don't monitor. Without evaluation, you don't know what worked, what failed, and what needs to change.</div>
+    </div>
+
+    <div class="checklist-card"><i class="fas fa-check-circle"></i> <strong>IPM in practice:</strong> The best weed control programs are long-term, multi-method, and monitoring-driven. They accept that success is measured over years, not weeks. They plan for follow-up before starting initial treatment.</div>
 
     <h3>Your progress</h3>
     <div class="progress-container"><div class="progress-fill" style="width:30%;"></div></div>
@@ -267,50 +333,64 @@
   <!-- ===== TAB 3: CONTROL METHODS ===== -->
   <div id="tab2" class="tab-content">
     <h2><i class="fas fa-tools"></i> Control methods: A toolkit</h2>
-    <p>No single method works everywhere. IPM requires selecting the right tool for the situation. Here are the four main categories you must understand.</p>
+    <p>No single method works everywhere. IPM requires selecting the right tool for the situation. Here are the four main categories, with detailed information on advantages, limitations, and Tasmanian-specific considerations.</p>
 
     <div class="grid-2">
       <div class="card"><i class="fas fa-leaf"></i><div class="card-title">Biological control</div>
         <p><strong>What it is:</strong> Using natural enemies (insects, mites, diseases) to control weeds.</p>
-        <p><strong>Examples:</strong> Gorse seed weevil, gorse spider mite, gorse thrips. These agents reduce seed production or stress the plant but rarely eradicate it alone.</p>
-        <p><strong>Advantages:</strong> Self-sustaining, no chemicals, can be integrated with other methods.</p>
-        <p><strong>Limitations:</strong> Slow-acting, host-specific, requires approval (Biological Control Act 1984).</p>
-        <div class="tip"><i class="fas fa-info-circle"></i> Biological control is a long-term investment. It works best as part of an integrated program, not as a standalone solution.</div>
+        <p><strong>Examples:</strong> Gorse seed weevil, gorse spider mite, gorse thrips. Blackberry rust fungus has been released but has been largely ineffective across its range[citation:17].</p>
+        <p><strong>Advantages:</strong> Self-sustaining, no chemicals, can be integrated with other methods. Useful for large, inaccessible areas where other methods are impractical.</p>
+        <p><strong>Limitations:</strong> Slow-acting (often takes years to see impact), host-specific, requires approval under the Biological Control Act 1984 (Cth). Rarely achieves eradication — best used as a suppressive tool within an integrated program.</p>
+        <div class="tip"><i class="fas fa-info-circle"></i> <strong>Tasmanian context:</strong> Before using chemicals, check if biological control agents are present. Contact NRE Tas or the Tasmanian Institute of Agriculture (TIA) biological control program for advice[citation:23].</div>
       </div>
       <div class="card"><i class="fas fa-tractor"></i><div class="card-title">Cultural control</div>
         <p><strong>What it is:</strong> Modifying the environment to make it less hospitable to weeds.</p>
-        <p><strong>Examples:</strong> Crop rotation, cover cropping, competitive planting, grazing management, mulching.</p>
-        <p><strong>Advantages:</strong> Addresses the root cause (disturbance), low environmental impact, sustainable.</p>
-        <p><strong>Limitations:</strong> Requires planning and time, may not be suitable for all sites.</p>
-        <div class="tip"><i class="fas fa-lightbulb"></i> <strong>Key principle:</strong> The best defense against weeds is healthy, competitive vegetation. Cultural control builds this.</div>
+        <p><strong>Examples:</strong> Crop rotation, cover cropping, competitive planting, grazing management, mulching, maintaining ground cover.</p>
+        <p><strong>Advantages:</strong> Addresses the root cause (disturbance and lack of competition), low environmental impact, sustainable. Builds long-term resilience.</p>
+        <p><strong>Limitations:</strong> Requires planning and time, may not be suitable for all sites (e.g., sensitive native vegetation areas). Results are not immediate.</p>
+        <div class="tip"><i class="fas fa-lightbulb"></i> <strong>Key principle:</strong> The best defense against weeds is healthy, competitive vegetation. Cultural control builds this. In pasture, maintaining strong grass cover outcompetes many weeds. In native areas, revegetation with local species closes the gap that weeds exploit.</div>
       </div>
       <div class="card"><i class="fas fa-hand-sparkles"></i><div class="card-title">Mechanical control</div>
         <p><strong>What it is:</strong> Physically removing or destroying weeds.</p>
-        <p><strong>Examples:</strong> Hand weeding, mowing, slashing, digging, hoeing, machinery (bobcat, excavator).</p>
-        <p><strong>Advantages:</strong> No chemicals, immediate visible results, suitable for sensitive areas.</p>
-        <p><strong>Limitations:</strong> Labour-intensive, can cause soil disturbance (triggering more weeds), not suitable for all species.</p>
-        <div class="warning"><i class="fas fa-exclamation-triangle"></i> <strong>Critical:</strong> Slashing after seed set spreads weeds. Mechanical control must be timed correctly.</div>
+        <p><strong>Examples:</strong> Hand weeding, mowing, slashing, digging, hoeing, machinery (bobcat, excavator, mulcher).</p>
+        <p><strong>Advantages:</strong> No chemicals, immediate visible results, suitable for sensitive areas (near water, native vegetation). Can be targeted precisely.</p>
+        <p><strong>Limitations:</strong> Labour-intensive, can cause soil disturbance (triggering more weeds), not suitable for all species (e.g., plants that resprout from root fragments). Slashing after seed set spreads weeds.</p>
+        <div class="warning"><i class="fas fa-exclamation-triangle"></i> <strong>Critical:</strong> Slashing after seed set spreads weeds. Mechanical control must be timed correctly. Mowing and slashing are not suitable for plants that regrow from roots or fragments (e.g., poplars, willows) — and can make them harder to control[citation:23].</div>
+        <p><strong>Tasmanian example:</strong> For blackberry, slashing or burning can reduce biomass and promote fresh growth that is more susceptible to herbicide. The regrowth (up to 1m) is then sprayed[citation:17].</p>
       </div>
       <div class="card"><i class="fas fa-flask"></i><div class="card-title">Chemical control</div>
         <p><strong>What it is:</strong> Using herbicides to kill weeds.</p>
-        <p><strong>Examples:</strong> Glyphosate (broad-spectrum), triclopyr (woody weeds), metsulfuron-methyl (blackberry).</p>
-        <p><strong>Advantages:</strong> Effective, scalable, can be targeted (spot spray, cut stump).</p>
-        <p><strong>Limitations:</strong> Off-target damage, environmental risks, resistance development, legal requirements.</p>
-        <div class="warning"><i class="fas fa-exclamation-triangle"></i> <strong>Always:</strong> Follow label instructions, use appropriate PPE, respect buffer zones, and consider non-chemical alternatives first.</div>
+        <p><strong>Examples:</strong> Glyphosate (broad-spectrum), triclopyr (woody weeds), metsulfuron-methyl (blackberry), flupropanate (serrated tussock).</p>
+        <p><strong>Advantages:</strong> Effective, scalable, can be targeted (spot spray, cut stump, basal bark). Often the most reliable method for established infestations.</p>
+        <p><strong>Limitations:</strong> Off-target damage, environmental risks (water contamination), resistance development, legal requirements (label, buffer zones, permits). Requires training and PPE.</p>
+        <div class="warning"><i class="fas fa-exclamation-triangle"></i> <strong>Always:</strong> Follow label instructions, use appropriate PPE, respect buffer zones, and consider non-chemical alternatives first. Only use herbicides registered for the specific weed and situation. Off-label use is not permitted in Tasmania for different application methods[citation:27].</div>
       </div>
     </div>
 
-    <h3>Choosing the right method</h3>
+    <h3>Detailed method comparison</h3>
+    <table>
+      <tr><th>Method</th><th>Best for</th><th>Timing</th><th>Key risks/limitations</th></tr>
+      <tr><td><strong>Hand pulling</strong></td><td>Small infestations, isolated plants, sensitive areas</td><td>Before seed set, when soil is moist</td><td>Labour-intensive; root fragments may remain; soil disturbance</td></tr>
+      <tr><td><strong>Slashing/mowing</strong></td><td>Reducing biomass, improving access</td><td>Before flowering/seed set</td><td>Spreads seeds if timed wrong; stimulates regrowth; not for root-suckering species</td></tr>
+      <tr><td><strong>Cut stump/paste</strong></td><td>Woody weeds, sensitive areas where spray drift is a concern</td><td>Active growth (autumn/spring)</td><td>Labour-intensive; must treat immediately after cutting</td></tr>
+      <tr><td><strong>Basal bark</strong></td><td>Woody weeds, stems <10cm diameter</td><td>Active growth, avoid hot weather</td><td>Requires diesel-based carrier; not near water</td></tr>
+      <tr><td><strong>Foliar spray</strong></td><td>Dense infestations, seedlings, regrowth</td><td>Active growth, before seed set</td><td>Off-target drift; weather-dependent; resistance risk</td></tr>
+      <tr><td><strong>Grazing</strong></td><td>Reducing biomass, pasture weeds</td><td>Before seed set, rotational</td><td>Stock may spread seeds; not effective alone; animal welfare</td></tr>
+      <tr><td><strong>Biological control</strong></td><td>Large, inaccessible infestations</td><td>Long-term (years)</td><td>Slow; rarely eradicates; requires approval</td></tr>
+    </table>
+
+    <h3>Herbicide resistance: A growing concern</h3>
     <div class="card">
-      <p>The choice of method depends on:</p>
+      <p>Herbicide resistance is not a future problem — it is happening now in Australia. Glyphosate-resistant annual ryegrass is widespread in cropping systems, and resistance is emerging in other weeds[citation:24][citation:30].</p>
+      <p><strong>How resistance develops:</strong> Repeated use of the same herbicide (or same mode of action) selects for individuals that survive. These survivors reproduce, and the resistant population grows. Sub-lethal doses (under-dosing) accelerate this process.</p>
+      <p><strong>How to manage resistance:</strong></p>
       <ul>
-        <li><strong>Weed species</strong> — Growth habit, root system, seed production</li>
-        <li><strong>Site sensitivity</strong> — Proximity to waterways, native vegetation, threatened species</li>
-        <li><strong>Infestation size</strong> — Small infestations may allow manual removal; large ones require different approaches</li>
-        <li><strong>Available resources</strong> — Labour, equipment, budget</li>
-        <li><strong>Legislative requirements</strong> — Buffer zones, permits, declared weed obligations</li>
-        <li><strong>Timing</strong> — Plant growth stage, weather conditions, follow-up requirements</li>
+        <li><strong>Rotate modes of action (MOA)</strong> — Don't use the same herbicide group repeatedly. Alternate between Group 1 (e.g., fluazifop), Group 4 (e.g., 2,4-D), Group 9 (glyphosate), etc.</li>
+        <li><strong>Use label rates</strong> — Never under-dose. Sub-lethal rates kill susceptible plants but allow resistant ones to survive and reproduce.</li>
+        <li><strong>Combine methods</strong> — Herbicides plus mechanical, cultural, or biological controls reduce selection pressure.</li>
+        <li><strong>Monitor for survivors</strong> — Patchy kill with a consistent pattern (same equipment, same mix, same day) is a warning sign. Report suspected resistance to NRE Tas.</li>
       </ul>
+      <div class="warning"><i class="fas fa-exclamation-triangle"></i> <strong>Tasmanian context:</strong> Glyphosate-resistant annual ryegrass has been confirmed in Tasmanian cropping systems. For woody weeds like gorse and broom, resistance is not yet widespread but the risk is real if the same herbicides are used repeatedly.</div>
     </div>
 
     <h3>Your progress</h3>
@@ -325,19 +405,19 @@
 
     <div class="grid-2">
       <div class="card"><i class="fas fa-map-pin"></i><div class="card-title">1. Assess the site</div>
-        <ul><li><strong>Identify the weed</strong> — Correct identification is essential. Use NRE Tas resources, field guides, or expert advice.</li>
-        <li><strong>Determine scope and size</strong> — Map the infestation. How large? How dense? What stage of growth?</li>
-        <li><strong>Identify non-target species</strong> — What native plants and animals are present? Are there threatened species?</li>
-        <li><strong>Assess site sensitivity</strong> — Proximity to waterways, steep slopes, cultural heritage sites.</li>
-        <li><strong>Determine tolerable levels</strong> — What level of infestation is acceptable? (Often zero for declared weeds; higher for environmental weeds in some contexts.)</li></ul>
+        <ul><li><strong>Identify the weed</strong> — Correct identification is essential. Use NRE Tas resources[citation:7], field guides, or expert advice. Misidentification wastes time and money.</li>
+        <li><strong>Determine scope and size</strong> — Map the infestation. How large? How dense? What stage of growth? Are there satellite populations?</li>
+        <li><strong>Identify non-target species</strong> — What native plants and animals are present? Are there threatened species? Is the site near a waterway?</li>
+        <li><strong>Assess site sensitivity</strong> — Proximity to waterways, steep slopes, cultural heritage sites, conservation areas.</li>
+        <li><strong>Determine tolerable levels</strong> — What level of infestation is acceptable? (Zero for declared weeds; higher for environmental weeds in some contexts; economic thresholds for pasture weeds.)</li></ul>
       </div>
       <div class="card"><i class="fas fa-exclamation-triangle"></i><div class="card-title">2. Risk assessment</div>
         <p>Every control program needs a risk assessment. Consider:</p>
-        <ul><li><strong>Human safety</strong> — Chemical exposure, manual handling, terrain hazards, remote work</li>
+        <ul><li><strong>Human safety</strong> — Chemical exposure, manual handling, terrain hazards, remote work, first aid availability</li>
         <li><strong>Environmental risks</strong> — Off-target damage, water contamination, soil disturbance, erosion</li>
         <li><strong>Non-target species</strong> — Native plants, animals, beneficial insects</li>
-        <li><strong>Legal compliance</strong> — Buffer zones, permits, record-keeping requirements</li></ul>
-        <div class="tip"><i class="fas fa-info-circle"></i> The risk assessment should be documented and reviewed before any control work begins.</div>
+        <li><strong>Legal compliance</strong> — Buffer zones, permits, record-keeping requirements, declared weed obligations</li></ul>
+        <div class="tip"><i class="fas fa-info-circle"></i> The risk assessment should be documented and reviewed before any control work begins. It should identify controls for each hazard and assign responsibility.</div>
       </div>
       <div class="card"><i class="fas fa-calendar-alt"></i><div class="card-title">3. Select methods and timing</div>
         <p>Based on your assessment, choose methods that:</p>
@@ -345,14 +425,66 @@
         <li>Minimise risk to non-target species</li>
         <li>Comply with legal requirements</li>
         <li>Are feasible with available resources</li></ul>
-        <p><strong>Timing is critical:</strong> Control before flowering and seeding, when plants are actively growing. For systemic herbicides, this maximizes translocation.</p>
+        <p><strong>Timing is critical:</strong> Control before flowering and seeding, when plants are actively growing. For systemic herbicides, this maximizes translocation. For mechanical control, timing avoids seed spread.</p>
+        <p><strong>Tasmanian seasonal considerations:</strong> Autumn (March-May) and spring (September-November) are generally optimal for systemic herbicides. Winter spraying is often ineffective due to dormancy. Summer spraying risks heat stress and drought-stressed plants.</p>
       </div>
       <div class="card"><i class="fas fa-sync"></i><div class="card-title">4. Plan follow-up</div>
         <p><strong>No follow-up plan = guaranteed failure.</strong> Weeds will regrow from seedbanks and root fragments.</p>
         <ul><li>Schedule monitoring at 3, 6, and 12 months</li>
-        <li>Plan for follow-up treatment</li>
-        <li>Budget for multi-year programs (especially for seedbank-persistent species)</li></ul>
-        <div class="warning"><i class="fas fa-exclamation-triangle"></i> Gorse seedbank can persist for 30+ years. Plan for long-term management, not one-off treatment.</div>
+        <li>Plan for follow-up treatment (spot spray, hand pull, etc.)</li>
+        <li>Budget for multi-year programs (especially for seedbank-persistent species)</li>
+        <li>Document everything — records are essential for tracking progress and meeting legal obligations</li></ul>
+        <div class="warning"><i class="fas fa-exclamation-triangle"></i> Gorse seedbank can persist for 30+ years in Tasmanian soils. Plan for long-term management, not one-off treatment. Programs that stop at Year 2 fail. Real success is Year 7-10.</div>
+      </div>
+    </div>
+
+    <h3>Field craft: Equipment, calibration, and application</h3>
+    <div class="grid-2">
+      <div class="card"><i class="fas fa-spray-can"></i><div class="card-title">Spray equipment calibration</div>
+        <p>Calibration ensures you apply the correct rate of herbicide. An uncalibrated sprayer can under-dose (leading to resistance) or over-dose (wasting chemical and risking off-target damage).</p>
+        <p><strong>Basic calibration steps:</strong></p>
+        <ol>
+          <li>Measure a known area (e.g., 100m²) or distance (e.g., 50m).</li>
+          <li>Fill the sprayer with water to a known level.</li>
+          <li>Spray the area at your normal walking pace and nozzle setting.</li>
+          <li>Measure how much water was used.</li>
+          <li>Calculate the application rate (L/ha or L/100m²).</li>
+          <li>Adjust nozzle size, pressure, or walking speed to achieve the target rate.</li>
+        </ol>
+        <div class="tip"><i class="fas fa-lightbulb"></i> <strong>Pro tip:</strong> Check nozzles regularly for wear and blockages. A worn nozzle can deliver 20% more or less than intended, affecting efficacy and resistance selection.</div>
+      </div>
+      <div class="card"><i class="fas fa-wind"></i><div class="card-title">Spray drift management</div>
+        <p>Spray drift is the movement of herbicide droplets off-target. It can damage sensitive crops, native vegetation, and waterways.</p>
+        <p><strong>Key controls:</strong></p>
+        <ul>
+          <li><strong>Wind speed:</strong> Avoid spraying when wind is >15 km/h (or as specified on the label). Also avoid very still conditions (temperature inversions) when droplets can hang in the air and drift[citation:23].</li>
+          <li><strong>Nozzle selection:</strong> Use low-drift nozzles (air induction, pre-orifice) for coarse droplets.</li>
+          <li><strong>Boom height:</strong> Keep the boom as low as practical while maintaining coverage.</li>
+          <li><strong>Buffer zones:</strong> Respect label buffer zones near waterways, sensitive areas, and neighbouring properties.</li>
+          <li><strong>Weather conditions:</strong> Avoid spraying when temperatures are high and humidity is low (droplets evaporate before landing).</li>
+        </ul>
+      </div>
+      <div class="card"><i class="fas fa-broom"></i><div class="card-title">Clean-down and hygiene</div>
+        <p>Weeds spread via contaminated machinery, footwear, and equipment. Clean-down is a legal requirement under the Biosecurity Act (General Biosecurity Duty) and a practical necessity.</p>
+        <p><strong>Best practice:</strong></p>
+        <ul>
+          <li>Clean machinery before leaving an infested site and before entering a clean site.</li>
+          <li>Remove soil and plant material from tyres, tracks, undercarriage, and buckets.</li>
+          <li>Use a designated wash-down area (not near waterways).</li>
+          <li>Clean footwear and clothing before leaving the site.</li>
+          <li>Record clean-down activities in a logbook.</li>
+        </ul>
+        <div class="tip"><i class="fas fa-info-circle"></i> <strong>Tasmanian context:</strong> NRE Tas has wash-down guidelines for weed and disease control. These are particularly important for contractors working across multiple properties.</div>
+      </div>
+      <div class="card"><i class="fas fa-clipboard-check"></i><div class="card-title">Record keeping</div>
+        <p>Records are essential for:</p>
+        <ul>
+          <li><strong>Legal compliance</strong> — Commercial operators must keep records of herbicide use for at least 3 years (product, rate, date, location, weather conditions).</li>
+          <li><strong>Monitoring</strong> — Records allow you to track what worked and what didn't.</li>
+          <li><strong>Continuity</strong> — If someone else takes over the program, they need to know what's been done.</li>
+          <li><strong>Reporting</strong> — Funding bodies and land managers often require progress reports.</li>
+        </ul>
+        <p><strong>What to record:</strong> Date, time, location (GPS or map reference), target species, herbicide product and rate, adjuvant used, water volume, area treated, weather conditions (temperature, wind, cloud cover), operator name, equipment used, any issues observed.</p>
       </div>
     </div>
 
@@ -361,12 +493,14 @@
       ✓ Weed correctly identified and confirmed<br>
       ✓ Site assessed for risks (human, environmental, legal)<br>
       ✓ Control method selected and justified<br>
-      ✓ Weather forecast checked<br>
+      ✓ Weather forecast checked (wind, rain, temperature)<br>
       ✓ Equipment calibrated and ready<br>
-      ✓ PPE prepared (gloves, eye protection, appropriate clothing)<br>
+      ✓ PPE prepared (gloves, eye protection, appropriate clothing, respiratory protection if required)<br>
       ✓ Buffer zones identified (waterways, sensitive areas)<br>
       ✓ Follow-up schedule documented<br>
-      ✓ Records prepared for completion
+      ✓ Records prepared for completion<br>
+      ✓ Emergency plan and first aid kit available<br>
+      ✓ Communication device (phone, radio) charged and functional
     </div>
 
     <h3>Your progress</h3>
@@ -377,41 +511,51 @@
   <!-- ===== TAB 5: LEGISLATION ===== -->
   <div id="tab4" class="tab-content">
     <h2><i class="fas fa-gavel"></i> Tasmanian and Commonwealth legislation</h2>
-    <p>Weed management is governed by legislation. Understanding your legal obligations is essential.</p>
+    <p>Weed management is governed by legislation. Understanding your legal obligations is essential — both to avoid penalties and to protect the environment.</p>
 
     <div class="card"><i class="fas fa-file-signature"></i><div class="card-title">Key legislation</div>
       <table>
         <tr><th>Legislation</th><th>Relevance to weed management</th></tr>
-        <tr><td><strong>Biosecurity Act 2019 (Tas)</strong></td><td>Establishes General Biosecurity Duty. Declared pests (including weeds) must be controlled. Authorizes inspection and enforcement.</td></tr>
-        <tr><td><strong>Weed Management Act 1999 (Tas)</strong></td><td>Provides for declaration of weeds and statutory management plans. Authorizes enforcement of control obligations.</td></tr>
-        <tr><td><strong>Agricultural and Veterinary Chemicals (Control of Use) Act 1995 (Tas)</strong></td><td>Regulates herbicide use. Requires following label instructions and protecting non-target areas.</td></tr>
-        <tr><td><strong>Nature Conservation Act 2002 (Tas)</strong></td><td>Protects biodiversity. It is an offence to introduce or spread declared weeds in reserved areas.</td></tr>
-        <tr><td><strong>Environmental Management and Pollution Control Act 1994 (Tas)</strong></td><td>Allows EPA to declare weed infestations an environmental nuisance.</td></tr>
-        <tr><td><strong>Biological Control Act 1984 (Cth)</strong></td><td>Regulates the introduction of biological control agents.</td></tr>
+        <tr><td><strong>Biosecurity Act 2019 (Tas)</strong></td><td>Establishes General Biosecurity Duty. Declared pests (including weeds) must be controlled. Authorizes inspection and enforcement. It is an offence to spread declared weeds.</td></tr>
+        <tr><td><strong>Weed Management Act 1999 (Tas)</strong></td><td>Provides for declaration of weeds and statutory management plans[citation:11]. Authorizes enforcement of control obligations. NRE Tas can develop and implement management plans for declared weeds (e.g., Heather Statutory Weed Management Plan[citation:4]).</td></tr>
+        <tr><td><strong>Agricultural and Veterinary Chemicals (Control of Use) Act 1995 (Tas)</strong></td><td>Regulates herbicide use. Requires following label instructions and protecting non-target areas. Authorizes NRE Tas to identify noxious weeds and establish Weed Management Areas.</td></tr>
+        <tr><td><strong>Nature Conservation Act 2002 (Tas)</strong></td><td>Protects biodiversity. It is an offence to introduce or spread declared weeds in reserved areas. Establishes the Tasmanian Weed Management Strategy.</td></tr>
+        <tr><td><strong>Environmental Management and Pollution Control Act 1994 (Tas)</strong></td><td>Allows EPA to declare weed infestations an environmental nuisance and direct the occupier to control or eradicate the weed.</td></tr>
+        <tr><td><strong>Biological Control Act 1984 (Cth)</strong></td><td>Regulates the introduction of biological control agents. Any new biocontrol agent requires approval.</td></tr>
+        <tr><td><strong>Environment Protection and Biodiversity Conservation Act 1999 (Cth)</strong></td><td>Allows the Commonwealth to identify and list invasive species and develop recovery plans. Protects threatened species and ecological communities, including habitat restoration (which may include weed removal).</td></tr>
       </table>
     </div>
 
     <div class="card"><i class="fas fa-exclamation-triangle"></i><div class="card-title">General Biosecurity Duty (GBD)</div>
       <p>Under the <strong>Biosecurity Act 2019</strong>, everyone has a legal obligation to take reasonable and practicable measures to prevent, eliminate, or minimise biosecurity risks. For declared weeds, this means <strong>you must control them on your land</strong>.</p>
-      <div class="warning"><i class="fas fa-exclamation-triangle"></i> <strong>Critical:</strong> Failure to control declared weeds can result in enforcement action, including fines and government-directed control at the landholder's expense.</div>
+      <p><strong>What "reasonable and practicable" means:</strong> The measures you take should be proportionate to the risk. For a small, isolated infestation of a highly invasive weed, eradication may be required. For a widespread infestation, containment and prevention of spread may be acceptable.</p>
+      <div class="warning"><i class="fas fa-exclamation-triangle"></i> <strong>Critical:</strong> Failure to control declared weeds can result in enforcement action, including fines and government-directed control at the landholder's expense. Local councils can also issue Weed Control Notices.</div>
+      <p><strong>Declared weeds in Tasmania</strong> include: Gorse, Montpelier Broom, Ragwort, Pampas Grass, Boneseed, Blackberry, Serrated Tussock, Heather, and others. Check the NRE Tas Declared Weeds Index for the current list[citation:7].</p>
     </div>
 
     <div class="card"><i class="fas fa-clipboard-list"></i><div class="card-title">Record-keeping requirements</div>
       <p>Commercial operators must maintain records of herbicide use including:</p>
-      <ul><li>Date and location of application</li><li>Product name and rate</li><li>Weather conditions (wind speed/direction, temperature)</li><li>Equipment used</li></ul>
-      <p>Records must be kept for at least 3 years.</p>
+      <ul><li>Date and location of application</li><li>Product name and rate</li><li>Weather conditions (wind speed/direction, temperature)</li><li>Equipment used</li><li>Operator name and qualifications</li></ul>
+      <p>Records must be kept for at least 3 years. This is a legal requirement under the Agricultural and Veterinary Chemicals (Control of Use) Act 1995.</p>
     </div>
 
     <h3>Codes of Practice</h3>
     <div class="grid-2">
       <div class="card"><i class="fas fa-spray-can"></i><div class="card-title">Code of Practice for Ground Spraying</div>
         <p>Minimum standards for ground-based spraying in Tasmania. Key requirements:</p>
-        <ul><li>Only use registered products</li><li>Follow label instructions</li><li>Maintain equipment</li><li>Prevent off-target movement</li><li>Do not spray waterways unless approved</li></ul>
+        <ul><li>Only use registered products for the specific weed and situation</li><li>Follow label instructions (rate, application method, buffer zones)</li><li>Maintain equipment in good condition</li><li>Prevent off-target movement (drift, runoff)</li><li>Do not spray waterways unless the product is registered for aquatic use</li><li>Keep records of all applications</li></ul>
       </div>
       <div class="card"><i class="fas fa-hand-sparkles"></i><div class="card-title">Hazardous Manual Tasks Code of Practice</div>
         <p>Applies to all weed control work involving manual handling. Requires:</p>
-        <ul><li>Risk assessment of manual tasks</li><li>Control measures to prevent injury</li><li>Training and instruction</li></ul>
+        <ul><li>Risk assessment of manual tasks (lifting, carrying, repetitive actions)</li><li>Control measures to prevent injury (mechanical aids, team lifting, correct technique)</li><li>Training and instruction for workers</li></ul>
+        <p><strong>Relevance to weed control:</strong> Hand pulling, carrying spray packs, moving equipment, and working on steep terrain all involve manual handling risks. These must be assessed and controlled.</p>
       </div>
+    </div>
+
+    <div class="card"><i class="fas fa-water"></i><div class="card-title">Buffer zones and waterways</div>
+      <p>Herbicides can contaminate waterways and harm aquatic life. Buffer zones are specified on product labels and vary by product and situation.</p>
+      <p><strong>Typical buffer zones:</strong> 5-100 metres from waterways, depending on the product, application method, and sensitivity of the waterway. Always read the label.</p>
+      <div class="warning"><i class="fas fa-exclamation-triangle"></i> <strong>Tasmanian context:</strong> Never spray herbicides near waterways without checking the label's aquatic buffer zone. Some chemicals cannot be used within 20-100m of water in Tasmania. Civil penalties apply under the Water Management Act 1999 and Biosecurity Act 2019. Use only aquatic-registered herbicides if spraying near water.</div>
     </div>
 
     <h3>Your progress</h3>
@@ -422,44 +566,128 @@
   <!-- ===== TAB 6: MONITORING ===== -->
   <div id="tab5" class="tab-content">
     <h2><i class="fas fa-chart-bar"></i> Monitoring and evaluation</h2>
-    <p>Monitoring is how you know if your control worked. It's not optional — it's central to IPM.</p>
+    <p>Monitoring is how you know if your control worked. It's not optional — it's central to IPM. Without monitoring, you're guessing.</p>
 
     <div class="grid-2">
       <div class="card"><i class="fas fa-eye"></i><div class="card-title">Why monitor?</div>
-        <ul><li>Assess effectiveness — Did the treatment work?</li>
-        <li>Detect adverse impacts — Did you harm non-target species?</li>
-        <li>Identify follow-up needs — Where is regrowth occurring?</li>
-        <li>Inform adaptive management — What should you do differently?</li>
-        <li>Meet legal requirements — Document your control efforts</li></ul>
+        <ul><li><strong>Assess effectiveness</strong> — Did the treatment achieve the desired kill rate?</li>
+        <li><strong>Detect adverse impacts</strong> — Did you harm non-target species? Was there off-target drift?</li>
+        <li><strong>Identify follow-up needs</strong> — Where is regrowth occurring? Where are new seedlings emerging?</li>
+        <li><strong>Inform adaptive management</strong> — What should you do differently next time?</li>
+        <li><strong>Meet legal requirements</strong> — Document your control efforts for compliance and reporting.</li>
+        <li><strong>Build institutional knowledge</strong> — Records of what worked (and what didn't) are valuable for future programs.</li></ul>
       </div>
       <div class="card"><i class="fas fa-magnifying-glass"></i><div class="card-title">How to monitor</div>
-        <p><strong>Visual inspection:</strong> Walk the site, observe weed density, look for regrowth or new seedlings.</p>
-        <p><strong>Weed audit:</strong> Count plants in defined quadrats (e.g., 1m²) to quantify density and track changes.</p>
-        <p><strong>Photo points:</strong> Take photos from fixed locations to document change over time.</p>
-        <p><strong>Remote sensing:</strong> Drones or satellite imagery for large areas.</p>
+        <p><strong>Visual inspection:</strong> Walk the site systematically. Observe weed density, look for regrowth or new seedlings, check for damage to non-target plants.</p>
+        <p><strong>Weed audit (quadrats):</strong> Count plants in defined areas (e.g., 1m² quadrats) to quantify density and track changes over time. Use a consistent method and record locations.</p>
+        <p><strong>Photo points:</strong> Take photos from fixed locations (GPS-marked) at the same time each year. This provides a visual record of change.</p>
+        <p><strong>Transects:</strong> Walk a fixed line across the site and record weeds encountered. Useful for large areas.</p>
+        <p><strong>Remote sensing:</strong> Drones or satellite imagery for large-scale monitoring. Useful for detecting new infestations or tracking spread.</p>
       </div>
     </div>
 
-    <div class="card"><i class="fas fa-calendar-alt"></i><div class="card-title">What to look for</div>
+    <div class="card"><i class="fas fa-calendar-alt"></i><div class="card-title">What to look for (and what it means)</div>
       <table>
-        <tr><th>Indicator</th><th>What it tells you</th></tr>
-        <tr><td>Weed regrowth</td><td>Treatment may have been incomplete or plant was not actively growing</td></tr>
-        <tr><td>New seedlings</td><td>Seedbank is germinating — follow-up required</td></tr>
-        <tr><td>Surviving plants in treated area</td><td>Possible resistance or application issue</td></tr>
-        <tr><td>Damage to non-target plants</td><td>Off-target movement or incorrect application</td></tr>
-        <tr><td>Erosion or soil disturbance</td><td>Mechanical control may have been too aggressive</td></tr>
+        <tr><th>Indicator</th><th>What it tells you</th><th>Action</th></tr>
+        <tr><td>Weed regrowth from treated stumps/roots</td><td>Treatment may have been incomplete, plant was not actively growing, or herbicide didn't translocate</td><td>Retreat with appropriate method; check timing and application</td></tr>
+        <tr><td>New seedlings emerging</td><td>Seedbank is germinating — this is expected after removing adult plants</td><td>Follow-up treatment required; consider competitive planting</td></tr>
+        <tr><td>Surviving plants in treated area (consistent pattern)</td><td>Possible resistance, application issue (missed spots, blocked nozzle), or incorrect rate</td><td>Investigate equipment and technique first; consider resistance testing</td></tr>
+        <tr><td>Damage to non-target plants</td><td>Off-target movement (drift, runoff) or incorrect application</td><td>Review buffer zones, weather conditions, nozzle selection, and application method</td></tr>
+        <tr><td>Erosion or soil disturbance</td><td>Mechanical control may have been too aggressive; bare ground is now vulnerable</td><td>Stabilise soil; revegetate or mulch; avoid future mechanical disturbance</td></tr>
+        <tr><td>No visible change</td><td>Herbicide may not have been applied correctly, plant may not have been actively growing, or product may be ineffective</td><td>Check records; verify product and rate; consider alternative method</td></tr>
       </table>
     </div>
 
-    <div class="checklist-card"><i class="fas fa-check-circle"></i> <strong>Monitoring schedule:</strong> At minimum, monitor immediately after treatment (to check application), at 3 months (to assess kill), and at 12 months (to assess regrowth and seedbank germination). Adjust based on species and site conditions.</div>
+    <div class="card"><i class="fas fa-clock"></i><div class="card-title">Monitoring schedule</div>
+      <p><strong>Immediate (same day or next day):</strong> Check application — were all target plants treated? Was there any obvious off-target damage? Record weather conditions.</p>
+      <p><strong>3 months:</strong> Assess kill rate — are treated plants dead or dying? Are there survivors? Look for regrowth. This is when you can see if the treatment worked.</p>
+      <p><strong>6-12 months:</strong> Assess regrowth and seedbank germination. This is when new seedlings from the seedbank typically emerge. Plan follow-up treatment.</p>
+      <p><strong>Annually (for multi-year programs):</strong> Assess overall progress toward objectives. Adjust strategy if needed. Document for reporting.</p>
+      <div class="tip"><i class="fas fa-lightbulb"></i> <strong>Pro tip:</strong> Set calendar reminders for monitoring. It's easy to forget once the initial treatment is done. Monitoring is part of the job, not an optional extra.</div>
+    </div>
+
+    <h3>Case study: Monitoring a gorse control program</h3>
+    <div class="card">
+      <p><strong>Site:</strong> 2ha gorse infestation, Derwent Valley, Tasmania.</p>
+      <p><strong>Initial treatment (Year 1, autumn):</strong> Cut stump and basal bark on dense stands; foliar spray on isolated plants.</p>
+      <p><strong>Monitoring results:</strong></p>
+      <ul>
+        <li><strong>Immediate (Week 1):</strong> All visible plants treated. No off-target damage observed. Weather conditions: 18°C, light wind, no rain for 24 hours.</li>
+        <li><strong>3 months:</strong> 70% of treated plants dead or dying. Some regrowth from stumps that were not treated (missed). Plan follow-up.</li>
+        <li><strong>12 months:</strong> 85% kill overall. Dense seedling germination (expected from seedbank). Follow-up foliar spray on seedlings (spring).</li>
+        <li><strong>Year 3:</strong> 95% reduction in adult plants. Seedlings continue to emerge but at lower density. Spot spray as needed.</li>
+        <li><strong>Year 5:</strong> Occasional seedlings only. Monitor annually. Consider revegetation with native species to compete with remaining weeds.</li>
+      </ul>
+      <p><strong>Lessons:</strong> The missed stumps at 3 months show the importance of thorough application. The seedling flush at 12 months is normal and expected — it doesn't mean the treatment failed. Follow-up is essential.</p>
+    </div>
 
     <h3>Your progress</h3>
     <div class="progress-container"><div class="progress-fill" style="width:85%;"></div></div>
     <p style="font-size:0.9rem; color:var(--primary-light);">85% complete — you're ready for advanced interpretation!</p>
   </div>
 
-  <!-- ===== TAB 7: PRACTICE ===== -->
+  <!-- ===== TAB 7: VIDEOS ===== -->
   <div id="tab6" class="tab-content">
+    <h2><i class="fas fa-video"></i> Video resources</h2>
+    <p>These videos provide practical demonstrations and contextual information to support your learning. Watch them before or after reading the relevant tabs.</p>
+
+    <div class="video-grid">
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/dNbjTL21CLY" title="Integrated weed management and resilience" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-info">
+          <h4>Integrated Weed Management & Resilience</h4>
+          <p>Explains integrated weed management using ecological resilience. Focus on how site condition determines control strategy. Relates to IPM principles and planning.</p>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/b_GaUwNPKv8" title="Environmental weeds and ecological principles" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-info">
+          <h4>Environmental Weeds & Ecological Principles</h4>
+          <p>Introduces ecological principles behind weed management. Focus on disturbance, opportunistic vs competitive species, and driver vs passenger weeds. Relates to weed ecology content.</p>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/OTerH6SgwO8" title="Weed control methods demonstration" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-info">
+          <h4>Weed Control Methods in Practice</h4>
+          <p>Overview of different weed control methods and when to use them. Relates to the Control Methods tab.</p>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/94YcjbYBchc" title="Herbicide application and safety" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-info">
+          <h4>Herbicide Application & Safety</h4>
+          <p>Practical demonstration of herbicide application techniques and safety considerations. Relates to field craft and chemical control content.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip"><i class="fas fa-lightbulb"></i> <strong>How to use these videos:</strong> Watch each video with a specific question in mind (e.g., "What factors determine which method is chosen?"). Pause and take notes. Connect what you see to the concepts in the tabs.</div>
+
+    <div class="card"><i class="fas fa-search"></i><div class="card-title">Finding more videos</div>
+      <p>Search YouTube for:</p>
+      <ul>
+        <li>"Weed management Tasmania" — local context and specific weed issues</li>
+        <li>"Herbicide application Calibration" — practical spray equipment skills</li>
+        <li>"Gorse control methods" — species-specific techniques</li>
+        <li>"Blackberry control Australia" — practical demonstrations</li>
+        <li>"Biosecurity Tasmanian" — legal and compliance context</li>
+        <li>"Weed control manual removal" — mechanical techniques</li>
+      </ul>
+      <p>Look for videos produced by Australian organisations (NRE Tas, Landcare, Local Land Services, CSIRO, GRDC) for locally relevant content.</p>
+    </div>
+  </div>
+
+  <!-- ===== TAB 8: PRACTICE ===== -->
+  <div id="tab7" class="tab-content">
     <h2><i class="fas fa-puzzle-piece"></i> Test your knowledge</h2>
     <p>Try these questions to see how well you've grasped the key concepts from the unit.</p>
 
@@ -490,6 +718,16 @@
         <div class="quiz-option"><input type="radio" name="q5" value="B"> Have no weed control obligations</div>
         <div class="quiz-option"><input type="radio" name="q5" value="C"> Only need to control weeds if asked</div>
         <div class="quiz-option"><input type="radio" name="q5" value="D"> Can ignore declared weeds</div><div class="quiz-feedback"></div></div>
+      <div class="quiz-question" data-correct="C"><div class="quiz-question-text">6. What is the main reason gorse reinfestation occurs after adult plants are removed?</div>
+        <div class="quiz-option"><input type="radio" name="q6" value="A"> Birds bring seeds from elsewhere</div>
+        <div class="quiz-option"><input type="radio" name="q6" value="B"> The herbicide was ineffective</div>
+        <div class="quiz-option"><input type="radio" name="q6" value="C"> The seedbank in the soil germinates</div>
+        <div class="quiz-option"><input type="radio" name="q6" value="D"> Native plants turn into gorse</div><div class="quiz-feedback"></div></div>
+      <div class="quiz-question" data-correct="B"><div class="quiz-question-text">7. Why is it important to rotate herbicide modes of action (MOA)?</div>
+        <div class="quiz-option"><input type="radio" name="q7" value="A"> It makes the chemical work faster</div>
+        <div class="quiz-option"><input type="radio" name="q7" value="B"> It reduces the risk of herbicide resistance developing</div>
+        <div class="quiz-option"><input type="radio" name="q7" value="C"> It is required by law</div>
+        <div class="quiz-option"><input type="radio" name="q7" value="D"> It saves money</div><div class="quiz-feedback"></div></div>
       <button class="btn btn-primary" onclick="checkQuiz()"><i class="fas fa-check"></i> Check answers</button>
       <button class="btn btn-outline" onclick="resetQuiz()" style="background:rgba(255,255,255,0.15); color:white; border-color:rgba(255,255,255,0.4);"><i class="fas fa-undo"></i> Reset</button>
       <div id="quizScore" style="margin-top:1rem; font-weight:bold; color:white;"></div>
@@ -508,59 +746,88 @@
       <div class="scenario-option" onclick="selectScen(event, 2, 'C')">C) Ignore it — patchy kill is normal</div></div>
       <div id="scen2fb" style="display:none; margin-top:10px; padding:10px; background:#e8f5e9; border-radius:12px;"></div><button class="btn" onclick="resetScen(2)">Reset</button></div>
 
+    <div class="scenario"><h4>🔥 A landholder says "Fire has swept through the gorse — that's sorted." What do you say?</h4><p>What is your response?</p>
+      <div class="scenario-options" id="scen3opts"><div class="scenario-option" onclick="selectScen(event, 3, 'A')">A) Agree — fire kills gorse</div>
+      <div class="scenario-option" onclick="selectScen(event, 3, 'B')">B) Fire stimulates gorse germination and resprouting — follow-up herbicide is essential within 6-12 months</div>
+      <div class="scenario-option" onclick="selectScen(event, 3, 'C')">C) Fire makes no difference either way</div></div>
+      <div id="scen3fb" style="display:none; margin-top:10px; padding:10px; background:#e8f5e9; border-radius:12px;"></div><button class="btn" onclick="resetScen(3)">Reset</button></div>
+
     <h3>Your progress</h3>
     <div class="progress-container"><div class="progress-fill" style="width:95%;"></div></div>
     <p style="font-size:0.9rem; color:var(--primary-light);">95% of this learning resource complete — review the assessment requirements with your trainer.</p>
   </div>
 
-  <!-- ===== TAB 8: RESOURCES ===== -->
-  <div id="tab7" class="tab-content">
+  <!-- ===== TAB 9: RESOURCES ===== -->
+  <div id="tab8" class="tab-content">
     <h2><i class="fas fa-book"></i> Resources & glossary</h2>
 
     <div class="card"><i class="fas fa-glossary"></i><div class="card-title">Key terms</div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem;">
-        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>IPM</strong><br><small>Integrated Pest Management — a strategic approach combining multiple control methods.</small></div>
-        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Threshold</strong><br><small>The level of infestation at which control action is justified.</small></div>
-        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Seedbank</strong><br><small>Viable weed seeds stored in the soil, capable of germinating years later.</small></div>
-        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Non-target species</strong><br><small>Plants or animals that are not the intended target of control.</small></div>
-        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Buffer zone</strong><br><small>A designated area where chemical application is restricted to protect sensitive areas.</small></div>
-        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>General Biosecurity Duty</strong><br><small>Legal obligation under the Biosecurity Act 2019 to manage biosecurity risks.</small></div>
-        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Declared weed</strong><br><small>A weed listed under legislation, requiring control by law.</small></div>
-        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Biological control</strong><br><small>Using natural enemies to control weeds.</small></div>
+        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>IPM</strong><br><small>Integrated Pest Management — a strategic approach combining multiple control methods, monitoring, and thresholds.</small></div>
+        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Threshold</strong><br><small>The level of infestation at which control action is justified. Zero for declared weeds; economic or ecological thresholds for others.</small></div>
+        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Seedbank</strong><br><small>Viable weed seeds stored in the soil, capable of germinating years later. Gorse seed can persist 30-40+ years.</small></div>
+        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Non-target species</strong><br><small>Plants or animals that are not the intended target of control. Native vegetation, threatened species, beneficial insects.</small></div>
+        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Buffer zone</strong><br><small>A designated area (usually specified on the herbicide label) where chemical application is restricted to protect sensitive areas (waterways, native vegetation).</small></div>
+        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>General Biosecurity Duty</strong><br><small>Legal obligation under the Biosecurity Act 2019 to take reasonable and practicable measures to prevent, eliminate, or minimise biosecurity risks.</small></div>
+        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Declared weed</strong><br><small>A weed listed under Tasmanian legislation, requiring control by law. Landholders must control declared weeds on their land.</small></div>
+        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Biological control</strong><br><small>Using natural enemies (insects, mites, diseases) to control weeds. Requires approval and is usually slow-acting.</small></div>
+        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Mode of Action (MOA)</strong><br><small>The way a herbicide kills a plant. Rotating MOA groups reduces resistance risk.</small></div>
+        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Resistance</strong><br><small>The ability of a weed population to survive a herbicide that would normally kill it. Develops through repeated selection pressure.</small></div>
+        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Cut stump / cut and paint</strong><br><small>A targeted herbicide application method where the stem is cut and herbicide is applied immediately to the cut surface. Suitable for woody weeds.</small></div>
+        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Basal bark</strong><br><small>A herbicide application method where the lower 30-40cm of the stem is sprayed with an oil-based herbicide mix. Suitable for stems <10cm diameter.</small></div>
       </div>
     </div>
 
     <div class="card"><i class="fas fa-link"></i><div class="card-title">Recommended resources</div>
-      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:1.2rem; margin-top:1rem;">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:1.2rem; margin-top:1rem;">
         <div style="background:var(--bg); border-radius:12px; padding:1rem; text-align:center;">
           <i class="fas fa-tree" style="font-size:1.5rem; color:var(--primary);"></i>
           <h4 style="font-size:0.95rem;">NRE Tas Weeds Index</h4>
-          <p style="font-size:0.8rem;">Tasmanian Government weed information, declared weed lists, control guides.</p>
-          <a href="https://nre.tas.gov.au/invasive-species/weeds" target="_blank" class="resource-link" style="font-size:0.8rem;">nre.tas.gov.au →</a>
+          <p style="font-size:0.8rem;">Tasmanian Government weed information, declared weed lists, control guides, and management plans[citation:7].</p>
+          <a href="https://nre.tas.gov.au/invasive-species/weeds/weeds-index" target="_blank" class="resource-link" style="font-size:0.8rem;">nre.tas.gov.au/weeds →</a>
         </div>
         <div style="background:var(--bg); border-radius:12px; padding:1rem; text-align:center;">
           <i class="fas fa-globe" style="font-size:1.5rem; color:var(--primary);"></i>
           <h4 style="font-size:0.95rem;">Weeds Australia</h4>
-          <p style="font-size:0.8rem;">National weed profiles with Tasmania-specific information.</p>
+          <p style="font-size:0.8rem;">National weed profiles with Tasmania-specific information and control guidance[citation:17].</p>
           <a href="https://weeds.org.au/" target="_blank" class="resource-link" style="font-size:0.8rem;">weeds.org.au →</a>
         </div>
         <div style="background:var(--bg); border-radius:12px; padding:1rem; text-align:center;">
           <i class="fas fa-flask" style="font-size:1.5rem; color:var(--primary);"></i>
           <h4 style="font-size:0.95rem;">APVMA</h4>
-          <p style="font-size:0.8rem;">Check herbicide permits and registered uses.</p>
+          <p style="font-size:0.8rem;">Check herbicide permits and registered uses. Search for products registered for your specific weed and situation.</p>
           <a href="https://apvma.gov.au" target="_blank" class="resource-link" style="font-size:0.8rem;">apvma.gov.au →</a>
+        </div>
+        <div style="background:var(--bg); border-radius:12px; padding:1rem; text-align:center;">
+          <i class="fas fa-gavel" style="font-size:1.5rem; color:var(--primary);"></i>
+          <h4 style="font-size:0.95rem;">Biosecurity Tas</h4>
+          <p style="font-size:0.8rem;">General Biosecurity Duty information, declared pest lists, and compliance guidance.</p>
+          <a href="https://nre.tas.gov.au/biosecurity-tasmania" target="_blank" class="resource-link" style="font-size:0.8rem;">nre.tas.gov.au/biosecurity →</a>
+        </div>
+        <div style="background:var(--bg); border-radius:12px; padding:1rem; text-align:center;">
+          <i class="fas fa-book" style="font-size:1.5rem; color:var(--primary);"></i>
+          <h4 style="font-size:0.95rem;">Tasmanian Coastal Works Manual</h4>
+          <p style="font-size:0.8rem;">Chapter 8 covers weed and disease management, including method selection and chemical use near waterways[citation:23].</p>
+          <a href="https://nre.tas.gov.au/Documents/Tasmanian_Coastal_Works_Manual_Chapter_8_Weed_and_Disease_Management.pdf" target="_blank" class="resource-link" style="font-size:0.8rem;">Download PDF →</a>
+        </div>
+        <div style="background:var(--bg); border-radius:12px; padding:1rem; text-align:center;">
+          <i class="fas fa-leaf" style="font-size:1.5rem; color:var(--primary);"></i>
+          <h4 style="font-size:0.95rem;">WeedSmart</h4>
+          <p style="font-size:0.8rem;">Resources on herbicide resistance management and integrated weed management in Australian systems.</p>
+          <a href="https://www.weedsmart.org.au/" target="_blank" class="resource-link" style="font-size:0.8rem;">weedsmart.org.au →</a>
         </div>
       </div>
     </div>
 
     <div class="checklist-card"><i class="fas fa-graduation-cap"></i> <strong>Resource completion!</strong><br>
       You've now worked through the major knowledge areas covered by this learning resource. You understand:<br>
-      ✓ Why we control weeds and the Tasmanian context<br>
-      ✓ IPM principles and key components<br>
-      ✓ The four control methods and when to use them<br>
-      ✓ Planning, risk assessment, and follow-up<br>
-      ✓ Tasmanian legislation and legal obligations<br>
-      ✓ Monitoring and evaluation<br>
+      ✓ Why we control weeds, including ecological and economic context<br>
+      ✓ IPM principles and the decision cycle<br>
+      ✓ The four control methods, their advantages, limitations, and Tasmanian applications<br>
+      ✓ Planning, risk assessment, field craft (calibration, drift, hygiene), and follow-up<br>
+      ✓ Tasmanian legislation, General Biosecurity Duty, and Codes of Practice<br>
+      ✓ Monitoring, evaluation, and adaptive management<br>
+      ✓ Herbicide resistance and how to manage it<br>
       <br>
       <strong>Your trainer/assessor will determine competency through the required assessment activities. This resource supports your learning — it is not a substitute for assessment.</strong>
     </div>
@@ -570,8 +837,8 @@
     <p style="font-size:0.9rem; color:var(--primary-light);">🎉 100% of this learning resource completed — review the assessment requirements with your trainer.</p>
   </div>
 
-  <!-- ===== TAB 9: CASE STUDY ===== -->
-  <div id="tab8" class="tab-content">
+  <!-- ===== TAB 10: CASE STUDY ===== -->
+  <div id="tab9" class="tab-content">
     <h2><i class="fas fa-calculator"></i> Case Study: Blackberries along a fenceline</h2>
     <p style="font-size:1.1rem; margin-bottom:1.5rem;">Apply your learning to a real-world scenario from the assessment.</p>
 
@@ -585,39 +852,56 @@
     <div class="grid-2">
       <div class="card"><i class="fas fa-leaf"></i><div class="card-title">Non-target species</div>
         <p>List five likely non-target species at this site:</p>
-        <ol><li>Native grasses (e.g., Poa species)</li><li>Sedges and rushes</li><li>Reeds</li><li>Native shrubs (e.g., Leptospermum, Acacia)</li><li>Eucalypts (e.g., Blue Gum)</li></ol>
-        <p><strong>Why this matters:</strong> Any control method must minimise harm to these species.</p>
+        <ol><li>Native grasses (e.g., Poa species)</li><li>Sedges and rushes</li><li>Reeds</li><li>Native shrubs (e.g., Leptospermum, Acacia, Melaleuca)</li><li>Eucalypts (e.g., Blue Gum)</li></ol>
+        <p><strong>Why this matters:</strong> Any control method must minimise harm to these species. The riparian revegetation represents a significant investment of time and money — damaging it would be counterproductive.</p>
       </div>
       <div class="card"><i class="fas fa-exclamation-triangle"></i><div class="card-title">Potential impacts</div>
         <p>Current and potential impacts of the infestation:</p>
-        <ul><li>Fire hazard (dense dry biomass)</li><li>Competition with pasture (reduced grazing)</li><li>Habitat threat (smothering native vegetation)</li><li>Environmental threat (bank destabilization)</li><li>Deterioration of fence infrastructure</li></ul>
+        <ul><li><strong>Fire hazard</strong> — Dense dry biomass, particularly in summer</li>
+        <li><strong>Competition with pasture</strong> — Reduced grazing area, lower carrying capacity</li>
+        <li><strong>Habitat threat</strong> — Smothering native vegetation, reducing biodiversity</li>
+        <li><strong>Environmental threat</strong> — Bank destabilization, erosion risk</li>
+        <li><strong>Infrastructure damage</strong> — Deterioration of fence, restricting access</li></ul>
       </div>
     </div>
 
     <div class="card"><i class="fas fa-clipboard-list"></i><div class="card-title">Analysis of control methods</div>
       <table>
         <tr><th>Method</th><th>Advantages</th><th>Risks</th><th>Legislation</th><th>WHS</th></tr>
-        <tr><td><strong>Grazing</strong></td><td>Low cost, reduces fuel load</td><td>Ineffective (cattle only on one side), potential waterway contamination</td><td>Biosecurity Act (GBD), Animal Welfare</td><td>Stock handling risks</td></tr>
-        <tr><td><strong>Slashing/brushcutting</strong></td><td>Reduces biomass, non-chemical</td><td>Stimulates regrowth, soil disturbance, erosion risk, thorn hazard</td><td>Biosecurity Act (declared weed)</td><td>Manual handling, slips, plant thorns</td></tr>
-        <tr><td><strong>Manual removal</strong></td><td>Effective for small plants on sensitive side</td><td>High labour, root fragments may remain, erosion risk</td><td>Biosecurity Act</td><td>Manual strain, slips/falls</td></tr>
-        <tr><td><strong>Foliar spray</strong></td><td>Efficient, targeted</td><td>Off-target damage risk (native revegetation), waterway contamination</td><td>AgVet Chemicals Act, buffer zones</td><td>Chemical exposure, PPE required</td></tr>
-        <tr><td><strong>Cut stump/paste</strong></td><td>Targeted, reduces off-target risk</td><td>Labour-intensive, thorn hazard</td><td>AgVet Chemicals Act</td><td>Manual handling, chemical exposure</td></tr>
+        <tr><td><strong>Grazing</strong></td><td>Low cost, reduces fuel load, supports integrated management</td><td>Ineffective (cattle only on one side), potential waterway contamination, stock may damage fence</td><td>Biosecurity Act (GBD), Animal Welfare Act</td><td>Stock handling risks, unpredictable animal behaviour</td></tr>
+        <tr><td><strong>Slashing/brushcutting</strong></td><td>Reduces biomass, non-chemical, improves access</td><td>Stimulates regrowth, soil disturbance, erosion risk, thorn hazard, can spread seeds if timed wrong</td><td>Biosecurity Act (declared weed)</td><td>Manual handling, slips/trips/falls on steep terrain, plant thorns</td></tr>
+        <tr><td><strong>Manual removal</strong></td><td>Effective for small plants on sensitive side, no chemical risk</td><td>High labour, root fragments may remain, erosion risk, effectiveness depends on soil condition</td><td>Biosecurity Act</td><td>Manual strain, slips/falls, thorn injuries</td></tr>
+        <tr><td><strong>Foliar spray</strong></td><td>Efficient, targeted, effective on regrowth</td><td>Off-target damage risk (native revegetation), waterway contamination, drift</td><td>AgVet Chemicals Act, buffer zones, Biosecurity Act</td><td>Chemical exposure, PPE required, public/neighbour exposure</td></tr>
+        <tr><td><strong>Cut stump/paste</strong></td><td>Targeted, reduces off-target risk, suitable for sensitive areas</td><td>Labour-intensive, thorn hazard, must treat immediately</td><td>AgVet Chemicals Act, off-label restrictions</td><td>Manual handling, chemical exposure, cuts from tools</td></tr>
+        <tr><td><strong>Bobcat/excavator</strong></td><td>Reduces manual handling, effective for bulk removal</td><td>Damages revegetation if used on sensitive side, erosion risk, fence damage, soil disturbance</td><td>Biosecurity Act</td><td>Machinery hazards, operator training required, terrain stability</td></tr>
       </table>
     </div>
 
     <div class="card"><i class="fas fa-calendar-check"></i><div class="card-title">Recommendation plan</div>
-      <p><strong>Target threshold:</strong> 0% (eradication)</p>
+      <p><strong>Target threshold:</strong> 0% (eradication — as specified by landowner and appropriate for declared weed)</p>
       <table>
         <tr><th>Method</th><th>When</th><th>Why</th></tr>
-        <tr><td>Slash/brushcut</td><td>August</td><td>Remove biomass, improve access</td></tr>
-        <tr><td>Bobcat (pasture side)</td><td>August</td><td>Remove root mass where accessible</td></tr>
-        <tr><td>Manual removal (revegetation side)</td><td>August</td><td>Remove plants without chemical risk</td></tr>
-        <tr><td>Cut and paste (remaining stumps)</td><td>August</td><td>Targeted chemical application</td></tr>
-        <tr><td>Burn (cut material)</td><td>September</td><td>Dispose of biomass after drying</td></tr>
+        <tr><td>Slash/brushcut</td><td>August (late winter)</td><td>Remove biomass, improve access, before active growth begins</td></tr>
+        <tr><td>Bobcat (pasture side only)</td><td>August</td><td>Remove root mass where accessible. Remove fence wire if necessary and reinstall afterwards.</td></tr>
+        <tr><td>Manual removal (revegetation side)</td><td>August</td><td>Remove plants without chemical risk to native species. Use mattock for roots.</td></tr>
+        <tr><td>Cut and paste (remaining stumps)</td><td>August</td><td>Targeted chemical application to stumps that couldn't be removed. Apply immediately.</td></tr>
+        <tr><td>Burn (cut material)</td><td>September (after drying)</td><td>Dispose of biomass. Lower fire risk at this time. Remove material from sensitive areas first.</td></tr>
       </table>
-      <p><strong>Monitoring:</strong> Immediately after treatment (visual inspection for off-target damage). Monthly (visual inspection for regrowth and new seedlings).</p>
-      <p><strong>Follow-up:</strong> Manual removal or spot spray (Oct–May) for any regrowth. Cut and paste if among native plants.</p>
-      <p><strong>Prevention:</strong> Clean machinery between sites. Eliminate nearby infestations if possible.</p>
+      <p><strong>Monitoring:</strong> Immediately after treatment (visual inspection for off-target damage and missed plants). Monthly (visual inspection for regrowth and new seedlings).</p>
+      <p><strong>Follow-up:</strong> Manual removal or spot spray (October–May) for any regrowth. Cut and paste if among native plants. Monitor for 3-5 years.</p>
+      <p><strong>Prevention:</strong> Clean machinery between sites. Eliminate nearby infestations if possible. Maintain competitive pasture on the grazing side. Monitor fenceline for new seedlings.</p>
+      <div class="warning"><i class="fas fa-exclamation-triangle"></i> <strong>Critical considerations:</strong> Do not spray within the buffer zone of the riverbank (check label — typically 5-20m for blackberry herbicides). Use cut stump or manual removal in this zone. Do not burn near the fence or native vegetation without appropriate controls. Ensure stock are excluded from treated areas until herbicide has dried and any toxicity risk has passed.</div>
+    </div>
+
+    <h3>Reflection questions</h3>
+    <div class="card">
+      <p>Consider the following as you review your recommendation:</p>
+      <ul>
+        <li>What would you do differently if the landowner had a 10% tolerance threshold instead of zero?</li>
+        <li>How would your plan change if the riverbank had known populations of a threatened plant species?</li>
+        <li>What if the infestation was 10 times larger (3km of fenceline)?</li>
+        <li>How would you adapt your plan if the property was in a high-rainfall area (West Coast) versus a dry area (Midlands)?</li>
+      </ul>
     </div>
   </div>
 
@@ -653,7 +937,7 @@ function toggleAccordion(header) {
 // ===== QUIZ =====
 function checkQuiz() {
   let score = 0;
-  const total = 5;
+  const total = 7;
   const questions = document.querySelectorAll('.quiz-question');
   questions.forEach((q) => {
     const radios = q.querySelectorAll('input[type="radio"]');
@@ -675,7 +959,7 @@ function checkQuiz() {
   });
   document.getElementById('quizScore').innerHTML =
     `<strong>Score: ${score}/${total}</strong> ` +
-    (score === total ? '🏆 Perfect score!' : score >= 3 ? '🌟 Good work!' : 'Review the tabs and try again.');
+    (score === total ? '🏆 Perfect score!' : score >= 5 ? '🌟 Good work!' : 'Review the tabs and try again.');
 }
 
 function resetQuiz() {
@@ -694,11 +978,14 @@ function selectScen(evt, num, choice) {
   const fb = document.getElementById(`scen${num}fb`);
   const msgs = {
     1: { A: '❌ Not ideal. Spraying during flowering may not be effective and risks seed set.',
-        B: '✅ Correct: wait until after flowering but before fruiting for optimal control.',
+        B: '✅ Correct: wait until after flowering but before fruiting for optimal control. This is when the plant is actively growing and translocating resources.',
         C: '❌ Incorrect. Flowers indicate the plant is reproductive and will soon set seed.' },
     2: { A: '❌ Check equipment first — patchy kill usually indicates application issues, not resistance.',
-        B: '✅ Correct: check calibration, nozzle condition, and application technique before assuming resistance.',
-        C: '❌ Patchy kill is not normal — it indicates a problem that should be investigated.' }
+        B: '✅ Correct: check calibration, nozzle condition, and application technique before assuming resistance. Most patchy kill is due to equipment or technique.',
+        C: '❌ Patchy kill is not normal — it indicates a problem that should be investigated.' },
+    3: { A: '❌ Incorrect. Fire stimulates gorse seed germination and resprouting from root crowns. Without follow-up, the infestation will be denser than before.',
+        B: '✅ Correct: Fire alone is not effective control and will usually increase gorse recruitment without follow-up treatment. Herbicide within 6-12 months is essential.',
+        C: '❌ Fire makes a significant difference — it can either help (if followed by herbicide) or make things worse (if not).' }
   };
   if (fb) {
     fb.innerHTML = `<strong>Feedback:</strong> ${msgs[num]?.[choice] || 'Review the scenario and try again.'}`;
@@ -811,4 +1098,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 </body>
-</html>
+  </html>
