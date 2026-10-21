@@ -184,6 +184,7 @@
     <button class="tab" onclick="switchTab(event,'tab7')"><i class="fas fa-puzzle-piece"></i> 8. Practice</button>
     <button class="tab" onclick="switchTab(event,'tab8')"><i class="fas fa-book"></i> 9. Resources</button>
     <button class="tab" onclick="switchTab(event,'tab9')"><i class="fas fa-calculator"></i> 10. Case Study</button>
+    <button class="tab" onclick="switchTab(event,'tab10')"><i class="fas fa-tree"></i> 11. Bushland Case Study</button>
   </div>
 
   <!-- Search Bar -->
@@ -753,7 +754,7 @@
       <div id="scen3fb" style="display:none; margin-top:10px; padding:10px; background:#e8f5e9; border-radius:12px;"></div><button class="btn" onclick="resetScen(3)">Reset</button></div>
 
     <h3>Your progress</h3>
-    <div class="progress-container"><div class="progress-fill" style="width:95%;"></div></div>
+    <div class="progress-container"><div class="progress-fill" style="width:90%;"></div></div>
     <p style="font-size:0.9rem; color:var(--primary-light);">95% of this learning resource complete — review the assessment requirements with your trainer.</p>
   </div>
 
@@ -905,6 +906,135 @@
     </div>
   </div>
 
+  <!-- ===== TAB 11: BUSHLAND CASE STUDY ===== -->
+  <div id="tab10" class="tab-content">
+    <h2><i class="fas fa-tree"></i> Case Study: Boneseed in a coastal reserve</h2>
+    <p style="font-size:1.1rem; margin-bottom:1.5rem;">A non-agricultural scenario focused on conservation outcomes in a Tasmanian coastal reserve.</p>
+
+    <div class="card" style="border-left: 8px solid var(--accent);">
+      <h4>Scenario</h4>
+      <p>You are working as a conservation field officer for a local council in eastern Tasmania. A <strong>12-hectare coastal reserve</strong> (open woodland over native grasses and sedges, with a narrow beach access track) has a large, established <strong>boneseed (Chrysanthemoides monilifera)</strong> infestation. Boneseed is a <strong>declared weed</strong> under the Tasmanian <em>Biosecurity Act 2019</em>.</p>
+      <p>The reserve is:</p>
+      <ul>
+        <li><strong>Adjacent to a public beach and walking track</strong> — recreational users, dogs, and school groups use it daily.</li>
+        <li><strong>Home to a small population of a nationally listed threatened plant</strong> (a coastal <em>Poa</em> species), located along the upper edge of the beach access track.</li>
+        <li><strong>Grazed historically</strong> — the local Aboriginal community has cultural connection to the coastal environment and uses the area for cultural practices. A cultural heritage assessment is on file but a walk-through is required before ground disturbance.</li>
+        <li><strong>In a regional council weed management plan</strong> that lists boneseed as a <em>containment</em> target, with the objective of reducing the seedbank and preventing spread into adjoining conservation areas.</li>
+      </ul>
+      <p>It is <strong>late winter (August)</strong>. Some boneseed plants are flowering; most are in bud. The council has a budget for 30 person-days of field work plus herbicide and a small machinery hire allowance. The site has no water supply.</p>
+    </div>
+
+    <h3>Task 1: Identify the site constraints</h3>
+    <div class="card">
+      <p>Before selecting a method, list the constraints that will shape your decision. Consider:</p>
+      <ul>
+        <li>Public safety (recreation, school groups, dogs)</li>
+        <li>Heritage and cultural values</li>
+        <li>Threatened species protection</li>
+        <li>Council's containment objective under its weed management plan</li>
+        <li>No on-site water supply (affects herbicide mixing and equipment cleaning)</li>
+        <li>Coastal environment — wind, salt spray, sandy soils, and proximity to a marine environment</li>
+        <li>Legal obligations under the Biosecurity Act 2019 and Nature Conservation Act 2002</li>
+      </ul>
+      <div class="tip"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> Boneseed is bird-dispersed via its black berries. Preventing seed set and berry production is the highest priority. This means control must happen before berries form.</div>
+    </div>
+
+    <h3>Task 2: Compare potential control methods</h3>
+    <table>
+      <tr>
+        <th>Method</th>
+        <th>Potential benefits</th>
+        <th>Risks and constraints</th>
+        <th>Legislation / WHS</th>
+      </tr>
+      <tr>
+        <td><strong>Hand pulling / hand grubbing (seedlings and small plants)</strong></td>
+        <td>No chemical; suitable near threatened <em>Poa</em>; low off-target risk; minimal soil disturbance if done carefully</td>
+        <td>Labour-intensive; only effective on small plants; roots may remain; may not be feasible for large dense stands; soil disturbance on dunes increases erosion risk</td>
+        <td>Manual handling code; cultural heritage walk-through required</td>
+      </tr>
+      <tr>
+        <td><strong>Cut stump / cut-and-paint (larger plants)</strong></td>
+        <td>Targeted; low off-target risk; suitable near threatened species and public areas; effective on woody stems</td>
+        <td>Labour-intensive; requires immediate herbicide application to cut surface; thorn/stem handling injuries; chemical handling near the public</td>
+        <td>AgVet Chemicals Act; label directions; PPE; record-keeping</td>
+      </tr>
+      <tr>
+        <td><strong>Foliar spray (triclopyr or metsulfuron-based mix)</strong></td>
+        <td>Efficient for dense stands; can cover large areas; effective on actively growing plants</td>
+        <td>Drift risk near the beach access track and public; risk to threatened <em>Poa</em> and non-target natives; marine environment sensitivity; no on-site water for mixing or rinsing; public exclusion required</td>
+        <td>AgVet Chemicals Act; buffer zones (check label); council OHS procedures; public notification</td>
+      </tr>
+      <tr>
+        <td><strong>Biological control</strong></td>
+        <td>Long-term; no chemical; potentially self-sustaining</td>
+        <td>Not currently available for boneseed in Tasmania at a scale that would meet the containment objective; slow-acting; requires approval</td>
+        <td>Biological Control Act 1984 (Cth)</td>
+      </tr>
+      <tr>
+        <td><strong>Grazing</strong></td>
+        <td>Could reduce biomass</td>
+        <td>Not appropriate in a public coastal reserve; risk to threatened <em>Poa</em> and public safety; animal welfare; likely to spread berries in dung</td>
+        <td>Not permitted in the reserve</td>
+      </tr>
+      <tr>
+        <td><strong>Mechanical (slashing / brushcutting)</strong></td>
+        <td>Fast biomass reduction</td>
+        <td>Stimulates resprouting; spreads berries if seed heads present; creates bare ground; not recommended for boneseed in conservation areas unless followed by cut stump</td>
+        <td>Manual handling; public safety; noise</td>
+      </tr>
+    </table>
+
+    <h3>Task 3: Recommendation plan</h3>
+    <div class="checklist-card">
+      <p>Prepare a recommendation plan that includes:</p>
+      <ul>
+        <li><strong>Target threshold</strong> — What is "success" under council's containment objective? (Hint: it will not be 0% eradication — it will be preventing spread and reducing the seedbank.)</li>
+        <li><strong>Initial control methods</strong> — Which methods, in what order, and why?</li>
+        <li><strong>Timing</strong> — Why August is critical given boneseed's flowering and berry cycle.</li>
+        <li><strong>Monitoring</strong> — What will you look for, and when? Include both effectiveness and non-target impact.</li>
+        <li><strong>Follow-up</strong> — Realistic schedule over the next 3–5 years.</li>
+        <li><strong>Community and heritage</strong> — How will you notify recreational users, and what is your process for heritage walk-through?</li>
+        <li><strong>Prevention</strong> — What will you do to prevent new boneseed establishing (especially via bird-dispersed berries from adjoining land)?</li>
+      </ul>
+    </div>
+
+    <h3>Task 4: Model answer (compare after you've drafted your own)</h3>
+    <div class="card">
+      <p><strong>Target threshold:</strong> Containment — no seed set on site, no spread into adjoining conservation areas, measurable reduction in seedling density year-on-year over 5 years.</p>
+      <p><strong>Initial methods:</strong></p>
+      <ol>
+        <li><strong>Hand grub seedlings and small plants</strong> in the threatened <em>Poa</em> zone and along the beach access track — no chemical, minimal disturbance, done first before larger plants are treated so seed isn't spread during later operations.</li>
+        <li><strong>Cut stump and cut-and-paint</strong> larger boneseed plants throughout the reserve — targeted, low off-target risk, suitable for the coastal environment and public areas.</li>
+        <li><strong>Foliar spray</strong> only in dense stands away from the public, the threatened <em>Poa</em>, and the marine environment; use a low-drift nozzle and carry water for rinsing; close the track or signpost during application.</li>
+        <li><strong>Bag and remove all flowering and fruiting material</strong> — off-site disposal to prevent berry spread.</li>
+      </ol>
+      <p><strong>Timing:</strong> August is late winter — boneseed is in bud/early flower, actively growing, and <strong>before berry formation</strong>. This is the ideal window: systemic herbicides will translocate, and berry spread is prevented. If August work is delayed, prioritise flower/berry head removal first.</p>
+      <p><strong>Monitoring:</strong></p>
+      <ul>
+        <li>Immediately after treatment — visual check for missed plants, off-target damage, berry spill.</li>
+        <li>3 months — assess kill rate and resprouting; check threatened <em>Poa</em> for damage.</li>
+        <li>12 months — seedling count in fixed 1m² quadrats; berry check on any surviving plants; report to council.</li>
+        <li>Annually for 5 years — trend assessment against containment objective.</li>
+      </ul>
+      <p><strong>Follow-up:</strong> Hand pull and spot spray regrowth at 6 and 12 months, then annually. Re-treat any new boneseed seedlings from bird-dispersed seed along the reserve edges and beach access track. Keep the zone adjacent to the threatened <em>Poa</em> chemical-free.</p>
+      <p><strong>Community and heritage:</strong> Post signage at reserve entrances and the beach access track at least 48 hours before herbicide work; brief school groups and dog walkers. Complete a heritage walk-through with the local Aboriginal community representative before any ground disturbance. Record the walk-through in the project file.</p>
+      <p><strong>Prevention:</strong> Annual edge walk of the reserve to catch bird-dispersed seedlings early. Engage adjoining land managers to control their own boneseed. Maintain ground cover in treated areas to reduce bare ground and erosion. Include boneseed in the council's annual weed surveillance schedule.</p>
+      <div class="warning"><i class="fas fa-exclamation-triangle"></i> <strong>Key contrast with the agricultural case study:</strong> The objective here is <strong>containment, not eradication</strong>; public safety and heritage values are central constraints; the threatened <em>Poa</em> dictates chemical-free zones; and bird dispersal creates ongoing re-invasion pressure that must be managed indefinitely. This is typical of non-agricultural weed programs in Tasmanian reserves.</div>
+    </div>
+
+    <h3>Reflection questions</h3>
+    <div class="card">
+      <ul>
+        <li>How would your plan differ if council's objective changed from containment to eradication?</li>
+        <li>What would you do if a resident reported that school children had eaten berries from a treated plant?</li>
+        <li>How would you adjust your method choice if the reserve were in a high-wind coastal location versus an inland sheltered site?</li>
+        <li>Why is it important that heritage walk-through happens <em>before</em> rather than after ground disturbance?</li>
+        <li>What are the risks of doing foliar spray first and cut stump second, instead of the reverse?</li>
+      </ul>
+    </div>
+  </div>
+
   <footer>
     <p><i class="fas fa-seedling"></i> AHCPMG301 Control weeds · Learning Guide</p>
     <p>Developed for Certificate III in Conservation and Ecosystem Management (AHC31424) · Tasmanian context</p>
@@ -957,15 +1087,33 @@ function checkQuiz() {
     }
     fb.style.display = 'inline-block';
   });
-  document.getElementById('quizScore').innerHTML =
-    `<strong>Score: ${score}/${total}</strong> ` +
-    (score === total ? '🏆 Perfect score!' : score >= 5 ? '🌟 Good work!' : 'Review the tabs and try again.');
+const scoreEl = document.getElementById('quizScore');
+scoreEl.style.display = 'block';
+scoreEl.innerHTML =
+  `<strong>Score: ${score}/${total}</strong> ` +
+  (score === total ? '🏆 Perfect score!' : score >= 5 ? '🌟 Good work!' : 'Review the tabs and try again.');
 }
 
 function resetQuiz() {
-  document.querySelectorAll('.quiz-question input[type="radio"]').forEach(r => r.checked = false);
-  document.querySelectorAll('.quiz-feedback').forEach(f => { f.innerHTML = ''; f.style.display = 'none'; f.className = 'quiz-feedback'; });
-  document.getElementById('quizScore').innerHTML = '';
+  document.querySelectorAll('.quiz-question input[type="radio"]').forEach(r => {
+    r.checked = false;
+    r.disabled = false;
+  });
+  document.querySelectorAll('.quiz-feedback').forEach(f => {
+    f.innerHTML = '';
+    f.style.display = 'none';
+    f.style.removeProperty('display');
+    f.className = 'quiz-feedback';
+  });
+  const scoreEl = document.getElementById('quizScore');
+  if (scoreEl) {
+    scoreEl.innerHTML = '';
+    scoreEl.textContent = '';
+    scoreEl.style.display = 'none';
+  }
+  // Scroll the quiz into view so the learner sees the reset
+  const quizCard = document.querySelector('.quiz-card');
+  if (quizCard) quizCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ===== SCENARIOS =====
