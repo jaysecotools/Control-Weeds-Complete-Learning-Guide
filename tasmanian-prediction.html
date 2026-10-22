@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Control Weeds · Tasmanian Learning Resource</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --dark: #1a4a35;
+            --primary: #2e6b50;
+            --accent: #e0a23b;
+            --light: #f1f8ef;
+            --warning: #c7452b;
+            --success: #2a7f64;
+            --info: #2c7a5e;
+            --trap: #b5651e;
+            --mistake-bg: #fef1f0;
+            --declared: #c0392b;
+            --environmental: #27ae60;
+            --confidence-low: #e74c3c;
+            --confidence-medium: #f39c12;
+            --confidence-high: #27ae60;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            background: #deecda;
+            padding: 1rem;
+            line-height: 1.55;
+        }
+
+        .app {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.1);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1a4a35, #276a4e);
+            color: white;
+            padding: 2rem;
+            border-bottom: 8px solid var(--accent);
+        }
+
+        .hero h1 { font-size: clamp(1.8rem, 5vw, 2.8rem); }
+        .hero h1 i { color: var(--accent); margin-right: 12px; }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .badge-row span {
+            background: rgba(255,248,210,0.2);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            border-left: 3px solid var(--accent);
+        }
+
+        .tabs {
+            background: #0f3628;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.2rem;
+            padding: 0.3rem 0.8rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: #eaf5e4;
+            padding: 0.7rem 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: 0.2s;
+            white-space: nowrap;
+            font-size: 0.85rem;
+        }
+
+        .tab-btn i { margin-right: 6px; }
+
+        .tab-btn.active {
+            border-bottom-color: var(--accent);
+            background: #246b4f;
+            color: white;
+        }
+
+        .tab-pane {
+            display: none;
+            padding: 2rem;
+        }
+
+        .tab-pane.active {
+            display: block;
+            animation: fade 0.2s;
+        }
+
+        @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            border-left: 10px solid var(--accent);
+            padding-left: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: #236349;
+            margin: 1.8rem 0 1rem;
+            border-bottom: 3px dashed #cbe0cd;
+            padding-bottom: 0.3rem;
+        }
+
+        h4 { font-size: 1.2rem; margin: 1rem 0 0.5rem; }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-card {
+            background: var(--light);
+            border-radius: 1.2rem;
+            padding: 1.2rem;
+            border: 1px solid #cbdac2;
+        }
+
+        .info-card i {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.6rem;
+        }
+
+        .prediction-card {
+            background: #fff9ef;
+            border-left: 8px solid var(--accent);
+            border-radius: 1rem;
+            padding: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .prediction-question {
+            background: #eaf4e5;
+            border-radius: 0.8rem;
+            padding: 0.8rem;
+            margin: 0.8rem 0;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            font-size: 1rem;
+            border: none;
+            font-family: inherit;
+        }
+
+        .prediction-question:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .prediction-answer {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease-out, opacity 0.25s ease;
+            background: white;
+            border-radius: 0.8rem;
+            border-left: 4px solid var(--success);
+        }
+
+        .prediction-answer.show {
+            max-height: 800px;
+            opacity: 1;
+            padding: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .common-mistake {
+            background: var(--mistake-bg);
+            border-left: 4px solid var(--warning);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .consequence-card {
+            background: rgba(199, 69, 43, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-top: 0.75rem;
+            font-weight: bold;
+        }
+
+        .confidence-rating {
+            margin: 0.75rem 0;
+            padding: 0.5rem;
+            background: #f0f0e8;
+            border-radius: 0.5rem;
+        }
+
+        .confidence-btn {
+            padding: 0.25rem 0.75rem;
+            margin: 0 0.25rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: bold;
+            transition: transform 0.1s;
+        }
+
+        .confidence-btn:hover { transform: scale(1.05); }
+
+        .confidence-low { background: var(--confidence-low); color: white; }
+        .confidence-medium { background: var(--confidence-medium); color: white; }
+        .confidence-high { background: var(--confidence-high); color: white; }
+
+        .confidence-feedback {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .confidence-feedback.show { display: block; }
+
+        .pattern-pause {
+            background: #e8f0fe;
+            padding: 1rem;
+            border-radius: 0.8rem;
+            margin: 1.5rem 0;
+            border-left: 5px solid var(--info);
+        }
+
+        .pattern-pause textarea {
+            width: 100%;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #cbdac2;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .trap-card {
+            background: #fff0e5;
+            border-left: 8px solid var(--trap);
+            border-radius: 1rem;
+            padding: 1rem;
+            margin: 0.8rem 0;
+        }
+
+        .field-signal {
+            background: #e8f0fe;
+            border-radius: 0.8rem;
+            padding: 0.6rem 1rem;
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .seedbank-timeline {
+            background: #f0f7ea;
+            border-radius: 1rem;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .timeline-bar {
+            display: flex;
+            height: 40px;
+            margin: 1rem 0;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .timeline-year {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.7rem;
+        }
+
+        .year-0 { background: #2e6b50; color: white; }
+        .year-1-3 { background: #e0a23b; }
+        .year-3-7 { background: #cbdac2; }
+        .year-10 { background: #a0b89a; }
+
+        .dont-list { list-style: none; padding: 0; }
+
+        .dont-list li {
+            margin: 0.8rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .dont-list li:before {
+            content: "✗";
+            color: var(--warning);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .weed-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .weed-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #cbdac2;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .weed-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .weed-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #e9ecef;
+        }
+
+        .weed-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .weed-badge.declared { background: var(--declared); color: white; }
+        .weed-badge.environmental { background: var(--environmental); color: white; }
+
+        .weed-card-content { padding: 1rem; }
+        .weed-card h4 { margin: 0 0 0.5rem 0; }
+
+        .weed-link {
+            display: inline-block;
+            margin-top: 0.5rem;
+            color: var(--info);
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        .weed-link i { margin-right: 4px; }
+
+        .seasonal-calendar { overflow-x: auto; margin: 1.5rem 0; }
+
+        .calendar-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        .calendar-table th,
+        .calendar-table td {
+            border: 1px solid #cbdac2;
+            padding: 0.8rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .calendar-table th {
+            background: var(--dark);
+            color: white;
+            font-weight: bold;
+        }
+
+        .calendar-table td { background: #fafaf5; }
+
+        .season-summer { background: #ffe8c7; }
+        .season-autumn { background: #f0daa8; }
+        .season-winter { background: #d6e5f0; }
+        .season-spring { background: #c8e6c8; }
+
+        .quiz-question {
+            background: var(--light);
+            border-radius: 1rem;
+            padding: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .quiz-options { margin: 0.8rem 0; }
+
+        .quiz-option {
+            display: block;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            border: 1px solid #cbdac2;
+        }
+
+        .quiz-option:hover { background: #eaf4e5; }
+        .quiz-option.correct { background: #c8e6c8; border-color: var(--success); }
+        .quiz-option.incorrect { background: #ffcdd2; border-color: var(--warning); }
+
+        .quiz-feedback {
+            margin-top: 0.8rem;
+            border-radius: 0.5rem;
+            display: none;
+        }
+
+        .quiz-feedback.show { display: block; }
+
+        .correct-feedback {
+            background: #c8e6c8;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            color: #1e3a2c;
+        }
+
+        .incorrect-feedback {
+            background: #ffcdd2;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            color: #c0392b;
+        }
+
+        .quiz-score {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            text-align: center;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 1rem;
+        }
+
+        .ref-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .ref-card {
+            background: var(--light);
+            border-radius: 1rem;
+            padding: 1.2rem;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .ref-card:hover { transform: translateY(-4px); }
+        .ref-card i { font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem; }
+
+        .ref-card a {
+            display: inline-block;
+            margin-top: 0.5rem;
+            color: var(--info);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .micro-scenario {
+            background: #f9faf5;
+            border-radius: 0.8rem;
+            padding: 0.8rem;
+            margin: 0.6rem 0;
+            border: 1px solid #cbdac2;
+        }
+
+        .btn-reveal {
+            background: var(--accent);
+            color: #1e3a2c;
+            border: none;
+            padding: 0.3rem 1rem;
+            border-radius: 60px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .footer {
+            background: #0d3526;
+            color: #f2f2e6;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            font-size: 0.75rem;
+            gap: 0.5rem;
+        }
+
+        .media-container {
+            margin: 1.5rem 0;
+            border-radius: 1rem;
+            overflow: hidden;
+            background: #f8f9fa;
+            padding: 1rem;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .disclaimer {
+            background: #fff3e0;
+            border-left: 5px solid var(--warning);
+            padding: 0.8rem 1rem;
+            margin: 1rem 0;
+            border-radius: 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .constraint-badge {
+            background: #2c3e50;
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .media-link {
+            background: #eef2f5;
+            border-radius: 1rem;
+            padding: 0.3rem 0.8rem;
+            margin-top: 0.5rem;
+            display: inline-block;
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: #2c7a5e;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 1rem;
+            background: rgba(0,0,0,0.2);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-left: 4px solid var(--accent);
+            transition: background 0.15s;
+        }
+        .back-link:hover { background: rgba(0,0,0,0.35); }
+
+        @media print {
+            .tabs, .tab-btn, .hero .badge-row, .footer, .btn-reveal, .media-link, .confidence-rating, .pattern-pause, .back-link {
+                display: none;
+            }
+            .tab-pane { display: block !important; page-break-inside: avoid; }
+            .app { margin: 0; padding: 0; }
+            body { background: white; padding: 0; }
+        }
+
+        @media (max-width: 700px) {
+            .tab-pane { padding: 1rem; }
+            .tab-btn span { display: none; }
+            .weed-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <div class="hero">
+        <h1>
+            <i class="fas fa-brain"></i>
+            Control Weeds · Tasmanian Learning Resource
+        </h1>
+        <div class="badge-row">
+            <span><i class="fas fa-chart-line"></i> Cause → Effect → Response</span>
+            <span><i class="fas fa-question-circle"></i> Predict before you read</span>
+            <span><i class="fas fa-eye"></i> Field signals</span>
+            <span><i class="fas fa-trap"></i> Confidence traps</span>
+            <span><i class="fas fa-photo-video"></i> Visual learning</span>
+            <span><i class="fas fa-leaf"></i> 18 Tasmanian weeds</span>
+            <span><i class="fas fa-chart-simple"></i> Confidence tracking</span>
+            <span><i class="fas fa-gavel"></i> Biosecurity Act 2019 (TAS)</span>
+        </div>
+        <p style="margin-top: 0.8rem;">
+            This is not a reference. This is <strong>judgement training</strong>.
+            For each concept, <strong>predict what happens</strong> before revealing the answer.
+            Learning happens in the gap between expectation and reality.
+        </p>
+        <div class="disclaimer" style="margin-top: 1rem; background: rgba(0,0,0,0.2); border-left-color: var(--accent);">
+            <i class="fas fa-shield-alt"></i>
+            <strong>Training tool only:</strong> This builds field judgement. Always follow product labels,
+            Tasmanian legislation, and site-specific risk assessment. For current control guidelines,
+            refer to NRE Tas and Weeds Australia websites.
+        </div>
+<a href="index.html" class="back-link" style="color: var(--accent);">
+  <i class="fas fa-book"></i>
+  <span>Companion resource: <strong>Open AHCPMG301 Ultimate Learning Guide →</strong></span>
+</a>
+    </div>
+
+    <div class="start-here" style="background: var(--accent); color: var(--dark); padding: 0.75rem 1rem; text-align: center; font-weight: bold; position: relative;">
+        <span style="position: absolute; right: 1rem; top: 0.5rem; cursor: pointer; font-size: 1.5rem; line-height: 1;" onclick="closeStartHere()">&times;</span>
+        <i class="fas fa-compass"></i> New here? Start with <strong>Foundations</strong> → then <strong>Ecology</strong> → then <strong>Failures</strong>. Each tab builds on the last.
+        <button onclick="showTab(event, 'foundations');" style="background: var(--dark); color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 20px; margin-left: 0.5rem; cursor: pointer;">Take me there →</button>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="foundations" onclick="showTab(event, 'foundations')">
+            <i class="fas fa-book-open"></i><span> Foundations</span>
+        </button>
+        <button class="tab-btn" data-tab="ecology" onclick="showTab(event, 'ecology')"><i class="fas fa-seedling"></i><span> Ecology</span></button>
+        <button class="tab-btn" data-tab="failures" onclick="showTab(event, 'failures')"><i class="fas fa-exclamation-triangle"></i><span> Failures</span></button>
+        <button class="tab-btn" data-tab="seedbank" onclick="showTab(event, 'seedbank')"><i class="fas fa-database"></i><span> Seedbank</span></button>
+        <button class="tab-btn" data-tab="signals" onclick="showTab(event, 'signals')"><i class="fas fa-eye"></i><span> Field signals</span></button>
+        <button class="tab-btn" data-tab="methods" onclick="showTab(event, 'methods')"><i class="fas fa-tractor"></i><span> Method hierarchy</span></button>
+        <button class="tab-btn" data-tab="planning" onclick="showTab(event, 'planning')">
+            <i class="fas fa-clipboard-list"></i><span> Planning</span>
+        </button>
+        <button class="tab-btn" data-tab="weedlib" onclick="showTab(event, 'weedlib')"><i class="fas fa-leaf"></i><span> Weed Library</span></button>
+        <button class="tab-btn" data-tab="calendar" onclick="showTab(event, 'calendar')"><i class="fas fa-calendar-alt"></i><span> Calendar</span></button>
+        <button class="tab-btn" data-tab="safety" onclick="showTab(event, 'safety')"><i class="fas fa-shield-alt"></i><span> Safety & Legal</span></button>
+        <button class="tab-btn" data-tab="quiz" onclick="showTab(event, 'quiz')"><i class="fas fa-question-circle"></i><span> Quiz</span></button>
+        <button class="tab-btn" data-tab="references" onclick="showTab(event, 'references')"><i class="fas fa-book"></i><span> References</span></button>
+        <button class="tab-btn" data-tab="resistance" onclick="showTab(event, 'resistance')"><i class="fas fa-shield-virus"></i><span> Resistance</span></button>
+        <button class="tab-btn" data-tab="dont" onclick="showTab(event, 'dont')"><i class="fas fa-ban"></i><span> What NOT to do</span></button>
+        <button class="tab-btn" data-tab="traps" onclick="showTab(event, 'traps')"><i class="fas fa-bug"></i><span> Confidence traps</span></button>
+        <button class="tab-btn" data-tab="indigenous" onclick="showTab(event, 'indigenous')"><i class="fas fa-hands"></i><span> Indigenous</span></button>
+        <button class="tab-btn" data-tab="micro" onclick="showTab(event, 'micro')"><i class="fas fa-comment-dots"></i><span> Micro-scenarios</span></button>
+        <button class="tab-btn" data-tab="media" onclick="showTab(event, 'media')"><i class="fas fa-photo-video"></i><span> Media</span></button>
+    </div>
+
+    <div id="foundations" class="tab-pane active">
+        <h2><i class="fas fa-book-open"></i> Foundations · How weed management actually works</h2>
+        <p>This isn't a reference. This is your mental model. Understand these concepts first, then every scenario in this app will make sense.</p>
+
+        <div class="info-card">
+            <i class="fas fa-question-circle"></i>
+            <h4>🌱 What is a weed? (Tasmanian context)</h4>
+            <p><strong>Not just "a bad plant".</strong> A weed is any plant that requires active management to prevent spread, economic loss, or environmental harm.</p>
+            <div class="field-signal" style="margin-top: 0.5rem;">
+                <strong>Key insight:</strong> Weeds are <strong>disturbance specialists</strong> — they evolved to exploit gaps. In Tasmania, that means roadsides, graded areas, fire scars, overgrazed pasture, and floodplains.
+            </div>
+            <p style="margin-top: 0.5rem;"><strong>Opportunistic vs competitive:</strong> Weeds are opportunists. They don't win fair fights. They win when native vegetation is damaged, removed, or stressed. <strong>Your job = close the gap.</strong></p>
+        </div>
+
+        <div class="info-card">
+            <i class="fas fa-sync-alt"></i>
+            <h4>🔁 The weed management cycle</h4>
+            <p>This is not "spray and walk away". This is the loop you must internalise.</p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; margin: 1rem 0;">
+                <div style="flex:1; text-align: center; background: var(--light); padding: 0.75rem; border-radius: 0.8rem; border-top: 4px solid var(--primary);"><strong>👁️ OBSERVE</strong><br><small>Read field signals</small></div>
+                <div style="flex:1; text-align: center; background: var(--light); padding: 0.75rem; border-radius: 0.8rem; border-top: 4px solid var(--primary);"><strong>📋 ASSESS</strong><br><small>Scale, species, context</small></div>
+                <div style="flex:1; text-align: center; background: var(--light); padding: 0.75rem; border-radius: 0.8rem; border-top: 4px solid var(--primary);"><strong>🗺️ PLAN</strong><br><small>Method, timing, follow-up</small></div>
+                <div style="flex:1; text-align: center; background: var(--light); padding: 0.75rem; border-radius: 0.8rem; border-top: 4px solid var(--primary);"><strong>⚡ CONTROL</strong><br><small>Execute at right time</small></div>
+                <div style="flex:1; text-align: center; background: var(--light); padding: 0.75rem; border-radius: 0.8rem; border-top: 4px solid var(--primary);"><strong>📊 MONITOR</strong><br><small>Did it work?</small></div>
+                <div style="flex:1; text-align: center; background: var(--light); padding: 0.75rem; border-radius: 0.8rem; border-top: 4px solid var(--primary);"><strong>🔄 ADAPT</strong><br><small>Change what failed</small></div>
+            </div>
+            <div class="consequence-card" style="background: var(--dark); color: white;">
+                💡 <strong>Most Tasmanian programs fail at MONITOR → ADAPT.</strong> They stop at control. That's why seedbank wins.
+            </div>
+        </div>
+
+        <div class="info-card">
+            <i class="fas fa-trophy"></i>
+            <h4>🌾 Why weeds win (understand this, win more)</h4>
+            <div class="field-signal"><strong>🔥 Disturbance creates opportunity</strong><br>Fire, grading, flood, overgrazing — all create bare ground. Weeds germinate first. Native regeneration needs help.</div>
+            <div class="field-signal"><strong>💀 Seedbank persistence</strong><br>Visible weeds are 5% of the problem. The other 95% is underground. Gorse seeds last 30-40 years in Tasmanian soil.</div>
+            <div class="field-signal"><strong>🌿 Lack of competition</strong><br>Weeds win when nothing else is growing. Revegetation is control.</div>
+            <div class="field-signal"><strong>⏰ Timing mismatch</strong><br>You spray when it's convenient. Weeds grow when conditions suit them. If those don't align, you lose.</div>
+        </div>
+
+        <div class="info-card">
+            <i class="fas fa-brain"></i>
+            <h4>🧠 Mental models for using this app</h4>
+            <p>Every scenario in this app tests one or more of these. Memorise them.</p>
+            <ul class="dont-list" style="list-style: none;">
+                <li style="margin: 0.5rem 0;">⚡ <strong>Disturbance = recruitment trigger</strong> — Any soil/vegetation disturbance will germinate weeds. Plan for it.</li>
+                <li style="margin: 0.5rem 0;">📦 <strong>Seedbank > visible plants</strong> — What you see is the tip of the iceberg. Treat the soil's memory.</li>
+                <li style="margin: 0.5rem 0;">⏱️ <strong>Timing > method</strong> — The right chemical at the wrong time fails. The wrong chemical at the right time also fails. Both matter, timing more.</li>
+                <li style="margin: 0.5rem 0;">🛡️ <strong>Prevention > control</strong> — Stopping spread costs $1. Fixing infestation costs $100. Act early.</li>
+            </ul>
+        </div>
+
+        <div class="pattern-pause">
+            <i class="fas fa-check-circle"></i> <strong>Before you continue:</strong> Do you understand why a weed isn't just "a bad plant"? Can you name the 6 stages of the weed management cycle?
+            <textarea placeholder="Write your understanding here... (e.g., 'A weed is context-dependent, not inherently bad. The cycle is...')" rows="2"></textarea>
+        </div>
+    </div>
+
+    <div id="ecology" class="tab-pane">
+        <h2><i class="fas fa-seedling"></i> Weed ecology · Cause → Effect → Response (Tasmanian Context)</h2>
+
+        <div class="info-card">
+            <i class="fas fa-question-circle"></i>
+            <h4>What is a weed? (Tasmanian definition)</h4>
+            <p>Under the <strong>Biosecurity Act 2019 (Tasmania)</strong>, a weed is any plant that requires active management to prevent spread, economic loss, or environmental harm. Weeds are context-dependent — a plant may be a weed in the Tasmanian Wilderness World Heritage Area but not in a pasture. <strong>Impact > origin.</strong></p>
+            <p><strong>Types in Tasmania:</strong> Declared weeds (legally enforceable control), environmental weeds (threaten native ecosystems), agricultural weeds (reduce pasture/crop productivity).</p>
+        </div>
+
+        <div class="prediction-card">
+            <button class="prediction-question" onclick="toggleAnswer('eco1')" aria-expanded="false" aria-controls="eco1">
+                🌿 <strong>Cause:</strong> Roadside disturbance (grading, slashing, vehicle traffic) in Tasmanian Midlands.
+                <strong>Predict:</strong> What happens to weed populations over 3 years?
+            </button>
+            <div class="constraint-badge" style="background: var(--info); margin-top: 0.5rem;">
+                🧠 Tests: Disturbance = recruitment trigger
+            </div>
+            <div id="eco1" class="prediction-answer">
+                <div class="common-mistake">⚠️ Common instinct: "Slashing controls weeds."</div>
+                <strong>Effect:</strong> Weed seedbank activates. Gorse, broom (Montpelier and English), thistles colonise bare ground.
+                Native regeneration suppressed. In Tasmania, this often leads to dense gorse thickets that impact grazing land and biodiversity.
+                <strong>Response:</strong> Prioritise weed control BEFORE disturbance. After disturbance,
+                rapid revegetation with competitive natives (e.g., Kangaroo Grass, Poa species) is essential.
+                <div class="consequence-card">💸 <strong>Real cost in Tasmania:</strong> A single year of neglect after disturbance can create a $50,000+ control problem over 5 years, particularly on Midlands grazing properties.</div>
+            </div>
+            <div class="confidence-rating">
+                <span>How confident were you in your prediction?</span>
+                <button class="confidence-btn confidence-low" data-confidence="low" data-target="eco1">🔴 Low</button>
+                <button class="confidence-btn confidence-medium" data-confidence="medium" data-target="eco1">🟡 Medium</button>
+                <button class="confidence-btn confidence-high" data-confidence="high" data-target="eco1">🟢 High</button>
+                <div class="confidence-feedback" id="confidence-eco1"></div>
+            </div>
+        </div>
+
+        <div class="prediction-card">
+            <button class="prediction-question" onclick="toggleAnswer('eco2')" aria-expanded="false" aria-controls="eco2">
+                🔥 <strong>Cause:</strong> High-intensity fire through gorse-infested bushland in Tasmania (e.g., Huon Valley or East Coast).
+                <strong>Predict:</strong> What does the site look like 12 months post-fire?
+            </button>
+            <div class="constraint-badge" style="background: var(--info); margin-top: 0.5rem;">
+                🧠 Tests: Seedbank > visible plants
+            </div>
+            <div id="eco2" class="prediction-answer">
+                <div class="common-mistake">⚠️ Common instinct: "Fire killed the gorse, problem solved."</div>
+                <strong>Effect:</strong> Gorse resprouts vigorously from root crowns. Seedbank stimulated.
+                Often denser than pre-fire. In Tasmanian conditions, this can create fire-prone monocultures that increase wildfire risk.
+                <strong>Response:</strong> Fire alone is not effective control and will usually increase gorse recruitment without follow-up treatment. Must follow with herbicide (e.g., fluroxypyr or triclopyr) within 6–12 months post-fire.
+Never burn without a follow-up plan.
+                <div class="consequence-card">🔥 <strong>Reality check:</strong> You just turned a manageable infestation into a denser, harder-to-treat problem. Follow-up cost triples. Tasmanian example: 2021 gorse fires near Bothwell resulted in 3x denser regrowth.</div>
+                <span class="media-link" onclick="showTab(null, 'media'); document.getElementById('video1').scrollIntoView();">
+                    <i class="fas fa-video"></i> Watch video example of post-fire regrowth
+                </span>
+            </div>
+            <div class="confidence-rating">
+                <span>How confident were you in your prediction?</span>
+                <button class="confidence-btn confidence-low" data-confidence="low" data-target="eco2">🔴 Low</button>
+                <button class="confidence-btn confidence-medium" data-confidence="medium" data-target="eco2">🟡 Medium</button>
+                <button class="confidence-btn confidence-high" data-confidence="high" data-target="eco2">🟢 High</button>
+                <div class="confidence-feedback" id="confidence-eco2"></div>
+            </div>
+        </div>
+
+        <div class="field-signal">
+            <i class="fas fa-eye"></i>
+            <strong>Field signal (Tasmanian context):</strong> Even-aged weed seedlings across a large area = recent disturbance
+            (fire, grading, flood, wallaby overgrazing). This is your window for prevention. In Tasmania, watch for post-flood ragwort emergence along rivers like the Derwent or Huon.
+        </div>
+
+        <div class="pattern-pause">
+            <i class="fas fa-chart-line"></i> <strong>Pause. What pattern are you noticing across these ecology scenarios?</strong>
+            <textarea placeholder="Write your observation... (e.g., 'Disturbance triggers weed germination, not control')" rows="2"></textarea>
+        </div>
+    </div>
+
+    <div id="failures" class="tab-pane">
+        <h2><i class="fas fa-exclamation-triangle"></i> Failure cases · Predict before you read (Tasmanian Examples)</h2>
+
+        <div class="prediction-card">
+            <button class="prediction-question" onclick="toggleAnswer('fail1')" aria-expanded="false" aria-controls="fail1">
+                ❄️ <strong>Situation:</strong> Contractor applies glyphosate to gorse in July in Tasmania's Central Highlands (dormant, frosty mornings).
+                <strong>Predict:</strong> What happens by October?
+            </button>
+            <div class="constraint-badge" style="background: var(--info); margin-top: 0.5rem;">
+                🧠 Tests: Timing > method
+            </div>
+            <div id="fail1" class="prediction-answer">
+                <div class="common-mistake">⚠️ Common instinct: "Chemical works regardless of season."</div>
+                <strong>Outcome:</strong> Often poor control (<20–50%) under cold, frosty conditions. Gorse may be less affected because the plant isn't actively growing, so systemic herbicide translocation is reduced. Tasmanian autumn (March-May) or spring (September-November) are optimal windows.<br>
+                <strong>Correct:</strong> Delay until active growth. Use cut stump or basal bark in winter if control is urgent.
+                <div class="consequence-card">💸 <strong>Real cost:</strong> $5,000 in chemical + labour = $1,000 worth of control. Plus resistance selection pressure.</div>
+            </div>
+            <div class="confidence-rating">
+                <span>How confident were you in your prediction?</span>
+                <button class="confidence-btn confidence-low" data-confidence="low" data-target="fail1">🔴 Low</button>
+                <button class="confidence-btn confidence-medium" data-confidence="medium" data-target="fail1">🟡 Medium</button>
+                <button class="confidence-btn confidence-high" data-confidence="high" data-target="fail1">🟢 High</button>
+                <div class="confidence-feedback" id="confidence-fail1"></div>
+            </div>
+        </div>
+
+        <div class="prediction-card">
+            <button class="prediction-question" onclick="toggleAnswer('fail2')" aria-expanded="false" aria-controls="fail2">
+                🌾 <strong>Situation:</strong> Tasmanian landowner slashes 5ha of serrated tussock (Nassella trichotoma) in December on the Central Plateau (seed heads present).
+                <strong>Predict:</strong> What happens over next 2 years?
+            </button>
+            <div class="constraint-badge" style="background: var(--info); margin-top: 0.5rem;">
+                🧠 Tests: Prevention > control
+            </div>
+            <div id="fail2" class="prediction-answer">
+                <div class="common-mistake">⚠️ Common instinct: "Slashing removes the problem."</div>
+                <strong>Outcome:</strong> Infestation expands 3-5x. Slashing spreads thousands of viable seeds. Serrated tussock is a declared weed in Tasmania under the Biosecurity Act 2019, and landowners have a legal obligation to control it.<br>
+                <strong>Correct:</strong> Never slash after seed set. Spot spray with fluproponate or glyphosate BEFORE seed heads emerge (late winter/early spring).
+                <div class="consequence-card">💸 <strong>Real cost in Tasmania:</strong> You just turned a $2,000 spot-spray job into a $15,000+ ongoing control problem. The Tasmanian government can issue biosecurity directions for non-compliance.</div>
+            </div>
+            <div class="confidence-rating">
+                <span>How confident were you in your prediction?</span>
+                <button class="confidence-btn confidence-low" data-confidence="low" data-target="fail2">🔴 Low</button>
+                <button class="confidence-btn confidence-medium" data-confidence="medium" data-target="fail2">🟡 Medium</button>
+                <button class="confidence-btn confidence-high" data-confidence="high" data-target="fail2">🟢 High</button>
+                <div class="confidence-feedback" id="confidence-fail2"></div>
+            </div>
+        </div>
+
+        <div class="prediction-card">
+            <button class="prediction-question" onclick="toggleAnswer('fail3')" aria-expanded="false" aria-controls="fail3">
+                🌧️ <strong>Situation:</strong> Heavy rain forecast in 2 hours on Tasmania's West Coast (high rainfall zone). Contractor sprays anyway.
+                <strong>Predict:</strong> Efficacy?
+            </button>
+            <div class="constraint-badge" style="background: var(--info); margin-top: 0.5rem;">
+                🧠 Tests: Timing > method
+            </div>
+            <div id="fail3" class="prediction-answer">
+                <div class="common-mistake">⚠️ Common instinct: "Spray now before rain hits — something is better than nothing."</div>
+                <strong>Outcome:</strong> Most herbicides washed off. <10% effective. Tasmanian West Coast conditions (2500mm+ annual rainfall) make timing critical.<br>
+                <strong>Correct:</strong> Check rainfast window on the product label (typically 2–24 hours depending on formulation). Never spray if rain is expected within that window. Use organosilicone surfactants to improve rainfastness when conditions are marginal.
+                <div class="consequence-card">💸 <strong>Real cost:</strong> Chemical cost + labour = 100% waste. Plus chemical runoff into Tasmanian waterways (e.g., Franklin River catchment) = potential fines under the Water Management Act 1999.</div>
+            </div>
+            <div class="confidence-rating">
+                <span>How confident were you in your prediction?</span>
+                <button class="confidence-btn confidence-low" data-confidence="low" data-target="fail3">🔴 Low</button>
+                <button class="confidence-btn confidence-medium" data-confidence="medium" data-target="fail3">🟡 Medium</button>
+                <button class="confidence-btn confidence-high" data-confidence="high" data-target="fail3">🟢 High</button>
+                <div class="confidence-feedback" id="confidence-fail3"></div>
+            </div>
+        </div>
+
+        <div class="pattern-pause">
+            <i class="fas fa-chart-line"></i> <strong>Pause. What pattern are you noticing across these failure scenarios?</strong>
+            <textarea placeholder="Write your observation... (e.g., 'Timing and conditions matter more than the chemical')" rows="2"></textarea>
+        </div>
+    </div>
+
+    <div id="seedbank" class="tab-pane">
+        <h2><i class="fas fa-database"></i> Seedbank timeline · Why most Tasmanian weed programs fail</h2>
+        <p><strong>The single biggest misunderstanding:</strong> Visible weed removal ≠ success. The seedbank is the real enemy. In Tasmanian conditions, seedbanks persist for decades.</p>
+
+        <div class="seedbank-timeline">
+            <h4>Gorse seedbank decline after adult removal (Tasmanian conditions)</h4>
+            <div class="timeline-bar">
+                <div class="timeline-year year-0" style="flex:0.5;">Year 0<br>Adults removed</div>
+                <div class="timeline-year year-1-3" style="flex:1.5;">Year 1-3<br>Massive germination flush</div>
+                <div class="timeline-year year-3-7" style="flex:2;">Year 3-7<br>Declining recruitment</div>
+                <div class="timeline-year year-10" style="flex:1;">Year 10+<br>Sporadic emergence</div>
+            </div>
+            <p><strong>Critical insight for Tasmania:</strong> Gorse seed remains viable for <strong>30–40+ years</strong> in Tasmanian soils, particularly in cooler, moist environments like the Derwent Valley.
+            Most control programs stop at Year 1 or 2 – exactly when germination peaks.
+            That's why reinfestation is guaranteed without 5-7 year follow-up.</p>
+        </div>
+
+        <div class="prediction-card">
+            <button class="prediction-question" onclick="toggleAnswer('seed1')" aria-expanded="false" aria-controls="seed1">
+                📊 <strong>Predict:</strong> After 90% visible kill of gorse in Tasmanian dry sclerophyll forest, how many viable seeds remain per square metre?
+            </button>
+            <div class="constraint-badge" style="background: var(--info); margin-top: 0.5rem;">
+                🧠 Tests: Seedbank > visible plants
+            </div>
+            <div id="seed1" class="prediction-answer">
+                <div class="common-mistake">⚠️ Common instinct: "90% kill = 90% seed reduction."</div>
+                <strong>Answer:</strong> Thousands. A single mature gorse bush can produce 5,000-10,000 seeds annually.
+                Seedbank remains largely intact. In Tasmanian conditions, up to 40% of seeds can remain viable after 20 years.<br>
+                <strong>Implication:</strong> Visible success is deceptive. Follow-up for years is mandatory. NRE Tas recommends 7-10 year programs for gorse.
+                <div class="consequence-card">⏰ <strong>Time horizon:</strong> Programs that stop at Year 2 fail. Real success is Year 7-10. Budget accordingly. Tasmanian case study: Five Mile Creek gorse control took 12 years of follow-up.</div>
+            </div>
+            <div class="confidence-rating">
+                <span>How confident were you in your prediction?</span>
+                <button class="confidence-btn confidence-low" data-confidence="low" data-target="seed1">🔴 Low</button>
+                <button class="confidence-btn confidence-medium" data-confidence="medium" data-target="seed1">🟡 Medium</button>
+                <button class="confidence-btn confidence-high" data-confidence="high" data-target="seed1">🟢 High</button>
+                <div class="confidence-feedback" id="confidence-seed1"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="signals" class="tab-pane">
+        <h2><i class="fas fa-eye"></i> Field signals · What you actually see in Tasmanian landscapes</h2>
+        <p>Theory is useless if you can't read the landscape. These are diagnostic signs relevant to Tasmanian conditions.</p>
+
+        <div class="info-card">
+            <i class="fas fa-tint"></i>
+            <h4>Waxy leaf beading</h4>
+            <p>Water droplets forming spheres, rolling off leaf surface (common on gorse, broom, blackberry in Tasmanian spring).
+            <strong>Diagnosis:</strong> Poor spray uptake.
+            <strong>Response:</strong> Add surfactant/wetting agent. NRE Tas recommends organosilicone adjuvants for waxy species.</p>
+        </div>
+
+        <div class="info-card">
+            <i class="fas fa-leaf"></i>
+            <h4>Red/purple leaf stress</h4>
+            <p>Discoloration, often on margins (frequent in Tasmanian winter on capeweed, thistles).
+            <strong>Diagnosis:</strong> Drought or cold stress (Tasmania's frost hollows).
+            <strong>Response:</strong> Plant not actively transporting. Delay systemic herbicide until conditions improve.</p>
+        </div>
+
+        <div class="info-card">
+            <i class="fas fa-layer-group"></i>
+            <h4>Even-aged seedling cohort</h4>
+            <p>Large area of same-size seedlings (common post-flood along Tasmania's Meander River or post-fire in the Huon Valley).
+            <strong>Diagnosis:</strong> Recent disturbance (fire, grading, flood, wallaby overgrazing).
+            <strong>Response:</strong> Early intervention window – act now before seed set. This is your cheapest control moment.</p>
+        </div>
+
+        <div class="info-card">
+            <i class="fas fa-border-all"></i>
+            <h4>Patchy herbicide kill</h4>
+            <p>Uneven death, clusters of survivors.
+            <strong>Diagnosis:</strong> Application issue (nozzle block, walking speed variation, boom height) OR early resistance. Resistance is emerging in Tasmanian annual ryegrass to glyphosate.
+            <strong>Response:</strong> Investigate equipment, consider rotating mode of action (MOA) groups. Report suspected resistance to NRE Tas.</p>
+        </div>
+
+        <div class="pattern-pause">
+            <i class="fas fa-chart-line"></i> <strong>Pause. What pattern are you noticing about reading field signals?</strong>
+            <textarea placeholder="Write your observation... (e.g., 'The plant tells you what it needs if you look closely')" rows="2"></textarea>
+        </div>
+    </div>
+
+    <div id="methods" class="tab-pane">
+        <h2><i class="fas fa-sitemap"></i> Method selection · A reusable thinking framework for Tasmania</h2>
+        <p>Stop memorising methods. Start with these <strong>five diagnostic questions</strong> under Tasmanian conditions:</p>
+
+        <div class="info-card">
+            <h4>1. Is seed present or about to be produced?</h4>
+            <p>YES → STOP SPREAD FIRST. Containment, avoid slashing, bag seed heads.
+            <strong>Prevention is cheaper than control.</strong> Under Tasmanian law, it's an offence to spread declared weeds.</p>
+        </div>
+        <div class="info-card">
+            <h4>2. Is the plant actively growing?</h4>
+            <p>YES → systemic herbicides effective. NO (drought, frost, dormancy in Tasmanian winter) → delay or switch to mechanical (cut stump, basal bark).</p>
+        </div>
+        <div class="info-card">
+            <h4>3. Is the site environmentally sensitive?</h4>
+            <p>Near Tasmanian waterways, Tasmanian Wilderness World Heritage Area, threatened species habitat, cultural site? → Non-chemical methods first. If chemical required, aquatic-registered only (check APVMA permits).</p>
+        </div>
+        <div class="info-card">
+            <h4>4. Is the infestation large or small?</h4>
+            <p>Small (<0.1ha) → hand pull, spot spray. Large → prioritise edges, containment zones. Don't treat everything at once. Work from high-value areas outward.</p>
+        </div>
+        <div class="info-card">
+            <h4>5. What is the follow-up plan?</h4>
+            <p>NO FOLLOW-UP PLAN = ACCEPT FAILURE. Schedule Year 2, 3, 5, 7 before you start. NRE Tas requires follow-up records for declared weed control programs.</p>
+        </div>
+
+        <div class="prediction-card">
+            <div class="constraint-badge">
+                <i class="fas fa-hourglass-half"></i> Real-world constraint: 3 hours before rain in Tasmania's wet West Coast, landholder insists
+            </div>
+            <button class="prediction-question" onclick="toggleAnswer('methodConstraint')" aria-expanded="false" aria-controls="methodConstraint">
+                ⛈️ <strong>Constraint scenario:</strong> You have 3 hours until rain, landholder pressures you to spray on their Tasmanian property.
+                What do you do?
+            </button>
+            <div class="constraint-badge" style="background: var(--info); margin-top: 0.5rem;">
+                🧠 Tests: Timing > method
+            </div>
+            <div id="methodConstraint" class="prediction-answer">
+                <div class="common-mistake">⚠️ Common instinct: "Rush and spray anyway."</div>
+                <strong>Correct:</strong> Hold firm. Explain rainfast window (product label), offer to return after rain or switch to mechanical/cut stump (e.g., for blackberry or gorse).
+                Wasted spray = resistance selection + chemical waste + potential runoff into waterways.
+                <div class="consequence-card">💸 <strong>Real cost:</strong> Spraying before rain = 100% waste. Plus you've just selected for resistant survivors. In Tasmania, you could face fines under the Biosecurity Act 2019 for reckless chemical use.</div>
+            </div>
+            <div class="confidence-rating">
+                <span>How confident were you in your prediction?</span>
+                <button class="confidence-btn confidence-low" data-confidence="low" data-target="methodConstraint">🔴 Low</button>
+                <button class="confidence-btn confidence-medium" data-confidence="medium" data-target="methodConstraint">🟡 Medium</button>
+                <button class="confidence-btn confidence-high" data-confidence="high" data-target="methodConstraint">🟢 High</button>
+                <div class="confidence-feedback" id="confidence-methodConstraint"></div>
+            </div>
+        </div>
+
+        <div class="prediction-card">
+            <button class="prediction-question" onclick="toggleAnswer('method1')" aria-expanded="false" aria-controls="method1">
+                🔍 <strong>Apply the framework:</strong> Dense gorse, 2ha in Tasmania's Derwent Valley, site slopes to creek, mid-spring (active growth).
+                What method?
+            </button>
+            <div class="constraint-badge" style="background: var(--info); margin-top: 0.5rem;">
+                🧠 Tests: Prevention > control
+            </div>
+            <div id="method1" class="prediction-answer">
+                <strong>Diagnosis:</strong> Actively growing → systemic works. Near water → no chemical within 20m buffer (check specific product label for aquatic buffer zone).
+                <strong>Solution:</strong> Follow label-specific buffer zones near waterways (often 5–100m depending on product). Use cut stump or non-chemical methods in restricted zones (within 20m of creek). Basal bark on upper slope where permitted. Follow-up at 12 months. Consult NRE Tas for current permit conditions.
+            </div>
+            <div class="confidence-rating">
+                <span>How confident were you in applying this framework?</span>
+                <button class="confidence-btn confidence-low" data-confidence="low" data-target="method1">🔴 Low</button>
+                <button class="confidence-btn confidence-medium" data-confidence="medium" data-target="method1">🟡 Medium</button>
+                <button class="confidence-btn confidence-high" data-confidence="high" data-target="method1">🟢 High</button>
+                <div class="confidence-feedback" id="confidence-method1"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="planning" class="tab-pane">
+        <h2><i class="fas fa-clipboard-list"></i> Planning & Monitoring · Whole-program thinking</h2>
+        <p>Success isn't one treatment. It's a 5-7 year program. Here's how to plan one.</p>
+
+        <div class="info-card">
+            <h4>📋 Simple planning structure</h4>
+            <textarea placeholder="Site description (location, size, access, slope, water nearby)" rows="2" style="width:100%; margin: 0.5rem 0;"></textarea>
+            <textarea placeholder="Target species (identify, growth stage, seed status)" rows="2" style="width:100%; margin: 0.5rem 0;"></textarea>
+            <textarea placeholder="Method selection (chemical/mechanical, product, rate)" rows="2" style="width:100%; margin: 0.5rem 0;"></textarea>
+            <textarea placeholder="Timing (season, weather, plant phenology)" rows="2" style="width:100%; margin: 0.5rem 0;"></textarea>
+            <textarea placeholder="Follow-up schedule (Year 1, 2, 3, 5, 7)" rows="2" style="width:100%; margin: 0.5rem 0;"></textarea>
+        </div>
+
+        <div class="info-card">
+            <h4>📊 What success looks like (Tasmanian timelines)</h4>
+            <div class="field-signal"><strong>Year 1:</strong> 70-90% visible control. Seedbank germinates — this is expected, not failure.</div>
+            <div class="field-signal"><strong>Year 3:</strong> Spot treatment only. Majority of site weed-free.</div>
+            <div class="field-signal"><strong>Year 5-7:</strong> Monitoring only. Occasional seedling pulls.</div>
+            <div class="consequence-card">⚠️ If you stop at Year 1 or 2, you will have reinfestation by Year 4. This is the #1 failure in Tasmania.</div>
+        </div>
+
+        <div class="info-card">
+            <h4>🔴 What failure looks like</h4>
+            <ul class="dont-list">
+                <li>Same species returns at same density within 2 years</li>
+                <li>Patchy kill with consistent pattern (suspect resistance)</li>
+                <li>You treated without a follow-up schedule</li>
+                <li>Seed set occurred before treatment</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="weedlib" class="tab-pane">
+        <h2><i class="fas fa-leaf"></i> Tasmanian Weed Library · Identification & Resources</h2>
+        <p><span class="weed-badge declared">Declared Weed (Tasmania)</span> = Legally required to control under Biosecurity Act 2019 · <span class="weed-badge environmental">Environmental Weed</span> = Threat to native Tasmanian ecosystems</p>
+        <p><strong>For current control methods and herbicide recommendations, follow the NRE Tas links below each weed.</strong></p>
+
+        <div class="weed-grid">
+<div class="weed-card"><img src="weeds/gorse.jpg" alt="Gorse" onerror="this.src='https://placehold.co/400x300/e9ecef/495057?text=Gorse+-+Add+photo'"><div class="weed-card-content"><span class="weed-badge declared">Declared Weed (TAS)</span><h4>Gorse (Ulex europaeus)</h4><p><strong>Key ID:</strong> Dense spiny shrub, bright yellow pea-flowers (mainly late winter–spring, can flower year-round), explosive seed pods.</p><p><strong>Habitat:</strong> Widespread across Tasmania — pasture, roadsides, bushland, coastal areas.</p><a href="https://nre.tas.gov.au/invasive-species/weeds/weeds-index/declared-weeds-index/gorse" target="_blank" class="weed-link"><i class="fas fa-external-link-alt"></i> NRE Tas control guide</a></div></div>
+
+<div class="weed-card"><img src="weeds/montpelier-broom.jpg" alt="Montpelier Broom" onerror="this.src='https://placehold.co/400x300/e9ecef/495057?text=Montpelier+Broom+-+Add+photo'"><div class="weed-card-content"><span class="weed-badge declared">Declared Weed (TAS)</span><h4>Montpelier Broom (Genista monspessulana)</h4><p><strong>Key ID:</strong> Upright shrub with soft green trifoliate leaves, yellow pea-flowers (late winter–spring), flat hairy seed pods.</p><p><strong>Habitat:</strong> Widespread in southern Tasmania — bushland, roadsides, disturbed areas, coastal heath.</p><a href="https://nre.tas.gov.au/invasive-species/weeds/weeds-index/declared-weeds-index/broom" target="_blank" class="weed-link"><i class="fas fa-external-link-alt"></i> NRE Tas control guide</a></div></div>
+
+<div class="weed-card"><img src="weeds/ragwort.jpg" alt="Ragwort" onerror="this.src='https://placehold.co/400x300/e9ecef/495057?text=Ragwort+-+Add+photo'"><div class="weed-card-content"><span class="weed-badge declared">Declared Weed (TAS)</span><h4>Ragwort (Jacobaea vulgaris)</h4><p><strong>Key ID:</strong> Erect herb with deeply lobed leaves, bright yellow daisy flowers (summer), toxic to livestock.</p><p><strong>Habitat:</strong> Pasture, roadsides, and disturbed areas across Tasmania.</p><a href="https://nre.tas.gov.au/invasive-species/weeds/weeds-index/declared-weeds-index/ragwort" target="_blank" class="weed-link"><i class="fas fa-external-link-alt"></i> NRE Tas control guide</a></div></div>
+
+<div class="weed-card"><img src="weeds/pampas-grass.jpg" alt="Pampas Grass" onerror="this.src='https://placehold.co/400x300/e9ecef/495057?text=Pampas+Grass+-+Add+photo'"><div class="weed-card-content"><span class="weed-badge declared">Declared Weed (TAS)</span><h4>Pampas Grass (Cortaderia selloana)</h4><p><strong>Key ID:</strong> Large tussock grass with sharp-edged leaves, tall fluffy white/pink plumes (late summer–autumn), grows 2–4+ m tall.</p><p><strong>Habitat:</strong> Coastal areas, roadsides, cliffs, and disturbed or logged areas.</p><a href="https://nre.tas.gov.au/invasive-species/weeds/weeds-index/declared-weeds-index/pampas" target="_blank" class="weed-link"><i class="fas fa-external-link-alt"></i> NRE Tas control guide</a></div></div>
+
+<div class="weed-card"><img src="weeds/boneseed.jpg" alt="Boneseed" onerror="this.src='https://placehold.co/400x300/e9ecef/495057?text=Boneseed+-+Add+photo'"><div class="weed-card-content"><span class="weed-badge declared">Declared Weed (TAS)</span><h4>Boneseed (Chrysanthemoides monilifera)</h4><p><strong>Key ID:</strong> Woody shrub with toothed leaves, yellow daisy flowers (late winter–spring), fleshy black berries.</p><p><strong>Habitat:</strong> Coastal areas (east coast to Bruny Island), bushland and roadsides.</p><a href="https://nre.tas.gov.au/invasive-species/weeds/weeds-index/declared-weeds-index/boneseed" target="_blank" class="weed-link"><i class="fas fa-external-link-alt"></i> NRE Tas control guide</a></div></div>
+
+<div class="weed-card"><img src="weeds/blackberry.jpg" alt="Blackberry" onerror="this.src='https://placehold.co/400x300/e9ecef/495057?text=Blackberry+-+Add+photo'"><div class="weed-card-content"><span class="weed-badge declared">Declared Weed (TAS)</span><h4>Blackberry (Rubus fruticosus agg.)</h4><p><strong>Key ID:</strong> Prickly arching canes, white/pink flowers (late spring–summer), black berries (summer–early autumn).</p><p><strong>Habitat:</strong> Widespread — creeksides, pasture, roadsides, and bushland edges.</p><a href="https://nre.tas.gov.au/invasive-species/weeds/weeds-index/declared-weeds-index/blackberry" target="_blank" class="weed-link"><i class="fas fa-external-link-alt"></i> NRE Tas control guide</a></div></div>
+
+<div class="weed-card"><img src="weeds/capeweed.jpg" alt="Capeweed" onerror="this.src='https://placehold.co/400x300/e9ecef/495057?text=Capeweed+-+Add+photo'"><div class="weed-card-content"><span class="weed-badge environmental">Environmental Weed</span><h4>Capeweed (Arctotheca calendula)</h4><p><strong>Key ID:</strong> Low-growing rosette with silver-grey lobed leaves, yellow daisy flowers with dark centre (winter–spring).</p><p><strong>Habitat:</strong> Common in pasture, roadsides, and disturbed areas across Tasmania.</p><a href="https://nre.tas.gov.au/invasive-species/weeds/weeds-index/non-declared-weeds-index/capeweed" target="_blank" class="weed-link"><i class="fas fa-external-link-alt"></i> NRE Tas profile</a></div></div>
+
+<div class="weed-card"><img src="weeds/banana-passionfruit.jpg" alt="Banana Passionfruit" onerror="this.src='https://placehold.co/400x300/e9ecef/495057?text=Banana+Passionfruit+-+Add+photo'"><div class="weed-card-content"><span class="weed-badge environmental">Environmental Weed</span><h4>Banana Passionfruit (Passiflora tripartita var. mollissima)</h4><p><strong>Key ID:</strong> Vigorous climbing vine, pink tubular flowers, yellow banana-shaped fruit, velvety leaves.</p><p><strong>Habitat:</strong> Wet forests, gullies, and rainforest edges (especially southern and western Tasmania).</p><a href="https://nre.tas.gov.au/invasive-species/weeds/environmental-weeds/common-environmental-weeds" target="_blank" class="weed-link"><i class="fas fa-external-link-alt"></i> NRE Tas profile</a></div></div>
+
+<div class="weed-card"><img src="weeds/spear-thistle.jpg" alt="Spear Thistle" onerror="this.src='https://placehold.co/400x300/e9ecef/495057?text=Spear+Thistle+-+Add+photo'"><div class="weed-card-content"><span class="weed-badge environmental">Environmental Weed</span><h4>Spear Thistle (Cirsium vulgare)</h4><p><strong>Key ID:</strong> Spiny upright thistle with winged stems, deeply lobed leaves, purple flower heads (summer).</p><p><strong>Habitat:</strong> Pasture, roadsides, and disturbed areas across Tasmania.</p><a href="https://weeds.org.au/profiles/spear-thistle/" target="_blank" class="weed-link"><i class="fas fa-external-link-alt"></i> Weeds Australia profile</a></div></div>
+
+<div class="weed-card"><img src="weeds/cotoneaster.jpg" alt="Cotoneaster" onerror="this.src='https://placehold.co/400x300/e9ecef/495057?text=Cotoneaster+-+Add+photo'"><div class="weed-card-content"><span class="weed-badge environmental">Environmental Weed</span><h4>Cotoneaster (Cotoneaster glaucophyllus)</h4><p><strong>Key ID:</strong> Evergreen shrub with glossy leaves, small white/pink flowers (spring), red berries (autumn–winter), bird-dispersed.</p><p><strong>Habitat:</strong> Bushland, rocky outcrops, and roadsides.</p><a href="https://nre.tas.gov.au/invasive-species/weeds/environmental-weeds/common-environmental-weeds#Cotoneaster" target="_blank" class="weed-link"><i class="fas fa-external-link-alt"></i> NRE Tas profile</a></div></div>
+
+<div class="weed-card"><img src="weeds/mirror-bush.jpg" alt="Mirror Bush" onerror="this.src='https://placehold.co/400x300/e9ecef/495057?text=Mirror+Bush+-+Add+photo'"><div class="weed-card-content"><span class="weed-badge environmental">Environmental Weed</span><h4>Mirror Bush (Coprosma repens)</h4><p><strong>Key ID:</strong> Dense shrub with very glossy dark green leaves, orange-red berries (autumn).</p><p><strong>Habitat:</strong> Coastal areas, roadsides, and bushland edges in Tasmania.</p><a href="https://nre.tas.gov.au/invasive-species/weeds/environmental-weeds/common-environmental-weeds#MirrorBush" target="_blank" class="weed-link"><i class="fas fa-external-link-alt"></i> NRE Tas profile</a></div></div>
+
+<div class="weed-card"><img src="weeds/sweet-pittosporum.jpg" alt="Sweet Pittosporum" onerror="this.src='https://placehold.co/400x300/e9ecef/495057?text=Sweet+Pittosporum+-+Add+photo'"><div class="weed-card-content"><span class="weed-badge environmental">Environmental Weed</span><h4>Sweet Pittosporum (Pittosporum undulatum)</h4><p><strong>Key ID:</strong> Small tree with dark green wavy leaves, cream fragrant flowers (spring–early summer), orange berries with sticky seeds.</p><p><strong>Habitat:</strong> Wet forests, gullies, and urban bushland across Tasmania.</p><a href="https://nre.tas.gov.au/invasive-species/weeds/environmental-weeds/common-environmental-weeds#SweetPittosporum" target="_blank" class="weed-link"><i class="fas fa-external-link-alt"></i> NRE Tas profile</a></div></div>
+        </div>
+
+        <div class="disclaimer"><i class="fas fa-info-circle"></i> Current control recommendations change — always check NRE Tas website for up-to-date Tasmanian advice.</div>
+    </div>
+
+    <div id="calendar" class="tab-pane">
+        <h2><i class="fas fa-calendar-alt"></i> Tasmanian Seasonal Treatment Calendar</h2>
+        <p>Use this as a quick reference for Tasmanian conditions. <strong>Always verify current control windows with NRE Tas guidelines.</strong></p>
+        <div class="seasonal-calendar">
+            <table class="calendar-table">
+                <thead>
+                    <tr><th>Weed</th><th>Summer<br>(Dec-Feb)</th><th>Autumn<br>(Mar-May)</th><th>Winter<br>(Jun-Aug)</th><th>Spring<br>(Sep-Nov)</th></tr>
+                </thead>
+                <tbody>
+<tr><td><strong>Gorse</strong></td><td class="season-summer">⚠️ Possible flowering / monitor</td><td class="season-autumn">✅ Best cut stump</td><td class="season-winter">✅ Cut stump / basal bark</td><td class="season-spring">⚠️ Peak flowering (timing critical)</td></tr>
+
+<tr><td><strong>Montpelier Broom</strong></td><td class="season-summer">⚠️ Seed set</td><td class="season-autumn">✅ Spray seedlings</td><td class="season-winter">✅ Hand pull / treat seedlings</td><td class="season-spring">⚠️ Flowering</td></tr>
+
+<tr><td><strong>Ragwort</strong></td><td class="season-summer">⚠️ Flowering</td><td class="season-autumn">✅ Treat rosettes</td><td class="season-winter">✅ Treat rosettes</td><td class="season-spring">⚠️ Bolting</td></tr>
+
+<tr><td><strong>Pampas Grass</strong></td><td class="season-summer">⚠️ Active growth</td><td class="season-autumn">✅ Cut & paint (plumes present)</td><td class="season-winter">✅ Cut & paint</td><td class="season-spring">⚠️ Rapid growth</td></tr>
+
+<tr><td><strong>Boneseed</strong></td><td class="season-summer">⚠️ Berry spread</td><td class="season-autumn">✅ Spray seedlings</td><td class="season-winter">✅ Manual removal</td><td class="season-spring">⚠️ Flowering / early seed set</td></tr>
+
+<tr><td><strong>Blackberry</strong></td><td class="season-summer">⚠️ Fruiting</td><td class="season-autumn">✅ Best foliar spray</td><td class="season-winter">⚠️ Limited (cut stump only)</td><td class="season-spring">⚠️ Flowering</td></tr>
+
+<tr><td><strong>Spear Thistle</strong></td><td class="season-summer">⚠️ Flowering / seed set</td><td class="season-autumn">✅ Treat rosettes</td><td class="season-winter">✅ Treat rosettes</td><td class="season-spring">⚠️ Bolting</td></tr>
+
+<tr><td colspan="5"><small>✅ Best window (Tasmanian conditions) · ⚠️ Timing or method critical · ❌ Avoid only when seed spread risk or ineffective</small></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="field-signal"><i class="fas fa-info-circle"></i> <strong>Field reminder:</strong> Before any treatment in Tasmania, check NRE Tas website for current permit conditions, herbicide registrations, and declared weed requirements under the Biosecurity Act 2019.</div>
+    </div>
+
+    <div id="safety" class="tab-pane">
+        <h2><i class="fas fa-shield-alt"></i> Tasmanian Safety & Legal Guidelines</h2>
+        <p>These links direct you to official Tasmanian Government guidelines. <strong>You are legally required to follow these under the Biosecurity Act 2019 (Tasmania).</strong></p>
+
+        <div class="ref-links">
+            <div class="ref-card"><i class="fas fa-tractor"></i><h4>Ground Spraying Guidelines (TAS)</h4><p>Calibration, nozzle selection, drift management, record keeping for Tasmanian conditions.</p><a href="https://nre.tas.gov.au/agriculture/agvet-chemicals/codes-of-practice/code-of-practice-for-ground-spraying" target="_blank">nre.tas.gov.au →</a></div>
+            <div class="ref-card"><i class="fas fa-water"></i><h4>Herbicide Use Near Waterways (TAS)</h4><p>Buffer zones, aquatic-registered chemicals, erosion control in Tasmanian catchments.</p><a href="https://nre.tas.gov.au/agriculture/agvet-chemicals/guidelines-and-information-sheets/guidelines/use-of-herbicides-near-waterways-and-wetlands" target="_blank">nre.tas.gov.au →</a></div>
+            <div class="ref-card"><i class="fas fa-car"></i><h4>Vehicle Wash-Down Guidelines (TAS)</h4><p>Clean-down procedures to prevent weed spread between Tasmanian sites. Legal requirement under Biosecurity Act.</p><a href="https://nre.tas.gov.au/Documents/Washdown-Guidelines-Edition-1.pdf" target="_blank">nre.tas.gov.au →</a></div>
+        </div>
+
+        <h3><i class="fas fa-gavel"></i> Legal Responsibilities in Tasmania</h3>
+        <div class="info-card"><i class="fas fa-file-signature"></i><h4>Biosecurity Act 2019 (Tasmania)</h4>
+        <p>Declared weeds <strong>must</strong> be controlled on your land. It is an offence to propagate, spread, or sell declared weeds. The Tasmanian government can issue biosecurity directions, compliance notices, and penalties for non-compliance. Environmental weeds are not always declared under legislation, but may still require control under land management responsibilities, local council by-laws, or conservation agreements.</p></div>
+
+        <div class="info-card"><i class="fas fa-clipboard-list"></i><h4>Record Keeping (Tasmanian Requirements)</h4><p>For commercial operators: Keep records of herbicide usage (product, rate, date, location, weather conditions, permit numbers) for at least 3 years. Required for chemical user permits and under the Agricultural and Veterinary Chemicals Code (Tasmania) Regulations.</p></div>
+
+        <div class="trap-card"><i class="fas fa-skull"></i> <strong>Critical for Tasmania:</strong> Never spray herbicides near waterways without checking the label's aquatic buffer zone. Some chemicals cannot be used within 20m-100m of water in Tasmania. Civil penalties apply under the Water Management Act 1999 and Biosecurity Act 2019.</div>
+    </div>
+
+    <div id="quiz" class="tab-pane">
+        <h2><i class="fas fa-question-circle"></i> Test Your Judgement</h2>
+        <p>Answer these questions to check your understanding. <strong>Your progress is saved automatically.</strong></p>
+        <div id="quiz-container"></div>
+        <div id="quiz-score" class="quiz-score"></div>
+        <button class="btn-reveal" onclick="resetQuiz()" style="margin-top: 1rem;"><i class="fas fa-redo-alt"></i> Reset Quiz</button>
+    </div>
+
+    <div id="references" class="tab-pane">
+        <h2><i class="fas fa-book"></i> Tasmanian Reference Links · Key Resources</h2>
+        <p>Bookmark these Tasmanian websites for current weed information and control guidelines.</p>
+        <div class="ref-links">
+            <div class="ref-card"><i class="fas fa-tree"></i><h4>NRE Tas · Weeds Index</h4><p>Tasmanian Government weed information, declared weed lists, control guides, and Biosecurity Act requirements.</p><a href="https://nre.tas.gov.au/invasive-species/weeds/weeds-index" target="_blank">nre.tas.gov.au/weeds →</a></div>
+            <div class="ref-card"><i class="fas fa-globe"></i><h4>Weeds Australia (Tasmania)</h4><p>National weed profiles with Tasmania-specific distribution and control notes.</p><a href="https://weeds.org.au/" target="_blank">weeds.org.au →</a></div>
+            <div class="ref-card"><i class="fas fa-search"></i><h4>Weeds Australia Profiles</h4><p>Detailed species profiles with photos and control options relevant to Tasmania.</p><a href="https://weeds.org.au/weeds-profiles/" target="_blank">weeds.org.au/profiles →</a></div>
+            <div class="ref-card"><i class="fas fa-flask"></i><h4>APVMA · Permits</h4><p>Check herbicide permits and registered uses for Tasmanian conditions.</p><a href="https://apvma.gov.au" target="_blank">apvma.gov.au →</a></div>
+        </div>
+        <div class="disclaimer"><i class="fas fa-calendar-alt"></i> <strong>Remember:</strong> Control guidelines and herbicide registrations change regularly. Always check the NRE Tas website <strong>before</strong> starting any weed control program in Tasmania.</div>
+    </div>
+
+    <div id="resistance" class="tab-pane">
+        <h2><i class="fas fa-shield-virus"></i> Herbicide resistance · Real and growing in Tasmania</h2>
+        <p>Resistance is not a future problem. It is happening now in Tasmania. Glyphosate-resistant annual ryegrass exists in Tasmanian cropping systems.
+        The same risk applies to woody weeds (gorse, broom, blackberry) if practices don't change.</p>
+
+        <div class="prediction-card">
+            <button class="prediction-question" onclick="toggleAnswer('resist1')" aria-expanded="false" aria-controls="resist1">
+                💊 <strong>Predict:</strong> What happens when a Tasmanian contractor uses half-rate glyphosate over large areas for 3 consecutive years on gorse?
+            </button>
+            <div class="constraint-badge" style="background: var(--info); margin-top: 0.5rem;">
+                🧠 Tests: Prevention > control
+            </div>
+            <div id="resist1" class="prediction-answer">
+                <div class="common-mistake">⚠️ Common instinct: "Half rate saves money, still controls most."</div>
+                <strong>Outcome:</strong> Sub-lethal dosing selects resistant individuals. Within 5 years, population no longer controlled. Glyphosate-resistant gorse has been documented in New Zealand and is likely to emerge in Tasmania.<br>
+                <strong>Correct:</strong> Always use label rates. Rotate mode of action (MOA) groups (e.g., Group 1, Group 4, Group 9). Never spray the same herbicide on the same population year after year.
+                <div class="consequence-card">🧬 <strong>Evolution in action:</strong> You're not just wasting chemical — you're breeding superweeds for the next generation of Tasmanian land managers. Once resistance evolves, it's permanent.</div>
+            </div>
+            <div class="confidence-rating">
+                <span>How confident were you in your prediction?</span>
+                <button class="confidence-btn confidence-low" data-confidence="low" data-target="resist1">🔴 Low</button>
+                <button class="confidence-btn confidence-medium" data-confidence="medium" data-target="resist1">🟡 Medium</button>
+                <button class="confidence-btn confidence-high" data-confidence="high" data-target="resist1">🟢 High</button>
+                <div class="confidence-feedback" id="confidence-resist1"></div>
+            </div>
+        </div>
+
+        <div class="field-signal">
+            <i class="fas fa-flask"></i>
+            <strong>Early resistance signals in Tasmania:</strong> Patches within infestation that survive treatment while surrounding plants die.
+            Same equipment, same mix, same day. That is not "missed spots" — that is resistance developing. Report suspected resistance to NRE Tas.
+        </div>
+    </div>
+
+    <div id="dont" class="tab-pane">
+        <h2><i class="fas fa-ban"></i> What NOT to do · The failure checklist (Tasmanian edition)</h2>
+        <p>Memorise this. Print it. Put it in your vehicle. These are common errors in Tasmanian weed management.</p>
+        <ul class="dont-list">
+            <li>✗ Slash serrated tussock after seed set (expands infestation 3-5x)</li>
+            <li>✗ Spray systemic herbicides during Tasmanian drought or frost (wastes chemical)</li>
+            <li>✗ Assume one treatment = success (seedbank persists for decades)</li>
+            <li>✗ Ignore clean-down between Tasmanian sites (spreads seeds via mud/soil)</li>
+            <li>✗ Treat without positive weed identification (misidentification wastes time)</li>
+            <li>✗ Cut and leave willow branches in Tasmanian waterways (they root and regrow)</li>
+            <li>✗ Use higher herbicide rate than label "for safety" (increases resistance selection pressure)</li>
+            <li>✗ Work alone in remote Tasmanian areas without PLB/EPIRB (safety risk)</li>
+            <li>✗ Spray outside label conditions (commonly >15 km/h wind, gusty conditions, or during temperature inversion — common in Tasmanian valleys)</li>
+            <li>✗ Burn gorse without 12-month follow-up herbicide (fire alone increases density)</li>
+            <li>✗ Ignore Biosecurity Act 2019 requirements for declared weeds (legal penalties apply)</li>
+            <li>✗ Spread declared weeds in firewood, gravel, or soil (offence under legislation)</li>
+        </ul>
+        <div class="trap-card"><i class="fas fa-skull"></i> <strong>The worst failure in Tasmania:</strong> Walking away after one treatment, believing the job is done. Seedbank + regrowth = reinfestation within 2-3 years. Tasmanian example: Gorse programs in the Derwent Valley that stopped at Year 2 had 80% reinfestation by Year 5.</div>
+    </div>
+
+    <div id="traps" class="tab-pane">
+        <h2><i class="fas fa-trap"></i> Confidence traps · Where experienced Tasmanian operators fail</h2>
+        <p>These are not beginner mistakes. These are the errors that catch skilled people because they look like success.</p>
+
+        <div class="trap-card">
+            <h4><i class="fas fa-seedling"></i> Trap 1: "Looks dead" ≠ dead (Tasmanian winter dormancy)</h4>
+            <p>Gorse can look brown and dead above ground while root crowns are viable. Tasmanian winters can make plants look dead when they're just dormant. Wait 6 months (through one growing season) before declaring success. Resprouts are common.</p>
+        </div>
+        <div class="trap-card">
+            <h4><i class="fas fa-vial"></i> Trap 2: "More chemical = better"</h4>
+            <p>Exceeding label rates does not improve kill. It wastes chemical, increases environmental risk in Tasmanian catchments, and accelerates resistance selection. Label rates are tested for efficacy.</p>
+        </div>
+        <div class="trap-card">
+            <h4><i class="fas fa-check-circle"></i> Trap 3: "Clean site = success"</h4>
+            <p>No visible weeds does not mean no seedbank. The real infestation is underground. Tasmanian control programs fail when they declare victory at Year 1 or 2 instead of Year 7-10. Soil seedbank testing is available through Tasmanian agricultural labs.</p>
+        </div>
+        <div class="trap-card">
+            <h4><i class="fas fa-chart-line"></i> Trap 4: "Past success predicts future"</h4>
+            <p>What worked last season may fail this season. Weather, plant phenology (affected by Tasmanian climate variability), and resistance change. Always assess current conditions before applying — don't assume what worked last year will work this year.</p>
+        </div>
+    </div>
+
+    <div id="indigenous" class="tab-pane">
+        <h2><i class="fas fa-hands-helping"></i> Indigenous land management · Observation-based learning</h2>
+        <p>Acknowledging Tasmanian Aboriginal (<em>palawa/pakana</em>) land management practices and their relevance to modern weed management in lutruwita/Tasmania.</p>
+
+        <div class="info-card">
+            <i class="fas fa-fire"></i>
+            <h4>Cultural burning vs uniform disturbance</h4>
+            <p>Western fire management often treats whole blocks uniformly. Tasmanian Aboriginal mosaic burning creates patchworks of different ages and burn intensities.</p>
+            <div class="field-signal"><strong>Key insight:</strong> Patchy heat creates refuges for native insects and plants, breaks weed seedbank continuity, reduces massive post-fire germination.</div>
+            <p><strong>Application:</strong> Consider patch-burn strategies. Consult with Tasmanian Aboriginal land management organisations before designing fire-based weed programs. Traditional knowledge is not a free resource — engagement requires relationship, respect, and reciprocity.</p>
+        </div>
+
+        <div class="info-card">
+            <i class="fas fa-calendar-alt"></i>
+            <h4>Reading the land, not the calendar</h4>
+            <p>Instead of fixed dates ("spray in October"), read seasonal indicators: flowering events, insect activity, soil moisture. Tasmanian seasons are variable — adapt to conditions, not dates.</p>
+            <div class="field-signal"><strong>Example:</strong> Use wattle flowering as your trigger for spring control, not a calendar date. Phenology adapts to actual conditions.</div>
+        </div>
+
+        <div class="info-card">
+            <i class="fas fa-tree"></i>
+            <h4>Decision-making without written rules</h4>
+            <p>Tasmanian Aboriginal land management traditionally operates without written manuals — knowledge is transmitted through observation, oral tradition, and multi-generational feedback loops.</p>
+            <div class="field-signal"><strong>Application to you:</strong> Your field notes, mistakes, and observations become tomorrow's tacit knowledge. Start a Tasmanian weed field journal today. Write down what you see, what worked, what failed.</div>
+        </div>
+
+        <div class="disclaimer">
+            <i class="fas fa-hands"></i> <strong>Acknowledgement:</strong> We recognise Tasmanian Aboriginal people as the original land managers of lutruwita/Tasmania. This section is meant to prompt reflection, not represent traditional knowledge. For deeper learning, engage directly with Tasmanian Aboriginal organisations and Traditional Owners.
+        </div>
+
+        <div class="field-signal" style="margin-top: 1rem;">
+            <i class="fas fa-handshake"></i>
+            <strong>Practical next step:</strong> Before starting any weed program on or near culturally significant sites in Tasmania, contact the <strong>Tasmanian Aboriginal Centre</strong> or <strong>Aboriginal Heritage Tasmania</strong> for guidance. Cultural heritage override production priorities.
+        </div>
+    </div>
+
+    <div id="micro" class="tab-pane">
+        <h2><i class="fas fa-comment-dots"></i> Micro-scenarios · 1-2 line decisions (Tasmanian context)</h2>
+
+        <div class="micro-scenario">
+            <p><strong>🌿 You see gorse resprouting 6 months after treatment in Tasmania's Derwent Valley. What likely went wrong?</strong></p>
+            <button class="btn-reveal" onclick="revealMicro('micro1')">Reveal</button>
+            <div id="micro1" style="display:none; margin-top:0.5rem;">
+                <div class="common-mistake">⚠️ Common instinct: "Product failed."</div>
+                Low herbicide uptake (drought-stressed plant from Tasmanian summer) OR missed stems. Resprouting is normal – need follow-up treatment within 6-12 months.
+                <div class="consequence-card">⏰ Follow-up window: 6-12 months. Miss it and you're back to square one. Tasmanian gorse requires 5-7 year programs.</div>
+            </div>
+        </div>
+
+        <div class="micro-scenario">
+            <p><strong>💧 Customer wants you to spray willows along a Tasmanian stream (Huon River tributary). Chemical buffer is 20m. What do you do?</strong></p>
+            <button class="btn-reveal" onclick="revealMicro('micro2')">Reveal</button>
+            <div id="micro2" style="display:none; margin-top:0.5rem;">
+                Cut stump mechanical removal within 20m. No chemical near water. Explain to customer why – legality under Water Management Act and ecology.
+                <div class="consequence-card">⚖️ Legal risk in Tasmania: Fines for chemical in waterways can exceed $10,000 under the Water Management Act 1999.</div>
+            </div>
+        </div>
+
+        <div class="micro-scenario">
+            <p><strong>📉 Your spray results on blackberry are patchy. Some areas 100% kill, others 30%. Same mix, same day, Tasmanian Midlands property. What's likely happening?</strong></p>
+            <button class="btn-reveal" onclick="revealMicro('micro3')">Reveal</button>
+            <div id="micro3" style="display:none; margin-top:0.5rem;">
+                Equipment issue (nozzle block, pressure variation, boom height) OR early resistance. Check calibration first. If consistent pattern, consider MOA rotation. Report suspected resistance to NRE Tas.
+            </div>
+        </div>
+
+        <div class="micro-scenario">
+            <p><strong>🔥 Fire has just swept through a gorse-infested valley in Tasmania's Huon Valley. Landholder says "good, that's sorted." What do you say?</strong></p>
+            <button class="btn-reveal" onclick="revealMicro('micro4')">Reveal</button>
+            <div id="micro4" style="display:none; margin-top:0.5rem;">
+                Fire stimulates gorse germination and resprouting in Tasmania (stored seedbank + root crowns). Will be worse within 12 months without follow-up herbicide. Plan follow-up now.
+                <div class="consequence-card">🔥 Fire alone = 10% control in Tasmania. Fire + follow-up = 90% control. Don't leave the job half done. Tasmanian example: 2021 Bothwell fires resulted in 3x denser gorse.</div>
+            </div>
+        </div>
+
+        <div class="micro-scenario">
+            <p><strong>🚜 You find a threatened orchid patch (e.g., <em>Caladenia</em> species) underneath a gorse thicket you're treating in Tasmania. What's your immediate action?</strong></p>
+            <button class="btn-reveal" onclick="revealMicro('micro5')">Reveal</button>
+            <div id="micro5" style="display:none; margin-top:0.5rem;">
+                STOP. Flag location. Do NOT spray nearby. Hand-remove gorse around orchids. Report to land manager and NRE Tas (Threatened Species Section). Legal protection under Threatened Species Protection Act 1995 overrides production.
+            </div>
+        </div>
+
+        <div class="micro-scenario">
+            <div class="constraint-badge"><i class="fas fa-clock"></i> Real-world: Private property access only 1 day/year in Tasmania's Central Highlands</div>
+            <p><strong>🚧 You have ONE access day per year to a remote Tasmanian property. What method do you choose?</strong></p>
+            <button class="btn-reveal" onclick="revealMicro('micro6')">Reveal</button>
+            <div id="micro6" style="display:none; margin-top:0.5rem;">
+                Target persistent methods: basal bark or cut-stump with residual herbicide (e.g., triclopyr+picloram).
+                Plan for follow-up by landholder using spot-spray in between – train them. Use long-term markers (GPS/photos) to track progress.
+            </div>
+        </div>
+
+        <div class="micro-scenario">
+            <div class="constraint-badge"><i class="fas fa-leaf"></i> Pampas Grass (Declared Weed in Tasmania)</div>
+            <p><strong>🌾 You find pampas grass flowering in Tasmania's Douglas-Apsley National Park. What's your priority?</strong></p>
+            <button class="btn-reveal" onclick="revealMicro('micro7')">Reveal</button>
+            <div id="micro7" style="display:none; margin-top:0.5rem;">
+                Remove flower heads FIRST (bag and remove from site, ideally incinerate), then treat the plant. Prevents seed spread into the national park.
+                <div class="consequence-card">💨 A single pampas plume can release 100,000+ seeds. Remove it before disturbing the plant. Under Tasmanian law, you cannot spread declared weeds.</div>
+            </div>
+        </div>
+
+        <div class="micro-scenario">
+            <div class="constraint-badge"><i class="fas fa-leaf"></i> Boneseed (Declared Weed in Tasmania)</div>
+            <p><strong>🍇 Boneseed with ripe berries along Tasmania's east coast (Freycinet area). What's the risk?</strong></p>
+            <button class="btn-reveal" onclick="revealMicro('micro8')">Reveal</button>
+            <div id="micro8" style="display:none; margin-top:0.5rem;">
+                Birds (including native species) eat berries and spread seeds widely through coastal reserves. Remove plants BEFORE berry set ideally. If already fruiting, bag and dispose of berries off-site in red bin (not compost).
+            </div>
+        </div>
+
+        <div class="pattern-pause">
+            <i class="fas fa-chart-line"></i> <strong>Pause. What pattern are you noticing across these micro-scenarios?</strong>
+            <textarea placeholder="Your observation..." rows="2"></textarea>
+        </div>
+    </div>
+
+    <div id="media" class="tab-pane">
+        <h2><i class="fas fa-photo-video"></i> Video & Photo Examples for Tasmanian Conditions</h2>
+        <p>Visual examples bring field signals to life. <strong>Predict before you watch or view.</strong></p>
+        <p style="margin-bottom:1rem; font-size:0.9rem; background:var(--light); padding:0.6rem 1rem; border-radius:0.6rem;">
+          <i class="fas fa-link"></i> Full video library is in the <a href="index.html" style="color:var(--info); text-decoration:underline; font-weight:bold;">AHCPMG301 Ultimate Guide → Video Resources tab</a>.
+        </p>
+
+        <h3><i class="fas fa-video"></i> Key Video Resources</h3>
+
+        <div class="prediction-card">
+            <button class="prediction-question" onclick="toggleAnswer('videoPred1')" aria-expanded="false" aria-controls="videoPred1">
+                🎬 <strong>Before watching Video 1:</strong> If you had a Tasmanian property with weeds (gorse, broom, blackberry), how would you decide where to control first—and where not to disturb?
+            </button>
+            <div id="videoPred1" class="prediction-answer">
+                After watching, compare: the video explains integrated weed management based on ecological resilience.
+                Key idea: prioritise areas of moderate resilience, protect high-quality areas (e.g., Tasmanian remnant grassland), and plan long-term for degraded sites rather than treating everything the same.
+            </div>
+            <div class="confidence-rating">
+                <span>How confident are you in your approach?</span>
+                <button class="confidence-btn confidence-low" data-confidence="low" data-target="videoPred1">🔴 Low</button>
+                <button class="confidence-btn confidence-medium" data-confidence="medium" data-target="videoPred1">🟡 Medium</button>
+                <button class="confidence-btn confidence-high" data-confidence="high" data-target="videoPred1">🟢 High</button>
+                <div class="confidence-feedback" id="confidence-videoPred1"></div>
+            </div>
+        </div>
+
+        <div class="media-container">
+            <div class="video-wrapper" id="video1">
+                <iframe src="https://www.youtube.com/embed/dNbjTL21CLY" title="Integrated weed management and resilience" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <p><strong>Video 1:</strong> Explains integrated weed management using ecological resilience. Focus on how site condition (high, moderate, poor resilience) determines control strategy, and why not all areas should be treated the same.</p>
+        </div>
+
+        <div class="prediction-card">
+            <button class="prediction-question" onclick="toggleAnswer('videoPred2')" aria-expanded="false" aria-controls="videoPred2">
+                🎬 <strong>Before watching Video 2:</strong> Should all non-native plants be removed from a Tasmanian natural area? Why or why not?
+            </button>
+            <div id="videoPred2" class="prediction-answer">
+                After watching, compare: the video challenges this assumption.
+                Key ideas: environmental weeds are defined by impact (not origin), disturbance drives weed invasion, and some weeds are symptoms (passengers) rather than causes (drivers).
+                Removing plants without understanding the system can cause harm. Relevant to Tasmanian landscapes where disturbance history matters.
+            </div>
+            <div class="confidence-rating">
+                <span>How confident are you in your thinking?</span>
+                <button class="confidence-btn confidence-low" data-confidence="low" data-target="videoPred2">🔴 Low</button>
+                <button class="confidence-btn confidence-medium" data-confidence="medium" data-target="videoPred2">🟡 Medium</button>
+                <button class="confidence-btn confidence-high" data-confidence="high" data-target="videoPred2">🟢 High</button>
+                <div class="confidence-feedback" id="confidence-videoPred2"></div>
+            </div>
+        </div>
+
+        <div class="media-container">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/b_GaUwNPKv8" title="Environmental weeds and ecological principles" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <p><strong>Video 2:</strong> Introduces ecological principles behind weed management. Focus on disturbance, opportunistic vs competitive species, and the difference between driver and passenger weeds.</p>
+        </div>
+    </div>
+
+<footer class="footer">
+    <span>© AHCPMG301 · Prediction-First Learning · Tasmanian Edition</span>
+    <span>Remember: Learning happens in the gap between prediction and reality</span>
+    <span>Field judgement > content knowledge | Biosecurity Act 2019 (TAS)</span>
+</footer>
+
+<script>
+    function toggleAnswer(id) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.classList.toggle('show');
+        }
+    }
+
+    function revealMicro(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            if (el.style.display === 'none' || el.style.display === '') {
+                el.style.display = 'block';
+            } else {
+                el.style.display = 'none';
+            }
+        }
+    }
+
+    function showTab(event, tabId) {
+        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        const selectedPane = document.getElementById(tabId);
+        if (selectedPane) {
+            selectedPane.classList.add('active');
+        }
+        if (event && event.currentTarget) {
+            event.currentTarget.classList.add('active');
+        } else {
+            const button = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+            if (button) button.classList.add('active');
+        }
+        localStorage.setItem('activeTab', tabId);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function closeStartHere() {
+        const banner = document.querySelector('.start-here');
+        if (banner) {
+            banner.style.display = 'none';
+            localStorage.setItem('hasSeenStartHere', 'true');
+        }
+    }
+
+    function initStartHere() {
+        const banner = document.querySelector('.start-here');
+        if (!banner) return;
+        const hasSeen = localStorage.getItem('hasSeenStartHere');
+        if (hasSeen) {
+            banner.style.display = 'none';
+        }
+    }
+
+    function initConfidenceButtons() {
+        document.querySelectorAll('.confidence-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const confidence = this.getAttribute('data-confidence');
+                const targetId = this.getAttribute('data-target');
+                const feedbackDiv = document.getElementById(`confidence-${targetId}`);
+                if (feedbackDiv) {
+                    let message = '';
+                    let style = '';
+                    switch(confidence) {
+                        case 'low':
+                            message = 'Good instinct to question yourself. Review this concept — this is where learning happens in Tasmanian conditions.';
+                            style = 'background: #fef1f0; border-left: 4px solid var(--confidence-low); padding: 0.5rem; border-radius: 0.5rem; margin-top: 0.5rem;';
+                            break;
+                        case 'medium':
+                            message = 'You\'re on the right track. The gap between your prediction and reality is where Tasmanian field judgement grows.';
+                            style = 'background: #fff8e7; border-left: 4px solid var(--confidence-medium); padding: 0.5rem; border-radius: 0.5rem; margin-top: 0.5rem;';
+                            break;
+                        case 'high':
+                            message = 'Strong confidence! If you were correct, excellent. If not, this is your most valuable learning moment for Tasmania.';
+                            style = 'background: #e8f8e8; border-left: 4px solid var(--confidence-high); padding: 0.5rem; border-radius: 0.5rem; margin-top: 0.5rem;';
+                            break;
+                    }
+                    feedbackDiv.innerHTML = `<i class="fas fa-chart-simple"></i> ${message}`;
+                    feedbackDiv.style.cssText = style;
+                    feedbackDiv.classList.add('show');
+
+                    const savedConfidence = JSON.parse(localStorage.getItem('weedConfidence') || '{}');
+                    savedConfidence[targetId] = confidence;
+                    localStorage.setItem('weedConfidence', JSON.stringify(savedConfidence));
+                }
+            });
+        });
+    }
+
+    const quizQuestions = [
+        { q: "After 90% visible kill of gorse in Tasmania, how many viable seeds remain per square metre?", options: ["Almost none", "Hundreds", "Thousands", "All of them"], correct: 2, explanation: "A single gorse bush produces 5,000-10,000 seeds annually. In Tasmanian conditions, seeds remain viable for 30-40+ years." },
+        { q: "You find pampas grass flowering in a Tasmanian national park. What's your first action?", options: ["Spray immediately", "Cut and leave", "Remove flower heads first", "Burn the area"], correct: 2, explanation: "Remove flower heads FIRST and bag them to prevent seed spread. Under Tasmanian law, you cannot spread declared weeds." },
+        { q: "What is the minimum rainfast window for most systemic herbicides in Tasmanian conditions?", options: ["30 minutes", "2-6 hours", "24 hours", "1 week"], correct: 1, explanation: "Most systemic herbicides need 2-6 hours without rain. Check product label. Tasmanian West Coast conditions make this critical." },
+        { q: "What does patchy herbicide kill likely indicate in a Tasmanian blackberry infestation?", options: ["Different weed species", "Equipment issue or early resistance", "Weather variation", "Normal outcome"], correct: 1, explanation: "Check calibration first. Consider resistance testing. Report suspected resistance to NRE Tas." },
+        { q: "When is BEST time to spray gorse with systemic herbicide in Tasmania?", options: ["Winter (dormant/frost)", "During flowering", "Active growth (autumn/spring)", "During summer drought"], correct: 2, explanation: "Systemic herbicides need actively growing plants. Tasmanian autumn (March-May) and spring (September-November) are optimal." },
+        { q: "What is the single biggest misunderstanding in Tasmanian weed control?", options: ["Herbicide choice", "Spray timing", "Visible removal = success", "Weather conditions"], correct: 2, explanation: "Visible weed removal doesn't mean the seedbank is gone. Tasmanian programs fail when they stop at Year 2 instead of Year 7-10." },
+        { q: "Under the Biosecurity Act 2019 (Tasmania), what is your legal obligation for declared weeds on your land?", options: ["No obligation", "Must control them", "Only control if they spread", "Report only"], correct: 1, explanation: "Declared weeds MUST be controlled on your land under Tasmanian law. It is an offence to propagate, spread, or sell declared weeds." }
+    ];
+
+    let quizAnswers = new Array(quizQuestions.length).fill(null);
+
+    function renderQuiz() {
+        const container = document.getElementById('quiz-container');
+        if (!container) return;
+        container.innerHTML = '';
+        quizQuestions.forEach((q, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'quiz-question';
+            qDiv.innerHTML = `<strong>${idx+1}. ${q.q}</strong><div class="quiz-options" id="quiz-options-${idx}"></div><div class="quiz-feedback" id="quiz-feedback-${idx}"></div>`;
+            container.appendChild(qDiv);
+            const optsDiv = document.getElementById(`quiz-options-${idx}`);
+            q.options.forEach((opt, optIdx) => {
+                const optDiv = document.createElement('div');
+                optDiv.className = 'quiz-option';
+                optDiv.innerHTML = `<input type="radio" name="q${idx}" value="${optIdx}" style="margin-right: 8px;"> ${opt}`;
+                optDiv.querySelector('input').addEventListener('change', (e) => selectAnswer(idx, parseInt(e.target.value)));
+                optsDiv.appendChild(optDiv);
+            });
+            if (quizAnswers[idx] !== null) {
+                const inputs = optsDiv.querySelectorAll('input');
+                if (inputs[quizAnswers[idx]]) inputs[quizAnswers[idx]].checked = true;
+                showFeedback(idx);
+            }
+        });
+        updateScore();
+    }
+
+    function selectAnswer(qIdx, selected) {
+        quizAnswers[qIdx] = selected;
+        showFeedback(qIdx);
+        updateScore();
+        localStorage.setItem('weedQuizAnswers', JSON.stringify(quizAnswers));
+    }
+
+    function showFeedback(idx) {
+        const feedbackDiv = document.getElementById(`quiz-feedback-${idx}`);
+        const optsDiv = document.getElementById(`quiz-options-${idx}`);
+        const selected = quizAnswers[idx];
+        const isCorrect = (selected === quizQuestions[idx].correct);
+        if (selected === null) return;
+        const feedbackClass = isCorrect ? 'correct-feedback' : 'incorrect-feedback';
+        feedbackDiv.innerHTML = `<div class="${feedbackClass}">${isCorrect ? '✓ Correct! ' : '✗ Incorrect. '} ${quizQuestions[idx].explanation}</div>`;
+        feedbackDiv.classList.add('show');
+        const allOpts = optsDiv.querySelectorAll('.quiz-option');
+        allOpts.forEach((opt, i) => {
+            opt.classList.remove('correct', 'incorrect');
+            if (i === quizQuestions[idx].correct) opt.classList.add('correct');
+            if (i === selected && selected !== quizQuestions[idx].correct) opt.classList.add('incorrect');
+        });
+    }
+
+    function updateScore() {
+        const score = quizAnswers.filter((a, i) => a === quizQuestions[i].correct).length;
+        const scoreDiv = document.getElementById('quiz-score');
+        if (scoreDiv) scoreDiv.innerHTML = `<strong>Score: ${score}/${quizQuestions.length}</strong>`;
+    }
+
+    function resetQuiz() {
+        quizAnswers.fill(null);
+        localStorage.removeItem('weedQuizAnswers');
+        renderQuiz();
+    }
+
+    function loadQuizFromLocalStorage() {
+        const saved = localStorage.getItem('weedQuizAnswers');
+        if (saved) {
+            try {
+                quizAnswers = JSON.parse(saved);
+                renderQuiz();
+            } catch(e) { renderQuiz(); }
+        } else { renderQuiz(); }
+    }
+
+    function handleDeepLinks() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabParam = urlParams.get('tab');
+        if (tabParam && document.getElementById(tabParam)) {
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabParam).classList.add('active');
+            const activeButton = document.querySelector(`.tab-btn[data-tab="${tabParam}"]`);
+            if (activeButton) activeButton.classList.add('active');
+        } else {
+            const lastTab = localStorage.getItem('activeTab');
+            if (lastTab && document.getElementById(lastTab)) {
+                document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.getElementById(lastTab).classList.add('active');
+                const tabButton = document.querySelector(`.tab-btn[data-tab="${lastTab}"]`);
+                if (tabButton) tabButton.classList.add('active');
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        initConfidenceButtons();
+        loadQuizFromLocalStorage();
+        handleDeepLinks();
+        initStartHere();
+    });
+</script>
+
+</body>
+</html>

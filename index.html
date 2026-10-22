@@ -53,6 +53,22 @@
       padding: 0.4rem 1.2rem; border-radius: 60px; font-size: 0.8rem;
       border-left: 3px solid var(--accent); font-weight: 500;
     }
+    .companion-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 1.2rem;
+      background: var(--accent-soft);
+      color: var(--text);
+      padding: 0.7rem 1.3rem;
+      border-radius: 60px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-left: 4px solid var(--accent);
+      transition: transform 0.15s;
+    }
+    .companion-link:hover { transform: translateY(-2px); }
     .tab-bar {
       background: #0a3326;
       padding: 0.4rem 0.8rem;
@@ -127,10 +143,10 @@
     .scenario { background: var(--accent-soft); border-radius: var(--radius); padding: 1.3rem; margin: 1.2rem 0; border-left: 10px solid var(--accent); }
     .scenario-option { background: white; border-radius: 60px; padding: 0.5rem 1rem; margin: 0.5rem 0; cursor: pointer; border: 2px solid #d0dce3; transition: 0.1s; }
     .scenario-option.selected { background: var(--primary); color: white; border-color: var(--accent); }
-    .glossary-term { background: var(--bg); border-bottom: 2px dotted var(--primary); cursor: help; padding: 0 6px; border-radius: 12px; position: relative; display: inline-block; margin: 2px; }
-    .glossary-term .tooltip { display: none; position: absolute; bottom: 130%; left: 0; background: var(--primary); color: white; padding: 6px 14px; border-radius: 12px; width: 240px; font-size: 0.75rem; z-index: 200; box-shadow: var(--shadow); }
-    .glossary-term:hover .tooltip { display: block; }
     footer { background: #0a3326; color: #d6e5ed; padding: 2rem; margin-top: 2rem; border-top: 8px solid var(--accent); text-align: center; }
+    /* FIX: footer link colour */
+    footer a { color: var(--accent); }
+    footer a:hover { color: #f5c46a; }
     .tip { background: #e1f0fa; border-radius: 12px; padding: 0.8rem 1.2rem; margin: 0.8rem 0; border-left: 6px solid var(--primary-light); }
     .warning { background: #fdf0e0; border-radius: 12px; padding: 0.8rem 1.2rem; margin: 0.8rem 0; border-left: 6px solid #e68a2e; }
     .resource-link { color: var(--primary); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--accent); }
@@ -138,11 +154,6 @@
     mark.search-highlight { background: #fdf0a0; color: inherit; padding: 0 2px; border-radius: 2px; }
     .progress-container { background: #e0e0e0; border-radius: 20px; overflow: hidden; margin: 1rem 0; height: 12px; }
     .progress-fill { background: var(--primary); height: 100%; transition: width 0.5s; }
-    .accordion { background: var(--bg); border-radius: var(--radius); margin: 0.8rem 0; overflow: hidden; border: 1px solid var(--border); }
-    .accordion-header { padding: 1rem 1.2rem; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; background: white; transition: 0.2s; }
-    .accordion-header:hover { background: var(--bg); }
-    .accordion-content { padding: 0 1.2rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-    .accordion-content.open { padding: 1rem 1.2rem; max-height: 1200px; }
     .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 60px; font-size: 0.7rem; font-weight: 700; margin: 0.2rem; }
     .badge-primary { background: var(--primary); color: white; }
     .badge-accent { background: var(--accent); color: #1a2e3b; }
@@ -171,6 +182,10 @@
       <span><i class="fas fa-globe"></i> Tasmanian context</span>
       <span><i class="fas fa-video"></i> Video resources</span>
     </div>
+<a href="tasmanian-prediction.html" class="companion-link" style="color: var(--primary);">
+  <i class="fas fa-brain"></i>
+  <span>Want prediction-first practice? <strong>Open the Tasmanian Judgement Trainer →</strong></span>
+</a>
   </div>
 
   <div class="tab-bar">
@@ -185,9 +200,9 @@
     <button class="tab" onclick="switchTab(event,'tab8')"><i class="fas fa-book"></i> 9. Resources</button>
     <button class="tab" onclick="switchTab(event,'tab9')"><i class="fas fa-calculator"></i> 10. Case Study</button>
     <button class="tab" onclick="switchTab(event,'tab10')"><i class="fas fa-tree"></i> 11. Bushland Case Study</button>
+    <button class="tab" onclick="switchTab(event,'tab11')"><i class="fas fa-brain"></i> 12. Judgement Trainer</button>
   </div>
 
-  <!-- Search Bar -->
   <div style="padding: 0.5rem 1rem; background: var(--bg); border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
     <i class="fas fa-search" style="color: var(--primary-light);"></i>
     <input type="text" id="globalSearch" placeholder="Search across all tabs..." style="flex:1; padding: 0.5rem 1rem; border: 2px solid var(--border); border-radius: 60px; font-size: 0.9rem; min-width: 200px;">
@@ -196,7 +211,6 @@
     <span id="searchResultsCount" style="font-size:0.8rem; color:var(--text-light);"></span>
   </div>
 
-  <!-- ===== TAB 1: WHY CONTROL WEEDS ===== -->
   <div id="tab0" class="tab-content active">
     <h2><i class="fas fa-question-circle"></i> Why do we control weeds?</h2>
     <p style="font-size:1.1rem; margin-bottom:1.5rem;">Weeds are not just "bad plants." They are disturbance specialists that outcompete native vegetation, reduce agricultural productivity, create fire hazards, and degrade ecosystems. Effective control is about strategic intervention, not eradication for its own sake.</p>
@@ -278,7 +292,6 @@
     <p style="font-size:0.9rem; color:var(--primary-light);">15% complete — keep exploring!</p>
   </div>
 
-  <!-- ===== TAB 2: IPM PRINCIPLES ===== -->
   <div id="tab1" class="tab-content">
     <h2><i class="fas fa-puzzle-piece"></i> Integrated Pest Management (IPM)</h2>
     <p>IPM is <strong>not</strong> a method. It's a decision-making framework. It's the strategic approach that underpins all effective weed control. Understanding IPM is fundamental to this unit.</p>
@@ -331,7 +344,6 @@
     <p style="font-size:0.9rem; color:var(--primary-light);">30% complete — you're building strong foundations!</p>
   </div>
 
-  <!-- ===== TAB 3: CONTROL METHODS ===== -->
   <div id="tab2" class="tab-content">
     <h2><i class="fas fa-tools"></i> Control methods: A toolkit</h2>
     <p>No single method works everywhere. IPM requires selecting the right tool for the situation. Here are the four main categories, with detailed information on advantages, limitations, and Tasmanian-specific considerations.</p>
@@ -399,7 +411,6 @@
     <p style="font-size:0.9rem; color:var(--primary-light);">45% complete — you're mastering the practical skills!</p>
   </div>
 
-  <!-- ===== TAB 4: PLANNING ===== -->
   <div id="tab3" class="tab-content">
     <h2><i class="fas fa-clipboard-list"></i> Planning a weed control program</h2>
     <p>Effective weed control is planned, not improvised. This section covers the planning process from site assessment to follow-up scheduling.</p>
@@ -509,7 +520,6 @@
     <p style="font-size:0.9rem; color:var(--primary-light);">60% complete — you're becoming a planning expert!</p>
   </div>
 
-  <!-- ===== TAB 5: LEGISLATION ===== -->
   <div id="tab4" class="tab-content">
     <h2><i class="fas fa-gavel"></i> Tasmanian and Commonwealth legislation</h2>
     <p>Weed management is governed by legislation. Understanding your legal obligations is essential — both to avoid penalties and to protect the environment.</p>
@@ -563,7 +573,6 @@
     <p style="font-size:0.9rem; color:var(--primary-light);">75% complete — you're nearly there!</p>
   </div>
 
-  <!-- ===== TAB 6: MONITORING ===== -->
   <div id="tab5" class="tab-content">
     <h2><i class="fas fa-chart-bar"></i> Monitoring and evaluation</h2>
     <p>Monitoring is how you know if your control worked. It's not optional — it's central to IPM. Without monitoring, you're guessing.</p>
@@ -626,7 +635,6 @@
     <p style="font-size:0.9rem; color:var(--primary-light);">85% complete — you're ready for advanced interpretation!</p>
   </div>
 
-  <!-- ===== TAB 7: VIDEOS ===== -->
   <div id="tab6" class="tab-content">
     <h2><i class="fas fa-video"></i> Video resources</h2>
     <p>These videos provide practical demonstrations and contextual information to support your learning. Watch them before or after reading the relevant tabs.</p>
@@ -659,15 +667,6 @@
       <p>Overview of different weed control methods and when to use them. Relates to the Control Methods tab.</p>
     </div>
   </div>
-<!--  <div class="video-card">
-    <div class="video-wrapper">
-      <iframe src="https://www.youtube.com/embed/TZlJL90XfZ4" title="Weed Management Case Study" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-    </div>
-    <div class="video-info">
-      <h4>Weed Management Case Study</h4>
-      <p>A case study of "The Mulloon Institute" at Mulloon Creek, Bungendore NSW as an example of non-chemical applications to benefit the natural ecosystem.</p>
-    </div>
-  </div> -->
 </div>
 
     <div class="tip"><i class="fas fa-lightbulb"></i> <strong>How to use these videos:</strong> Watch each video with a specific question in mind (e.g., "What factors determine which method is chosen?"). Pause and take notes. Connect what you see to the concepts in the tabs.</div>
@@ -686,7 +685,6 @@
     </div>
   </div>
 
-  <!-- ===== TAB 8: PRACTICE ===== -->
   <div id="tab7" class="tab-content">
     <h2><i class="fas fa-puzzle-piece"></i> Test your knowledge</h2>
     <p>Try these questions to see how well you've grasped the key concepts from the unit.</p>
@@ -757,7 +755,6 @@
     <p style="font-size:0.9rem; color:var(--primary-light);">95% of this learning resource complete — review the assessment requirements with your trainer.</p>
   </div>
 
-  <!-- ===== TAB 9: RESOURCES ===== -->
   <div id="tab8" class="tab-content">
     <h2><i class="fas fa-book"></i> Resources & glossary</h2>
 
@@ -838,7 +835,6 @@
     <p style="font-size:0.9rem; color:var(--primary-light);">🎉 100% of this learning resource completed — review the assessment requirements with your trainer.</p>
   </div>
 
-  <!-- ===== TAB 10: CASE STUDY ===== -->
   <div id="tab9" class="tab-content">
     <h2><i class="fas fa-calculator"></i> Case Study: Blackberries along a fenceline</h2>
     <p style="font-size:1.1rem; margin-bottom:1.5rem;">Apply your learning to a real-world scenario from the assessment.</p>
@@ -906,7 +902,6 @@
     </div>
   </div>
 
-  <!-- ===== TAB 11: BUSHLAND CASE STUDY ===== -->
   <div id="tab10" class="tab-content">
     <h2><i class="fas fa-tree"></i> Case Study: Boneseed in a coastal reserve</h2>
     <p style="font-size:1.1rem; margin-bottom:1.5rem;">A non-agricultural scenario focused on conservation outcomes in a Tasmanian coastal reserve.</p>
@@ -1035,42 +1030,69 @@
     </div>
   </div>
 
+  <div id="tab11" class="tab-content">
+    <h2><i class="fas fa-brain"></i> Prediction-first Judgement Trainer</h2>
+    <p>This guide gives you the content knowledge. The <strong>Tasmanian Judgement Trainer</strong> gives you a different way to learn it — by <em>predicting outcomes before you read the answer</em>. Learning happens in the gap between your expectation and reality.</p>
+
+    <div class="checklist-card">
+      <h4>Use the Judgement Trainer when you want to:</h4>
+      <ul>
+        <li>Practise applying IPM concepts to realistic Tasmanian scenarios</li>
+        <li>Test your prediction of <em>cause → effect → response</em></li>
+        <li>Track your confidence on specific concepts</li>
+        <li>Work through failure cases (sprayed in frost, slashed after seed set, etc.)</li>
+        <li>Explore confidence traps — the errors that catch experienced operators</li>
+        <li>See a visual seedbank timeline and seasonal treatment calendar</li>
+        <li>Browse an 18-species Tasmanian weed library with NRE Tas links</li>
+      </ul>
+      <a href="tasmanian-prediction.html" class="btn btn-primary" style="margin-top:1rem; text-decoration:none;">
+        <i class="fas fa-external-link-alt"></i> Open Judgement Trainer
+      </a>
+    </div>
+
+    <div class="card" style="margin-top:1.5rem;">
+      <h4>How the two resources fit together</h4>
+      <table>
+        <tr><th>This Guide (AHCPMG301 Ultimate)</th><th>Tasmanian Judgement Trainer</th></tr>
+        <tr><td>Reference — "what to know"</td><td>Practice — "can you predict it?"</td></tr>
+        <tr><td>Linear, tab-by-tab reading</td><td>Scaffolded, predict-before-reveal</td></tr>
+        <tr><td>Best for first exposure to content</td><td>Best for reinforcement & self-testing</td></tr>
+        <tr><td>Comprehensive case studies</td><td>Micro-scenarios & confidence traps</td></tr>
+        <tr><td>Legislation & planning detail</td><td>Ecology & field-signal focus</td></tr>
+      </table>
+    </div>
+
+    <div class="card" style="margin-top:1.5rem;">
+      <h4>Suggested study path</h4>
+      <ol>
+        <li>Read <strong>Why control?</strong> and <strong>IPM Principles</strong> in this guide.</li>
+        <li>Open the <a href="tasmanian-prediction.html" class="resource-link">Judgement Trainer</a> and work through the <strong>Foundations</strong> and <strong>Ecology</strong> tabs — predict before you reveal.</li>
+        <li>Return here to read <strong>Control Methods</strong>, <strong>Planning</strong>, and <strong>Legislation</strong>.</li>
+        <li>Go back to the Judgement Trainer and work through <strong>Failures</strong>, <strong>Seedbank</strong>, and <strong>Field Signals</strong>.</li>
+        <li>Finish with the <strong>Practice</strong> quizzes and both <strong>Case Studies</strong> in this guide.</li>
+        <li>End with the Judgement Trainer's <strong>Confidence Traps</strong> and <strong>Micro-scenarios</strong> for a final self-test.</li>
+      </ol>
+    </div>
+  </div>
+
   <footer>
-    <p><i class="fas fa-seedling"></i> AHCPMG301 Control weeds · Learning Guide · Developed by Jay Rowley © 2026</p>
+    <p><i class="fas fa-seedling"></i> AHCPMG301 Control weeds · Ultimate Learning Guide · Developed by Jay Rowley © 2026</p>
     <p>Certificate III in Conservation and Ecosystem Management (AHC31424) · Tasmanian context</p>
+    <p style="margin-top:0.8rem; font-size:0.85rem;">
+      Companion resource: <a href="tasmanian-prediction.html" style="color:var(--accent);">Tasmanian Judgement Trainer →</a>
+    </p>
   </footer>
 </div>
 
 <script>
-// ============================================================================
-// TAB SWITCHING
-// ============================================================================
 function switchTab(e, tabId) {
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById(tabId).classList.add('active');
-  e.currentTarget.classList.add('active');
+  if (e && e.currentTarget) e.currentTarget.classList.add('active');
   window.scrollTo(0, 0);
 }
 
-// ============================================================================
-// ACCORDION (unused on this page but retained for compatibility)
-// ============================================================================
-function toggleAccordion(header) {
-  const content = header.nextElementSibling;
-  const icon = header.querySelector('.fa-chevron-down, .fa-chevron-up');
-  if (content.classList.contains('open')) {
-    content.classList.remove('open');
-    if (icon) icon.className = 'fas fa-chevron-down';
-  } else {
-    content.classList.add('open');
-    if (icon) icon.className = 'fas fa-chevron-up';
-  }
-}
-
-// ============================================================================
-// QUIZ
-// ============================================================================
 function checkQuiz() {
   let score = 0;
   const total = 7;
@@ -1082,7 +1104,6 @@ function checkQuiz() {
     const fb = q.querySelector('.quiz-feedback');
     const correct = q.dataset.correct;
 
-    // IMPORTANT: keep the base 'quiz-feedback' class so resetQuiz() can find it
     if (selected && selected.value === correct) {
       fb.innerHTML = '✓ Correct';
       fb.className = 'quiz-feedback feedback-correct';
@@ -1105,21 +1126,18 @@ function checkQuiz() {
 }
 
 function resetQuiz() {
-  // Clear the radio selections
   document.querySelectorAll('.quiz-question input[type="radio"]').forEach(r => {
     r.checked = false;
     r.disabled = false;
   });
 
-  // Clear and hide every feedback element (class is preserved by checkQuiz)
   document.querySelectorAll('.quiz-feedback').forEach(f => {
     f.innerHTML = '';
     f.textContent = '';
-    f.className = 'quiz-feedback';   // strip 'feedback-correct' / 'feedback-incorrect'
+    f.className = 'quiz-feedback';
     f.style.display = 'none';
   });
 
-  // Clear the score
   const scoreEl = document.getElementById('quizScore');
   if (scoreEl) {
     scoreEl.innerHTML = '';
@@ -1127,14 +1145,10 @@ function resetQuiz() {
     scoreEl.style.display = 'none';
   }
 
-  // Scroll back to the top of the quiz so the learner sees the reset
   const quizCard = document.querySelector('.quiz-card');
   if (quizCard) quizCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// ============================================================================
-// SCENARIOS
-// ============================================================================
 function selectScen(evt, num, choice) {
   const opts = document.querySelectorAll(`#scen${num}opts .scenario-option`);
   opts.forEach(o => o.classList.remove('selected'));
@@ -1173,9 +1187,6 @@ function resetScen(num) {
   document.querySelectorAll(`#scen${num}opts .scenario-option`).forEach(o => o.classList.remove('selected'));
 }
 
-// ============================================================================
-// SEARCH
-// ============================================================================
 function removeSearchHighlights() {
   document.querySelectorAll('mark.search-highlight').forEach(mark => {
     const parent = mark.parentNode;
@@ -1249,7 +1260,6 @@ function performSearch() {
     }
   });
 
-  // Activate the first tab that contains a match
   const firstVisible = Array.from(tabContents).find(tab => tab.style.display === 'block');
   if (firstVisible) {
     const tabId = firstVisible.id;
@@ -1276,9 +1286,6 @@ function clearSearch() {
   if (firstContent) firstContent.classList.add('active');
 }
 
-// ============================================================================
-// INITIALISATION
-// ============================================================================
 document.addEventListener('DOMContentLoaded', function () {
   const searchInput = document.getElementById('globalSearch');
   if (searchInput) {
