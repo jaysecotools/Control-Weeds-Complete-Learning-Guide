@@ -96,6 +96,8 @@
     }
     .tab:hover { background: #1d5b42; color: white; border-radius: 8px 8px 0 0; }
     .tab.active { color: white; border-bottom-color: var(--accent); background: linear-gradient(transparent 70%, rgba(224,162,59,0.2)); }
+    .tab.tab-3d { color: #ffd98a; }
+    .tab.tab-3d i { color: var(--accent); }
     .tab-content { display: none; padding: 2rem 2.5rem; background: white; animation: fadeIn 0.25s ease; }
     .tab-content.active { display: block; }
     @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
@@ -144,7 +146,6 @@
     .scenario-option { background: white; border-radius: 60px; padding: 0.5rem 1rem; margin: 0.5rem 0; cursor: pointer; border: 2px solid #d0dce3; transition: 0.1s; }
     .scenario-option.selected { background: var(--primary); color: white; border-color: var(--accent); }
     footer { background: #0a3326; color: #d6e5ed; padding: 2rem; margin-top: 2rem; border-top: 8px solid var(--accent); text-align: center; }
-    /* FIX: footer link colour */
     footer a { color: var(--accent); }
     footer a:hover { color: #f5c46a; }
     .tip { background: #e1f0fa; border-radius: 12px; padding: 0.8rem 1.2rem; margin: 0.8rem 0; border-left: 6px solid var(--primary-light); }
@@ -166,8 +167,137 @@
     .video-info { padding: 1rem; }
     .video-info h4 { margin: 0 0 0.3rem; font-size: 1rem; }
     .video-info p { font-size: 0.85rem; color: var(--text-light); margin: 0; }
-    @media (max-width: 768px) { .tab-content { padding: 1.2rem; } .tab { padding: 0.3rem 0.5rem; font-size: 0.65rem; } .grid-2, .grid-3, .grid-4 { gap: 1rem; } }
-    @media print { .tab-bar, .btn, .hero { display: none; } .tab-content { display: block !important; } }
+
+    /* ---------- 3D scene styles ---------- */
+    .scene-wrap {
+      position: relative;
+      width: 100%;
+      height: 460px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: linear-gradient(180deg, #87b6d0 0%, #d6e3ea 100%);
+      box-shadow: inset 0 0 60px rgba(0,30,50,0.15);
+      touch-action: none;
+      user-select: none;
+    }
+#stumpSceneWrap {
+  background: linear-gradient(180deg, #87b6d0 0%, #b8d4e0 55%, #4a7a3a 100%);
+}
+    .scene-wrap canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+    .scene-wrap canvas:active { cursor: grabbing; }
+    .scene-badge {
+      position: absolute;
+      background: rgba(10,59,42,0.88);
+      color: white;
+      padding: 0.4rem 0.9rem;
+      border-radius: 60px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      pointer-events: none;
+      backdrop-filter: blur(6px);
+    }
+    .scene-badge.top-left { top: 12px; left: 12px; }
+    .scene-badge.top-right { top: 12px; right: 12px; background: rgba(255,255,255,0.92); color: var(--primary); }
+    .scene-badge.bottom-left { bottom: 12px; left: 12px; }
+    .scene-badge.bottom-right { bottom: 12px; right: 12px; }
+    .scene-controls {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .scene-hint {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10,59,42,0.75);
+      color: white;
+      padding: 0.35rem 0.9rem;
+      border-radius: 60px;
+      font-size: 0.72rem;
+      pointer-events: none;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 0.75; } 50% { opacity: 1; } }
+    .seed-slider-block {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+    }
+    .seed-slider-block input[type=range] { width: 100%; accent-color: var(--primary); margin-top: 0.4rem; }
+    .stump-timer {
+      display: inline-block;
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+      padding: 0.2rem 0.7rem;
+      border-radius: 60px;
+      background: var(--primary);
+      color: white;
+      font-size: 0.9rem;
+    }
+    .stump-timer.warning { background: #e68a2e; }
+    .stump-timer.danger { background: var(--danger); }
+    .callout-3d {
+      background: linear-gradient(135deg, #1a4a35, #2e6b50);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      margin: 1rem 0;
+      border-left: 8px solid var(--accent);
+    }
+    .callout-3d strong { color: var(--accent); }
+    .bush-panel {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,255,255,0.97);
+      border-radius: 1rem;
+      padding: 1.2rem 1.4rem;
+      max-width: 340px;
+      box-shadow: 0 20px 60px rgba(0,30,50,0.4);
+      display: none;
+      z-index: 10;
+    }
+    .bush-panel.visible { display: block; animation: fadeIn 0.25s ease; }
+    .bush-panel h4 { margin-bottom: 0.4rem; color: var(--primary); }
+    .bush-panel p { font-size: 0.85rem; margin-bottom: 0.8rem; }
+    .bush-panel .close-btn {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      border: none;
+      background: transparent;
+      font-size: 1.1rem;
+      color: var(--text-light);
+      cursor: pointer;
+    }
+    .compare-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+    }
+    .compare-bar-row {
+      display: grid;
+      grid-template-columns: 110px 1fr 60px;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+    }
+    .compare-bar-track { height: 12px; background: #e0e0e0; border-radius: 6px; overflow: hidden; }
+    .compare-bar-fill { height: 100%; transition: width 0.3s; }
+
+    @media (max-width: 768px) {
+      .tab-content { padding: 1.2rem; }
+      .tab { padding: 0.3rem 0.5rem; font-size: 0.65rem; }
+      .grid-2, .grid-3, .grid-4 { gap: 1rem; }
+      .scene-wrap { height: 340px; }
+    }
+    @media print { .tab-bar, .btn, .hero, .scene-wrap { display: none; } .tab-content { display: block !important; } }
   </style>
 </head>
 <body>
@@ -181,6 +311,7 @@
       <span><i class="fas fa-clipboard-check"></i> Supports AHCPMG301</span>
       <span><i class="fas fa-globe"></i> Tasmanian context</span>
       <span><i class="fas fa-video"></i> Video resources</span>
+      <span><i class="fas fa-cube"></i> Interactive 3D</span>
     </div>
 <a href="tasmanian-prediction.html" target="_blank" rel="noopener noreferrer" class="companion-link" style="color: var(--primary);">
   <i class="fas fa-brain"></i>
@@ -201,6 +332,9 @@
     <button class="tab" onclick="switchTab(event,'tab9')"><i class="fas fa-calculator"></i> 10. Case Study</button>
     <button class="tab" onclick="switchTab(event,'tab10')"><i class="fas fa-tree"></i> 11. Bushland Case Study</button>
     <button class="tab" onclick="switchTab(event,'tab11')"><i class="fas fa-brain"></i> 12. Judgement Trainer</button>
+    <button class="tab tab-3d" onclick="switchTab(event,'tab12')"><i class="fas fa-cube"></i> 13. 3D Seedbank</button>
+    <button class="tab tab-3d" onclick="switchTab(event,'tab13')"><i class="fas fa-tree"></i> 14. 3D Stump Cut</button>
+    <button class="tab tab-3d" onclick="switchTab(event,'tab14')"><i class="fas fa-mountain"></i> 15. 3D Fenceline</button>
   </div>
 
   <div style="padding: 0.5rem 1rem; background: var(--bg); border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
@@ -385,7 +519,7 @@
       <tr><td><strong>Hand pulling</strong></td><td>Small infestations, isolated plants, sensitive areas</td><td>Before seed set, when soil is moist</td><td>Labour-intensive; root fragments may remain; soil disturbance</td></tr>
       <tr><td><strong>Slashing/mowing</strong></td><td>Reducing biomass, improving access</td><td>Before flowering/seed set</td><td>Spreads seeds if timed wrong; stimulates regrowth; not for root-suckering species</td></tr>
       <tr><td><strong>Cut stump/paste</strong></td><td>Woody weeds, sensitive areas where spray drift is a concern</td><td>Active growth (autumn/spring)</td><td>Labour-intensive; must treat immediately after cutting</td></tr>
-      <tr><td><strong>Basal bark</strong></td><td>Woody weeds, stems <10cm diameter</td><td>Active growth, avoid hot weather</td><td>Requires diesel-based carrier; not near water</td></tr>
+      <tr><td><strong>Basal bark</strong></td><td>Woody weeds, stems &lt;10cm diameter</td><td>Active growth, avoid hot weather</td><td>Requires diesel-based carrier; not near water</td></tr>
       <tr><td><strong>Foliar spray</strong></td><td>Dense infestations, seedlings, regrowth</td><td>Active growth, before seed set</td><td>Off-target drift; weather-dependent; resistance risk</td></tr>
       <tr><td><strong>Grazing</strong></td><td>Reducing biomass, pasture weeds</td><td>Before seed set, rotational</td><td>Stock may spread seeds; not effective alone; animal welfare</td></tr>
       <tr><td><strong>Biological control</strong></td><td>Large, inaccessible infestations</td><td>Long-term (years)</td><td>Slow; rarely eradicates; requires approval</td></tr>
@@ -771,7 +905,7 @@
         <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Mode of Action (MOA)</strong><br><small>The way a herbicide kills a plant. Rotating MOA groups reduces resistance risk.</small></div>
         <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Resistance</strong><br><small>The ability of a weed population to survive a herbicide that would normally kill it. Develops through repeated selection pressure.</small></div>
         <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Cut stump / cut and paint</strong><br><small>A targeted herbicide application method where the stem is cut and herbicide is applied immediately to the cut surface. Suitable for woody weeds.</small></div>
-        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Basal bark</strong><br><small>A herbicide application method where the lower 30-40cm of the stem is sprayed with an oil-based herbicide mix. Suitable for stems <10cm diameter.</small></div>
+        <div style="background:var(--bg); border-radius:12px; padding:0.8rem;"><strong>Basal bark</strong><br><small>A herbicide application method where the lower 30-40cm of the stem is sprayed with an oil-based herbicide mix. Suitable for stems &lt;10cm diameter.</small></div>
       </div>
     </div>
 
@@ -1074,22 +1208,216 @@
     </div>
   </div>
 
+  <!-- =========================================================
+       NEW 3D TAB 12 — SEEDBANK EXPLORER
+  ========================================================== -->
+  <div id="tab12" class="tab-content">
+    <h2><i class="fas fa-cube"></i> The Seedbank, Made Visible</h2>
+    <p>The single most important reason gorse programs run for decades isn't the adults you can see — it's the seeds you can't. This 3D scene shows a soil column with a realistic seed distribution by depth. <strong>Drag to rotate. Scroll to zoom. Scrub the timeline</strong> and watch the seedbank deplete year by year.</p>
+
+    <div class="seed-slider-block">
+      <label style="font-weight:700; font-size:0.95rem; display:flex; justify-content:space-between; align-items:center; gap:1rem;">
+        <span><i class="fas fa-clock"></i> Years since initial treatment</span>
+        <span class="stump-timer" id="seedYearBadge">Year 0</span>
+      </label>
+      <input type="range" id="seedYear" min="0" max="40" value="0" step="1">
+      <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-light); margin-top:0.3rem;">
+        <span>Year 0 — treatment</span><span>Year 20</span><span>Year 40 — seedbank exhausted</span>
+      </div>
+    </div>
+
+    <div class="scene-wrap" id="seedSceneWrap">
+      <canvas id="seedCanvas"></canvas>
+      <div class="scene-badge top-left"><i class="fas fa-cube"></i> 3D Seedbank</div>
+      <div class="scene-badge top-right">Viable seeds: <span id="viableCount">—</span></div>
+      <div class="scene-hint"><i class="fas fa-mouse-pointer"></i> Drag to rotate · Scroll to zoom</div>
+    </div>
+
+    <div class="grid-2" style="margin-top:1.5rem;">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-layer-group"></i> Depth bands, live</div>
+        <div class="compare-bars">
+          <div class="compare-bar-row"><span>0–10cm</span><div class="compare-bar-track"><div class="compare-bar-fill" id="band0" style="background:#b8d94a; width:100%;"></div></div><span id="band0n">—</span></div>
+          <div class="compare-bar-row"><span>10–30cm</span><div class="compare-bar-track"><div class="compare-bar-fill" id="band1" style="background:#e0a23b; width:100%;"></div></div><span id="band1n">—</span></div>
+          <div class="compare-bar-row"><span>30cm+</span><div class="compare-bar-track"><div class="compare-bar-fill" id="band2" style="background:#c7452b; width:100%;"></div></div><span id="band2n">—</span></div>
+        </div>
+        <p style="font-size:0.82rem; color:var(--text-light); margin-top:0.6rem;">Shallow seeds germinate quickly once adults are removed. Deep seeds survive decades and refill the site if follow-up stops.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="fas fa-flask"></i> Species profile</div>
+        <div class="scene-controls">
+          <button class="btn btn-primary" onclick="loadSpeciesProfile('gorse')">Gorse (30–40y)</button>
+          <button class="btn btn-outline" onclick="loadSpeciesProfile('blackberry')">Blackberry (5–15y)</button>
+          <button class="btn btn-outline" onclick="loadSpeciesProfile('boneseed')">Boneseed (8–20y)</button>
+        </div>
+        <p id="speciesBlurb" style="font-size:0.85rem; margin-top:0.8rem;">Gorse is the classic long-tail seedbank. A single bush sheds thousands of seeds per year, most of which stay viable for decades in Tasmanian soils.</p>
+      </div>
+    </div>
+
+    <div class="callout-3d">
+      <strong>The 3D profile:</strong> scrub the slider to Year 2 and watch what happens. Most of your shallow seeds die. But the deep red dots — the 30–40 year survivors — are still there. Those are why you don't stop treating. Notice that if you push past Year 15, the surviving red population <em>starts germinating upward</em>. That's the real seedbank trap: the survivors refill the shallow layer, and the cycle restarts.
+    </div>
+
+    <div class="checklist-card"><i class="fas fa-check-circle"></i> <strong>Takeaway:</strong> "Eradication" of gorse is a phrase that should make you nervous. The realistic objective is a long-term program that keeps the <em>shallow</em> layer exhausted while systematically reducing the <em>deep</em> layer — for a decade or more. The 3D model shows you why.</div>
+  </div>
+
+  <!-- =========================================================
+       NEW 3D TAB 13 — STUMP CUT SIMULATOR
+  ========================================================== -->
+  <div id="tab13" class="tab-content">
+    <h2><i class="fas fa-tree"></i> Stump Cut Simulator</h2>
+    <p>Cut stump treatment has one non-negotiable rule: <strong>apply herbicide immediately after cutting</strong>. Delay, and the cut surface seals up and the herbicide can't translocate. This 3D simulator lets you feel that rule in your fingertips.</p>
+
+    <div class="scene-wrap" id="stumpSceneWrap">
+      <canvas id="stumpCanvas"></canvas>
+      <div class="scene-badge top-left"><i class="fas fa-cut"></i> Stump Cut Simulator</div>
+      <div class="scene-badge top-right">Efficacy: <span id="stumpEfficacy">100%</span></div>
+      <div class="scene-hint"><i class="fas fa-mouse-pointer"></i> Drag to rotate · Scroll to zoom</div>
+    </div>
+
+    <div class="scene-controls">
+      <button class="btn btn-primary" id="cutStumpBtn"><i class="fas fa-cut"></i> Cut the stump</button>
+      <button class="btn btn-success" id="paintStumpBtn" disabled><i class="fas fa-fill-drip"></i> Apply herbicide paste</button>
+      <button class="btn btn-outline" id="resetStumpBtn"><i class="fas fa-undo"></i> Reset</button>
+      <span class="stump-timer" id="stumpTimer">Not cut yet</span>
+    </div>
+
+    <div class="grid-2" style="margin-top:1.5rem;">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-stopwatch"></i> The window</div>
+        <p style="font-size:0.9rem;">In the field, the label often says something like "apply immediately" or "apply within 30 seconds". This simulator gives you <strong>20 seconds</strong> to paint after cutting. The efficacy bar drops the longer you delay.</p>
+        <div class="compare-bars">
+          <div class="compare-bar-row"><span>Efficacy</span><div class="compare-bar-track"><div class="compare-bar-fill" id="stumpEfficacyBar" style="background:#2a7f64; width:100%;"></div></div><span id="stumpEfficacyNum">—</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="fas fa-graduation-cap"></i> Why it matters</div>
+        <p style="font-size:0.9rem;">Once the cut surface oxidises and sap seals the wound, the herbicide sits on top and doesn't move into the root system. You get a dead top and a re-shooting stump — the worst of both worlds. This is why contractors carry the paste <em>with</em> the saw, not in the truck.</p>
+      </div>
+    </div>
+
+    <div class="callout-3d">
+      <strong>Try this:</strong> cut the stump and wait. Watch the timer go from green, to amber, to red. When you paint at red, efficacy is well below 50% — the cut surface is effectively closed. That's exactly what happens in the field, and it's invisible until the stump resprouts months later.
+    </div>
+  </div>
+
+  <!-- =========================================================
+       NEW 3D TAB 14 — FENCELINE FLYOVER
+  ========================================================== -->
+  <div id="tab14" class="tab-content">
+    <h2><i class="fas fa-mountain"></i> Fenceline Flyover — the Case Study, in 3D</h2>
+    <p>This is Tab 10's blackberry fenceline case study, rendered as an interactive 3D scene. Fence down the middle. Cattle pasture on the left. Riverbank and native plantings on the right. <strong>Click any blackberry bush</strong> to open its info panel — including its buffer-zone rule.</p>
+
+    <div class="scene-wrap" id="fenceSceneWrap">
+      <canvas id="fenceCanvas"></canvas>
+      <div class="scene-badge top-left"><i class="fas fa-map"></i> Fenceline Flyover</div>
+      <div class="scene-badge top-right"><i class="fas fa-hand-pointer"></i> Click a bush</div>
+      <div class="scene-hint"><i class="fas fa-mouse-pointer"></i> Drag to rotate · Scroll to zoom</div>
+      <div class="bush-panel" id="bushPanel">
+        <button class="close-btn" id="bushPanelClose">✕</button>
+        <h4 id="bushPanelTitle">Blackberry bush</h4>
+        <p id="bushPanelBody">Select a bush to see its zone, treatment note, and buffer rule.</p>
+        <div class="scene-controls">
+          <button class="btn btn-primary" id="bushPanelAction">Mark for follow-up</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-top:1.5rem;">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-cow"></i> Pasture side (left)</div>
+        <p style="font-size:0.85rem;">Bobcat and cut-stump are allowed here. Fence must be temporarily removed for access, then reinstated. Slash before herbicide for best results.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="fas fa-water"></i> Riverbank side (right)</div>
+        <p style="font-size:0.85rem;">Buffer zone applies (typically 5–20m depending on label). Use manual removal or cut-stump only. No foliar spray near the water's edge.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="fas fa-leaf"></i> Native plantings</div>
+        <p style="font-size:0.85rem;">Green markers are restored natives — treat as non-target species. Any bush within their zone uses manual removal or cut-paste.</p>
+      </div>
+    </div>
+
+    <div class="callout-3d">
+      <strong>What you're seeing:</strong> this is the real spatial decision from the case study. Notice that <em>every</em> blackberry bush is close enough to either the fence or the riverbank to impose a constraint. There's no "just spray it all" solution — the 3D view makes the trade-offs visible in a way the table in Tab 10 can't.
+    </div>
+  </div>
+
   <footer>
     <p><i class="fas fa-seedling"></i> AHCPMG301 Control weeds · Ultimate Learning Guide · Developed by Jay Rowley © 2026</p>
     <p>Certificate III in Conservation and Ecosystem Management (AHC31424) · Tasmanian context</p>
-<!--    <p style="margin-top:0.8rem; font-size:0.85rem;">
-      Companion resource: <a href="tasmanian-prediction.html" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">Tasmanian Judgement Trainer →</a>
-    </p> -->
   </footer>
 </div>
 
+<!-- ============================================================
+     IMPORTMAP MUST COME BEFORE ANY <script type="module">
+     THAT IMPORTS FROM IT.
+============================================================ -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+
+<!-- ============================================================
+     ALL CLASSIC SCRIPTS
+============================================================ -->
 <script>
 function switchTab(e, tabId) {
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
+  const target = document.getElementById(tabId);
+  if (!target) {
+    console.warn('Tab not found:', tabId);
+    return;
+  }
+  target.classList.add('active');
   if (e && e.currentTarget) e.currentTarget.classList.add('active');
   window.scrollTo(0, 0);
+
+  if (tabId === 'tab12' && !window._seedSceneInit) {
+    window._seedSceneInit = true;
+    waitForTHREE().then(() => {
+      if (!window._seedScene) initSeedScene();
+    });
+  }
+  if (tabId === 'tab13' && !window._stumpSceneInit) {
+    window._stumpSceneInit = true;
+    waitForTHREE().then(() => {
+      if (!window._stumpScene) initStumpScene();
+    });
+  }
+  if (tabId === 'tab14' && !window._fenceSceneInit) {
+    window._fenceSceneInit = true;
+    waitForTHREE().then(() => {
+      if (!window._fenceScene) initFenceScene();
+    });
+  }
+}
+
+function waitForTHREE() {
+  return new Promise((resolve) => {
+    if (window.THREE) return resolve();
+    let tries = 0;
+    const t = setInterval(() => {
+      if (window.THREE || tries++ > 40) {
+        clearInterval(t);
+        resolve();
+      }
+    }, 100);
+  });
+}
+
+function showSceneFallback(wrapId, message) {
+  const wrap = document.getElementById(wrapId);
+  if (!wrap) return;
+  wrap.innerHTML =
+    `<div style="display:flex; align-items:center; justify-content:center; height:100%; padding:2rem; text-align:center; color:#fff; background:#0a3b2a; font-size:0.9rem; line-height:1.5;">` +
+    `<div><i class="fas fa-cube" style="font-size:2rem; margin-bottom:0.6rem; color:#e0a23b;"></i><br>` +
+    message +
+    `</div></div>`;
 }
 
 function checkQuiz() {
@@ -1129,21 +1457,18 @@ function resetQuiz() {
     r.checked = false;
     r.disabled = false;
   });
-
   document.querySelectorAll('.quiz-feedback').forEach(f => {
     f.innerHTML = '';
     f.textContent = '';
     f.className = 'quiz-feedback';
     f.style.display = 'none';
   });
-
   const scoreEl = document.getElementById('quizScore');
   if (scoreEl) {
     scoreEl.innerHTML = '';
     scoreEl.textContent = '';
     scoreEl.style.display = 'none';
   }
-
   const quizCard = document.querySelector('.quiz-card');
   if (quizCard) quizCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -1154,7 +1479,6 @@ function selectScen(evt, num, choice) {
   if (evt && evt.currentTarget) {
     evt.currentTarget.classList.add('selected');
   }
-
   const fb = document.getElementById(`scen${num}fb`);
   const msgs = {
     1: {
@@ -1173,7 +1497,6 @@ function selectScen(evt, num, choice) {
       C: '❌ Fire makes a significant difference — it can either help (if followed by herbicide) or make things worse (if not).'
     }
   };
-
   if (fb) {
     fb.innerHTML = `<strong>Feedback:</strong> ${msgs[num]?.[choice] || 'Review the scenario and try again.'}`;
     fb.style.display = 'block';
@@ -1189,9 +1512,7 @@ function resetScen(num) {
 function removeSearchHighlights() {
   document.querySelectorAll('mark.search-highlight').forEach(mark => {
     const parent = mark.parentNode;
-    while (mark.firstChild) {
-      parent.insertBefore(mark.firstChild, mark);
-    }
+    while (mark.firstChild) parent.insertBefore(mark.firstChild, mark);
     parent.removeChild(mark);
     parent.normalize();
   });
@@ -1201,7 +1522,6 @@ function highlightMatchesIn(root, query) {
   if (!query) return 0;
   const lowerQuery = query.toLowerCase();
   let matchCount = 0;
-
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
     acceptNode(node) {
       if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
@@ -1210,15 +1530,12 @@ function highlightMatchesIn(root, query) {
       return NodeFilter.FILTER_ACCEPT;
     }
   });
-
   const textNodes = [];
   while (walker.nextNode()) textNodes.push(walker.currentNode);
-
   textNodes.forEach(node => {
     const text = node.nodeValue;
     const lower = text.toLowerCase();
     if (lower.indexOf(lowerQuery) === -1) return;
-
     const frag = document.createDocumentFragment();
     let cursor = 0, idx;
     while ((idx = lower.indexOf(lowerQuery, cursor)) !== -1) {
@@ -1233,7 +1550,6 @@ function highlightMatchesIn(root, query) {
     if (cursor < text.length) frag.appendChild(document.createTextNode(text.slice(cursor)));
     node.parentNode.replaceChild(frag, node);
   });
-
   return matchCount;
 }
 
@@ -1241,13 +1557,10 @@ function performSearch() {
   const rawQuery = document.getElementById('globalSearch').value.trim();
   const resultsCountEl = document.getElementById('searchResultsCount');
   removeSearchHighlights();
-
   if (!rawQuery) { clearSearch(); return; }
-
   const query = rawQuery.toLowerCase();
   let totalMatches = 0;
   const tabContents = document.querySelectorAll('.tab-content');
-
   tabContents.forEach(tab => {
     const text = tab.textContent.toLowerCase();
     if (text.includes(query)) {
@@ -1258,7 +1571,6 @@ function performSearch() {
       tab.style.display = 'none';
     }
   });
-
   const firstVisible = Array.from(tabContents).find(tab => tab.style.display === 'block');
   if (firstVisible) {
     const tabId = firstVisible.id;
@@ -1267,7 +1579,6 @@ function performSearch() {
       .find(t => (t.getAttribute('onclick') || '').includes(tabId));
     if (matchingTab) matchingTab.classList.add('active');
   }
-
   if (resultsCountEl) resultsCountEl.textContent = `Found ${totalMatches} matches`;
 }
 
@@ -1293,6 +1604,648 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+
+/* ---- SEEDBANK ---- */
+window._seedScene = null;
+function initSeedScene() {
+  try {
+    if (!window.THREE) { showSceneFallback('seedSceneWrap', 'Three.js did not load.'); return; }
+    const wrap = document.getElementById('seedSceneWrap');
+    const canvas = document.getElementById('seedCanvas');
+    if (!wrap || !canvas) return;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0f2a1e);
+    const camera = new THREE.PerspectiveCamera(45, wrap.clientWidth / wrap.clientHeight, 0.1, 100);
+    camera.position.set(7, 4, 11);
+    camera.lookAt(0, -1.5, 0);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    scene.add(new THREE.AmbientLight(0xffffff, 1.15));
+    const sun = new THREE.DirectionalLight(0xffffff, 1.5);
+    sun.position.set(8, 12, 8);
+    scene.add(sun);
+
+    const world = new THREE.Group();
+    scene.add(world);
+
+    const soilW = 7, soilH = 4.2, soilD = 5;
+    const cageLine = new THREE.LineSegments(
+      new THREE.EdgesGeometry(new THREE.BoxGeometry(soilW, soilH, soilD)),
+      new THREE.LineBasicMaterial({ color: 0x8a6a44, transparent: true, opacity: 0.5 })
+    );
+    cageLine.position.y = -soilH / 2;
+    world.add(cageLine);
+
+    const paneMat = new THREE.MeshBasicMaterial({ color: 0x2a1a0e, transparent: true, opacity: 0.35, side: THREE.DoubleSide });
+    const backWall = new THREE.Mesh(new THREE.PlaneGeometry(soilW, soilH), paneMat);
+    backWall.position.set(0, -soilH / 2, -soilD / 2);
+    world.add(backWall);
+    const leftWall = new THREE.Mesh(new THREE.PlaneGeometry(soilD, soilH), paneMat);
+    leftWall.rotation.y = Math.PI / 2;
+    leftWall.position.set(-soilW / 2, -soilH / 2, 0);
+    world.add(leftWall);
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(soilW, soilD), paneMat);
+    floor.rotation.x = Math.PI / 2;
+    floor.position.y = -soilH;
+    world.add(floor);
+
+    const grassOutline = new THREE.LineLoop(
+      new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(-soilW / 2, 0.02, -soilD / 2),
+        new THREE.Vector3( soilW / 2, 0.02, -soilD / 2),
+        new THREE.Vector3( soilW / 2, 0.02,  soilD / 2),
+        new THREE.Vector3(-soilW / 2, 0.02,  soilD / 2)
+      ]),
+      new THREE.LineBasicMaterial({ color: 0x2e6b50, linewidth: 2 })
+    );
+    world.add(grassOutline);
+
+    for (let d = 0; d <= 4; d += 0.5) {
+      const pts = [
+        new THREE.Vector3(-3.6, -d, -2.55),
+        new THREE.Vector3(-3.6, -d,  2.55)
+      ];
+      world.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),
+        new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: d === 0 ? 0.4 : 0.08 })));
+    }
+
+    const seedGroup = new THREE.Group();
+    world.add(seedGroup);
+
+    const profiles = {
+      gorse:      { count: 260, maxDepth: 4.0, deepBias: 2.4, survivalScale: 38 },
+      blackberry: { count: 180, maxDepth: 2.4, deepBias: 1.3, survivalScale: 14 },
+      boneseed:   { count: 200, maxDepth: 3.2, deepBias: 1.8, survivalScale: 20 }
+    };
+
+    function seedColor(depth) {
+      if (depth < 0.7) return 0xb8d94a;
+      if (depth < 2.0) return 0xe0a23b;
+      return 0xc7452b;
+    }
+
+    const seedGeo = new THREE.SphereGeometry(0.10, 10, 10);
+
+    function buildSeeds(profileKey) {
+      while (seedGroup.children.length) {
+        const s = seedGroup.children.pop();
+        if (s.geometry) s.geometry.dispose();
+        if (s.material) s.material.dispose();
+      }
+      const p = profiles[profileKey];
+      for (let i = 0; i < p.count; i++) {
+        const r = Math.pow(Math.random(), 1 / p.deepBias);
+        const depth = 0.15 + r * (p.maxDepth - 0.15);
+        const mat = new THREE.MeshStandardMaterial({
+          color: seedColor(depth), emissive: seedColor(depth), emissiveIntensity: 0.25, roughness: 0.5
+        });
+        const seed = new THREE.Mesh(seedGeo, mat);
+        seed.position.set(
+          (Math.random() - 0.5) * 6.4,
+          -0.05 - depth,
+          (Math.random() - 0.5) * 4.4
+        );
+        seed.userData = { depth, survival: p.survivalScale * (0.6 + Math.random() * 0.8) + depth * 4 };
+        seedGroup.add(seed);
+      }
+    }
+    buildSeeds('gorse');
+
+    let isDragging = false, prevX = 0, prevY = 0, rotY = 0, rotX = 0;
+    canvas.addEventListener('pointerdown', e => { isDragging = true; prevX = e.clientX; prevY = e.clientY; });
+    window.addEventListener('pointerup', () => isDragging = false);
+    canvas.addEventListener('pointermove', e => {
+      if (!isDragging) return;
+      rotY += (e.clientX - prevX) * 0.008;
+      rotX += (e.clientY - prevY) * 0.006;
+      rotX = Math.max(-0.7, Math.min(0.5, rotX));
+      prevX = e.clientX; prevY = e.clientY;
+    });
+    canvas.addEventListener('wheel', e => {
+      e.preventDefault();
+      camera.position.z = Math.max(6, Math.min(20, camera.position.z + e.deltaY * 0.012));
+      camera.position.x = Math.max(4, Math.min(16, camera.position.x + e.deltaY * 0.008));
+    }, { passive: false });
+
+    const slider = document.getElementById('seedYear');
+    const yearBadge = document.getElementById('seedYearBadge');
+    const viableEl = document.getElementById('viableCount');
+    const bandEls = [
+      document.getElementById('band0n'),
+      document.getElementById('band1n'),
+      document.getElementById('band2n')
+    ];
+    const bandBars = [
+      document.getElementById('band0'),
+      document.getElementById('band1'),
+      document.getElementById('band2')
+    ];
+
+    function updateSeeds(year) {
+      yearBadge.textContent = `Year ${year}`;
+      let viable = 0;
+      const bandCounts = [0, 0, 0];
+      const bandTotals = [0, 0, 0];
+      seedGroup.children.forEach(seed => {
+        const d = seed.userData.depth;
+        const band = d < 0.7 ? 0 : d < 2.0 ? 1 : 2;
+        bandTotals[band]++;
+        const alive = year < seed.userData.survival;
+        seed.visible = alive;
+        if (alive) {
+          viable++;
+          bandCounts[band]++;
+          const remaining = seed.userData.survival - year;
+          const c = remaining < 3 ? 0xd1401e : seedColor(d);
+          seed.material.color.setHex(c);
+          seed.material.emissive.setHex(c);
+        }
+      });
+      viableEl.textContent = viable;
+      for (let i = 0; i < 3; i++) {
+        const pct = bandTotals[i] ? Math.round((bandCounts[i] / bandTotals[i]) * 100) : 0;
+        bandEls[i].textContent = `${bandCounts[i]}/${bandTotals[i]}`;
+        bandBars[i].style.width = pct + '%';
+      }
+    }
+
+    slider.addEventListener('input', e => updateSeeds(parseInt(e.target.value)));
+    updateSeeds(0);
+
+    window.loadSpeciesProfile = function (key) {
+      buildSeeds(key);
+      updateSeeds(parseInt(slider.value));
+      const blurbs = {
+        gorse: 'Gorse is the classic long-tail seedbank. A single bush sheds thousands of seeds per year, most of which stay viable for 30–40+ years in Tasmanian soils. This is why gorse programs are decades long.',
+        blackberry: 'Blackberry seeds are shorter-lived — typically 5–15 years in the soil. Still long enough to require multi-year follow-up, but a realistic end date exists.',
+        boneseed: 'Boneseed is bird-dispersed and produces berries. Its seedbank persists roughly 8–20 years. Because birds bring new seed in from surrounding land, containment is often the realistic objective, not eradication.'
+      };
+      document.getElementById('speciesBlurb').textContent = blurbs[key];
+    };
+
+    function animate() {
+      requestAnimationFrame(animate);
+      world.rotation.y = rotY;
+      world.rotation.x = rotX;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      const w = wrap.clientWidth, h = wrap.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    });
+
+    window._seedScene = { scene, camera, renderer, world };
+    console.log('[seedbank] 3D scene initialised');
+  } catch (err) {
+    console.error('[seedbank] init failed:', err);
+    showSceneFallback('seedSceneWrap', 'Could not initialise: ' + err.message);
+  }
+}
+
+/* ---- STUMP ---- */
+window._stumpScene = null;
+function initStumpScene() {
+  try {
+    if (!window.THREE) { showSceneFallback('stumpSceneWrap', 'Three.js did not load.'); return; }
+    const wrap = document.getElementById('stumpSceneWrap');
+    const canvas = document.getElementById('stumpCanvas');
+    if (!wrap || !canvas) return;
+
+    const scene = new THREE.Scene();
+    scene.background = null;
+    const camera = new THREE.PerspectiveCamera(45, wrap.clientWidth / wrap.clientHeight, 0.1, 200);
+    camera.position.set(0, 3.2, 8);
+    camera.lookAt(0, 1, 0);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+    const sun = new THREE.DirectionalLight(0xffffff, 1.25);
+    sun.position.set(6, 12, 6);
+    scene.add(sun);
+    const rim = new THREE.DirectionalLight(0xaaccff, 0.4);
+    rim.position.set(-8, 4, -6);
+    scene.add(rim);
+
+    const worldGroup = new THREE.Group();
+    scene.add(worldGroup);
+
+    const ground = new THREE.Mesh(
+      new THREE.CircleGeometry(9, 48),
+      new THREE.MeshStandardMaterial({ color: 0x2e6b50, roughness: 1 })
+    );
+    ground.rotation.x = -Math.PI / 2;
+    worldGroup.add(ground);
+
+    const rockGeo = new THREE.DodecahedronGeometry(0.18, 0);
+    const rockMat = new THREE.MeshStandardMaterial({ color: 0x6a6a5a, roughness: 1 });
+    const tuftGeo = new THREE.ConeGeometry(0.12, 0.35, 5);
+    const tuftMat = new THREE.MeshStandardMaterial({ color: 0x4a8c3b, roughness: 1 });
+
+    for (let i = 0; i < 28; i++) {
+      const angle = (i / 28) * Math.PI * 2 + Math.random() * 0.3;
+      const radius = 2 + Math.random() * 6;
+      const isRock = i % 3 === 0;
+      const obj = new THREE.Mesh(isRock ? rockGeo : tuftGeo, isRock ? rockMat : tuftMat);
+      obj.position.set(Math.cos(angle) * radius, isRock ? 0.1 : 0.17, Math.sin(angle) * radius);
+      obj.rotation.y = Math.random() * Math.PI * 2;
+      worldGroup.add(obj);
+    }
+
+    const treeGeo = new THREE.ConeGeometry(0.5, 2.2, 6);
+    const treeMat = new THREE.MeshStandardMaterial({ color: 0x1e4a32, roughness: 1 });
+    for (let i = 0; i < 14; i++) {
+      const angle = (i / 14) * Math.PI * 2;
+      const t = new THREE.Mesh(treeGeo, treeMat);
+      t.position.set(Math.cos(angle) * 8.5, 1.1, Math.sin(angle) * 8.5);
+      worldGroup.add(t);
+    }
+
+    const stumpGroup = new THREE.Group();
+    worldGroup.add(stumpGroup);
+
+    const trunkMat = new THREE.MeshStandardMaterial({ color: 0x6b4423, roughness: 0.95 });
+    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 1.0, 1.8, 24), trunkMat);
+    trunk.position.y = 0.9;
+    stumpGroup.add(trunk);
+
+    const cutSurface = new THREE.Mesh(
+      new THREE.CircleGeometry(0.85, 24),
+      new THREE.MeshStandardMaterial({ color: 0xc9a86a, roughness: 0.6 })
+    );
+    cutSurface.rotation.x = -Math.PI / 2;
+    cutSurface.position.y = 1.81;
+    cutSurface.visible = false;
+    stumpGroup.add(cutSurface);
+
+    const paste = new THREE.Mesh(
+      new THREE.CircleGeometry(0.8, 24),
+      new THREE.MeshStandardMaterial({ color: 0x2a7f64, emissive: 0x0a3b2a, transparent: true, opacity: 0.9, roughness: 0.3 })
+    );
+    paste.rotation.x = -Math.PI / 2;
+    paste.position.y = 1.83;
+    paste.visible = false;
+    stumpGroup.add(paste);
+
+    const root = new THREE.Mesh(
+      new THREE.SphereGeometry(1.1, 12, 12, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2),
+      trunkMat
+    );
+    root.position.y = 0.05;
+    stumpGroup.add(root);
+
+    let isDragging = false, prevX = 0, prevY = 0, rotY = 0, rotX = 0;
+    canvas.addEventListener('pointerdown', e => { isDragging = true; prevX = e.clientX; prevY = e.clientY; });
+    window.addEventListener('pointerup', () => isDragging = false);
+    canvas.addEventListener('pointermove', e => {
+      if (!isDragging) return;
+      rotY += (e.clientX - prevX) * 0.01;
+      rotX += (e.clientY - prevY) * 0.006;
+      rotX = Math.max(-0.35, Math.min(0.45, rotX));
+      prevX = e.clientX; prevY = e.clientY;
+    });
+    canvas.addEventListener('wheel', e => {
+      e.preventDefault();
+      camera.position.z = Math.max(4.5, Math.min(14, camera.position.z + e.deltaY * 0.012));
+    }, { passive: false });
+
+    const state = { cut: false, cutTime: 0, painted: false, paintTime: 0, efficacy: 100, elapsed: 0 };
+    const cutBtn = document.getElementById('cutStumpBtn');
+    const paintBtn = document.getElementById('paintStumpBtn');
+    const resetBtn = document.getElementById('resetStumpBtn');
+    const timerEl = document.getElementById('stumpTimer');
+    const efficacyEl = document.getElementById('stumpEfficacy');
+    const efficacyBar = document.getElementById('stumpEfficacyBar');
+    const efficacyNum = document.getElementById('stumpEfficacyNum');
+
+    function efficacyFromTime(t) {
+      if (t < 3) return 100 - t * 3;
+      if (t < 20) return 91 - (t - 3) * 5.4;
+      return 5;
+    }
+
+    function updateEfficacyDisplay() {
+      const e = Math.round(state.efficacy);
+      efficacyEl.textContent = e + '%';
+      efficacyNum.textContent = e + '%';
+      efficacyBar.style.width = e + '%';
+      efficacyBar.style.background = e > 70 ? '#2a7f64' : e > 40 ? '#e0a23b' : '#c7452b';
+      timerEl.className = 'stump-timer' +
+        (state.cut && !state.painted ? (state.elapsed > 15 ? ' danger' : state.elapsed > 8 ? ' warning' : '') : '');
+      if (!state.cut) timerEl.textContent = 'Not cut yet';
+      else if (state.painted) timerEl.textContent = `Painted at ${state.paintTime.toFixed(1)}s`;
+      else timerEl.textContent = `Cut — ${state.elapsed.toFixed(1)}s ago`;
+    }
+
+    cutBtn.addEventListener('click', () => {
+      if (state.cut) return;
+      state.cut = true;
+      state.cutTime = performance.now();
+      state.elapsed = 0;
+      state.efficacy = 100;
+      cutSurface.visible = true;
+      trunk.scale.y = 0.9;
+      paintBtn.disabled = false;
+      updateEfficacyDisplay();
+    });
+
+    paintBtn.addEventListener('click', () => {
+      if (!state.cut || state.painted) return;
+      state.painted = true;
+      state.paintTime = state.elapsed;
+      state.efficacy = Math.max(0, efficacyFromTime(state.elapsed));
+      paste.visible = true;
+      paintBtn.disabled = true;
+      updateEfficacyDisplay();
+    });
+
+    resetBtn.addEventListener('click', () => {
+      state.cut = false;
+      state.painted = false;
+      state.efficacy = 100;
+      state.elapsed = 0;
+      cutSurface.visible = false;
+      paste.visible = false;
+      trunk.scale.y = 1;
+      paintBtn.disabled = true;
+      updateEfficacyDisplay();
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (state.cut && !state.painted) {
+        state.elapsed = (performance.now() - state.cutTime) / 1000;
+        state.efficacy = Math.max(0, efficacyFromTime(state.elapsed));
+        updateEfficacyDisplay();
+      }
+      worldGroup.rotation.y = rotY;
+      worldGroup.rotation.x = rotX;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      const w = wrap.clientWidth, h = wrap.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    });
+
+    updateEfficacyDisplay();
+    window._stumpScene = { scene, camera, renderer, worldGroup, stumpGroup };
+    console.log('[stump] 3D scene initialised');
+  } catch (err) {
+    console.error('[stump] init failed:', err);
+    showSceneFallback('stumpSceneWrap', 'Could not initialise: ' + err.message);
+  }
+}
+
+/* ---- FENCE ---- */
+window._fenceScene = null;
+function initFenceScene() {
+  try {
+    if (!window.THREE) { showSceneFallback('fenceSceneWrap', 'Three.js did not load.'); return; }
+    const wrap = document.getElementById('fenceSceneWrap');
+    const canvas = document.getElementById('fenceCanvas');
+    if (!wrap || !canvas) return;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xa3c9dc);
+    const camera = new THREE.PerspectiveCamera(50, wrap.clientWidth / wrap.clientHeight, 0.1, 200);
+    camera.position.set(14, 12, 16);
+    camera.lookAt(0, 0, 0);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+    const sun = new THREE.DirectionalLight(0xffffff, 1.3);
+    sun.position.set(15, 20, 10);
+    scene.add(sun);
+
+    const world = new THREE.Group();
+    scene.add(world);
+
+    // Single continuous extruded terrain: pasture → bank → river channel → far bank
+    const prof = new THREE.Shape();
+    prof.moveTo(-16, 0);
+    prof.lineTo(  0,  0);
+    prof.lineTo(  6, -1.0);
+    prof.lineTo(  7, -1.4);
+    prof.lineTo( 11, -1.4);
+    prof.lineTo( 12, -1.0);
+    prof.lineTo( 18, -0.5);
+    prof.lineTo( 22, -0.5);
+    prof.lineTo( 22, -3.5);
+    prof.lineTo(-16, -3.5);
+    prof.lineTo(-16,  0);
+
+    const terrainGeo = new THREE.ExtrudeGeometry(prof, { depth: 30, bevelEnabled: false, steps: 1 });
+    terrainGeo.translate(0, 0, -15);
+    const terrain = new THREE.Mesh(
+      terrainGeo,
+      new THREE.MeshStandardMaterial({ color: 0x7fae59, roughness: 1, flatShading: false })
+    );
+    world.add(terrain);
+
+    // River plane inside the channel
+    const river = new THREE.Mesh(
+      new THREE.PlaneGeometry(4, 30),
+      new THREE.MeshStandardMaterial({
+        color: 0x3a7aa0, roughness: 0.25, metalness: 0.5,
+        emissive: 0x1a4a6a, emissiveIntensity: 0.35
+      })
+    );
+    river.rotation.x = -Math.PI / 2;
+    river.position.set(9, -1.38, 0);
+    world.add(river);
+
+    // Bank tint overlay on the sloped segment
+    const slopeAngle = Math.atan2(1.0, 6);
+    const bankOverlay = new THREE.Mesh(
+      new THREE.PlaneGeometry(6, 30),
+      new THREE.MeshBasicMaterial({ color: 0x5a8a4a, transparent: true, opacity: 0.55, side: THREE.DoubleSide })
+    );
+    bankOverlay.rotation.x = -Math.PI / 2;
+    bankOverlay.rotation.z = slopeAngle;
+    bankOverlay.position.set(3, -0.5, 0);
+    bankOverlay.scale.x = 1.02;
+    world.add(bankOverlay);
+
+    // Fence
+    const postGeo = new THREE.BoxGeometry(0.14, 1.2, 0.14);
+    const postMat = new THREE.MeshStandardMaterial({ color: 0x8b6b3d });
+    for (let z = -14; z <= 14; z += 2) {
+      const post = new THREE.Mesh(postGeo, postMat);
+      post.position.set(0, 0.6, z);
+      world.add(post);
+    }
+    const wireMat = new THREE.LineBasicMaterial({ color: 0x333333, transparent: true, opacity: 0.75 });
+    for (let y of [0.45, 0.85]) {
+      const geo = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(0, y, -14), new THREE.Vector3(0, y, 14)
+      ]);
+      world.add(new THREE.Line(geo, wireMat));
+    }
+
+    // Bushes
+    const bushGeo = new THREE.SphereGeometry(0.6, 10, 10);
+    const slopeAt = (x) => {
+      if (x <= 0) return 0;
+      if (x <= 6) return -x / 6;
+      if (x <= 12) return -1.4;
+      return -0.5;
+    };
+    const bushLocations = [
+      { x: -0.9, z: -10, side: 'pasture' },
+      { x: -1.2, z: -5,  side: 'pasture' },
+      { x:  0.9, z: -8,  side: 'riverbank' },
+      { x:  1.4, z: -2,  side: 'riverbank' },
+      { x:  1.2, z:  3,  side: 'riverbank' },
+      { x: -1.0, z:  2,  side: 'pasture' },
+      { x: -1.1, z:  7,  side: 'pasture' },
+      { x:  1.6, z:  9,  side: 'riverbank' },
+      { x: -0.9, z: 12,  side: 'pasture' }
+    ];
+    const bushes = [];
+    bushLocations.forEach((loc, i) => {
+      const b = new THREE.Mesh(bushGeo, new THREE.MeshStandardMaterial({ color: 0x2b1f30, roughness: 0.9, flatShading: true }));
+      b.position.set(loc.x, slopeAt(loc.x) + 0.55, loc.z);
+      b.scale.set(1.3, 1.0, 1.4);
+      b.userData = { index: i, side: loc.side };
+      world.add(b);
+      bushes.push(b);
+    });
+
+    // Natives
+    const nativeGeo = new THREE.ConeGeometry(0.35, 1.2, 8);
+    const nativeMat = new THREE.MeshStandardMaterial({ color: 0x4a8c3b, roughness: 0.9 });
+    [ {x:4,z:-12}, {x:5,z:-6}, {x:4.5,z:0}, {x:5.5,z:5}, {x:4,z:10} ].forEach(loc => {
+      const n = new THREE.Mesh(nativeGeo, nativeMat);
+      n.position.set(loc.x, slopeAt(loc.x) + 0.8, loc.z);
+      world.add(n);
+    });
+
+    // Interaction: yaw only, camera height via vertical drag
+    let isDragging = false, prevX = 0, prevY = 0;
+    let rotY = 0.4;
+    let camHeight = 14;
+
+    canvas.addEventListener('pointerdown', e => { isDragging = true; prevX = e.clientX; prevY = e.clientY; });
+    window.addEventListener('pointerup', () => isDragging = false);
+    canvas.addEventListener('pointermove', e => {
+      if (!isDragging) return;
+      rotY += (e.clientX - prevX) * 0.008;
+      camHeight = Math.max(7, Math.min(22, camHeight + (e.clientY - prevY) * 0.06));
+      prevX = e.clientX; prevY = e.clientY;
+    });
+    canvas.addEventListener('wheel', e => {
+      e.preventDefault();
+      const r = Math.hypot(camera.position.x - 2, camera.position.z - 0);
+      const nr = Math.max(10, Math.min(28, r + e.deltaY * 0.015));
+      const scale = nr / r;
+      camera.position.x = 2 + (camera.position.x - 2) * scale;
+      camera.position.z = 0 + (camera.position.z - 0) * scale;
+    }, { passive: false });
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+      const hits = raycaster.intersectObjects(bushes);
+      if (hits.length > 0) openBushPanel(hits[0].object);
+    });
+
+    const panel = document.getElementById('bushPanel');
+    const panelTitle = document.getElementById('bushPanelTitle');
+    const panelBody = document.getElementById('bushPanelBody');
+    const panelAction = document.getElementById('bushPanelAction');
+    const panelClose = document.getElementById('bushPanelClose');
+
+    function openBushPanel(bush) {
+      const side = bush.userData.side;
+      const idx = bush.userData.index + 1;
+      panelTitle.textContent = `Blackberry bush #${idx}`;
+      if (side === 'pasture') {
+        panelBody.innerHTML = `<strong>Location:</strong> Pasture side (left of fence).<br><br>
+          <strong>Allowed methods:</strong> Bobcat, slash-then-spray, cut-stump.<br><br>
+          <strong>Buffer:</strong> No water buffer — but maintain 5m from stock drinking points and give cattle a withholding period after spraying.<br><br>
+          <strong>Note:</strong> Fence wire may need temporary removal for machinery access. Reinstall the same day.`;
+        panelAction.textContent = 'Mark for follow-up';
+        panelAction.className = 'btn btn-primary';
+      } else {
+        panelBody.innerHTML = `<strong>Location:</strong> Riverbank side (right of fence).<br><br>
+          <strong>Restricted:</strong> Foliar spray is <strong>not allowed</strong> within the label buffer zone (typically 5–20m) of the waterway.<br><br>
+          <strong>Allowed methods:</strong> Manual removal or cut-stump/cut-paste only. Hand-grub small plants.<br><br>
+          <strong>Non-target risk:</strong> Nearby native plantings — treat as sensitive. No broadcast spraying.`;
+        panelAction.textContent = 'Log manual treatment';
+        panelAction.className = 'btn btn-success';
+      }
+      panel.classList.add('visible');
+    }
+
+    panelClose.addEventListener('click', () => panel.classList.remove('visible'));
+    panelAction.addEventListener('click', () => {
+      const original = panelAction.textContent;
+      panelAction.textContent = '✓ Logged';
+      panelAction.disabled = true;
+      setTimeout(() => {
+        panelAction.textContent = original;
+        panelAction.disabled = false;
+        panel.classList.remove('visible');
+      }, 900);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      world.rotation.y = rotY;
+      const targetX = 2, targetZ = 0;
+      const radius = Math.hypot(camera.position.x - targetX, camera.position.z - targetZ);
+      camera.position.x = targetX + Math.sin(rotY) * radius;
+      camera.position.z = targetZ + Math.cos(rotY) * radius;
+      camera.position.y = camHeight;
+      camera.lookAt(targetX, -0.3, targetZ);
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      const w = wrap.clientWidth, h = wrap.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    });
+
+    window._fenceScene = { scene, camera, renderer, world, bushes };
+    console.log('[fence] 3D scene initialised');
+  } catch (err) {
+    console.error('[fence] init failed:', err);
+    showSceneFallback('fenceSceneWrap', 'Could not initialise: ' + err.message);
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+window.THREE = THREE;
+console.log('[three] version', THREE.REVISION, 'loaded');
+if (window._seedSceneInit && !window._seedScene) initSeedScene();
+if (window._stumpSceneInit && !window._stumpScene) initStumpScene();
+if (window._fenceSceneInit && !window._fenceScene) initFenceScene();
 </script>
 </body>
 </html>
